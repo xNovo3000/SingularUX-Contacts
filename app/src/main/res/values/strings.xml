@@ -1,3 +1,10 @@
 <resources>
+
+    <!-- Manifest -->
     <string name="app_name">Contacts</string>
+
+    <!-- ContactList -->
+    <string name="contact_list_search_contacts">Search contacts…</string>
+    <string name="contact_list_x_selected">%d selected</string>
+
 </resources>
