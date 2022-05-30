@@ -1,5 +1,6 @@
 package org.singularux.contacts.ui.component
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import org.singularux.contacts.ContactsModel
 
@@ -9,6 +10,7 @@ fun ContactListContent(
     contacts: List<ContactsModel.ContactItem>,
     onContactClick: () -> Unit,
     onContactLongClick: () -> Unit,
+    paddingValues: PaddingValues
 ) {
 
 }

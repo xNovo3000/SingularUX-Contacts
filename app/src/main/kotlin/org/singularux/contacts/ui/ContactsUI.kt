@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import org.singularux.contacts.ui.route.ContactListRoute
 import org.singularux.contacts.ui.route.SearchRoute
 import org.singularux.contacts.ui.theme.*
@@ -15,8 +16,11 @@ import org.singularux.contacts.ui.theme.*
 sealed class ContactsRoute(val name: String) {
     object ContactList : ContactsRoute(name = "contact_list")
     object Search : ContactsRoute(name = "search")
+    object NewContact : ContactsRoute(name = "new_contact")
+    object ContactView : ContactsRoute(name = "contact_view")
 }
 
+@ExperimentalPermissionsApi
 @ExperimentalMaterial3Api
 @ExperimentalAnimationApi
 @Composable
