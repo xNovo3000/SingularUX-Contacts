@@ -12,4 +12,8 @@
     <string name="model_header_user_profile">User profile</string>
     <string name="model_header_starred">Starred</string>
 
+    <!-- Placeholder -->
+    <string name="placeholder">Placeholder</string>
+    <string name="p">P</string>
+
 </resources>
