@@ -100,7 +100,9 @@ private fun Preview() {
                 onShareClick = {},
                 onDeleteClick = {},
                 onSelectAllClick = {},
-                scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+                scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
+                    state = rememberTopAppBarScrollState()
+                )
             )
         }
     }

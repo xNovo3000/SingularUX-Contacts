@@ -7,13 +7,15 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import org.singularux.contacts.ui.ContactsUI
 
 class ComposeActivity : ComponentActivity() {
 
     @OptIn(
         ExperimentalMaterial3Api::class,
-        ExperimentalAnimationApi::class
+        ExperimentalAnimationApi::class,
+        ExperimentalPermissionsApi::class
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         // Set splash screen
