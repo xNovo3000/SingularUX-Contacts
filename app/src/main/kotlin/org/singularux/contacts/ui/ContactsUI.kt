@@ -38,8 +38,6 @@ fun ContactsUI() {
                 startDestination = ContactsRoute.ContactList.name,
                 enterTransition = EnterTransition,
                 exitTransition = ExitTransition,
-                popEnterTransition = PopEnterTransition,
-                popExitTransition = PopExitTransition
             ) {
                 composable(ContactsRoute.ContactList.name) { ContactListRoute(navController = navController) }
                 composable(ContactsRoute.Search.name) { SearchRoute(navController = navController) }

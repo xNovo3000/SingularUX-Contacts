@@ -1,40 +1,49 @@
 package org.singularux.contacts.ui.theme
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.navigation.NavBackStackEntry
 
-private const val Millis = 500
-private const val SplitOffset = 4
+private const val Duration = 250
+private const val Delay = 150
+private const val SplitOffset = 8
+
+private val ExitEasing = CubicBezierEasing(0.4F, 0.0F, 1.0F, 1.0F)
+private val EnterEasing = CubicBezierEasing(0.0F, 0.0F, 0.2F, 1.0F)
 
 @ExperimentalAnimationApi
 val EnterTransition: AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition = {
-    slideInHorizontally(
-        animationSpec = tween(durationMillis = Millis),
-        initialOffsetX = { it }
+    slideIntoContainer(
+        towards = AnimatedContentScope.SlideDirection.Left,
+        animationSpec = tween(
+            durationMillis = Duration,
+            delayMillis = Delay,
+            easing = EnterEasing
+        ),
+        initialOffset = { it / SplitOffset }
+    ) + fadeIn(
+        animationSpec = tween(
+            durationMillis = Duration,
+            delayMillis = Delay,
+            easing = EnterEasing
+        )
     )
 }
 
 @ExperimentalAnimationApi
 val ExitTransition: AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition = {
-    slideOutHorizontally(
-        animationSpec = tween(durationMillis = Millis),
-        targetOffsetX = { - it / SplitOffset }
-    )
-}
-
-@ExperimentalAnimationApi
-val PopEnterTransition: AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition = {
-    slideInHorizontally(
-        animationSpec = tween(durationMillis = Millis),
-        initialOffsetX = { - it / SplitOffset }
-    )
-}
-
-@ExperimentalAnimationApi
-val PopExitTransition: AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition = {
-    slideOutHorizontally(
-        animationSpec = tween(durationMillis = Millis),
-        targetOffsetX = { it }
+    slideOutOfContainer(
+        towards = AnimatedContentScope.SlideDirection.Right,
+        animationSpec = tween(
+            durationMillis = Duration,
+            easing = ExitEasing
+        ),
+        targetOffset = { it / SplitOffset }
+    ) + fadeOut(
+        animationSpec = tween(
+            durationMillis = Duration,
+            easing = ExitEasing
+        )
     )
 }

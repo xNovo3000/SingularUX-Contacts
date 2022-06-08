@@ -65,7 +65,7 @@ fun ContactListRoute(
                 onCloseClick = { selectedContacts = setOf() },
                 onShareClick = { /*TODO*/ },
                 onDeleteClick = { /*TODO*/ },
-                onSelectAllClick = { /*TODO*/ },
+                onSelectAllClick = { selectedContacts = contacts.map { it.lookupKey }.toSet() },
                 scrollBehavior = scrollBehavior
             )
         },
@@ -78,14 +78,28 @@ fun ContactListRoute(
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         ContactListContent(
             readContactsPermissionState = readContactsPermission,
             selectedContacts = selectedContacts,
             contacts = contacts,
-            onContactClick = {},
-            onContactLongClick = {},
-            paddingValues = it
+            onContactClick = {
+                if (selectedContacts.isEmpty()) {
+                    navController.navigate("${ContactsRoute.NewContact.name}/${it.lookupKey}")
+                } else if (selectedContacts.contains(it.lookupKey)) {
+                    selectedContacts = selectedContacts - it.lookupKey
+                } else {
+                    selectedContacts = selectedContacts + it.lookupKey
+                }
+            },
+            onContactLongClick = {
+                selectedContacts = if (selectedContacts.contains(it.lookupKey)) {
+                    selectedContacts - it.lookupKey
+                } else {
+                    selectedContacts + it.lookupKey
+                }
+            },
+            paddingValues = paddingValues
         )
     }
 }

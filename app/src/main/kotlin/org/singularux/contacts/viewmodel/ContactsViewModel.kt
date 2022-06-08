@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.replay
 import kotlinx.coroutines.withContext
 import org.singularux.contacts.observer.ContactsObserver
 import org.singularux.contacts.model.ContactItem
@@ -45,6 +46,8 @@ class ContactsViewModel(app: Application) : AndroidViewModel(app) {
             false,
             contactsObserver
         )
+        // Load contacts
+        contactsObserver.dispatchChange(false, null)
     }
 
     override fun onCleared() {
