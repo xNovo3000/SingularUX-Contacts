@@ -8,12 +8,15 @@ import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.singularux.contacts.R
 import org.singularux.contacts.ui.theme.ContactsTheme
 
@@ -23,6 +26,15 @@ fun ContactListAppBarDefault(
     onSearchClick: () -> Unit,
     onMoreVertClick: () -> Unit,
 ) {
+    // Set color of status bar
+    val colorScheme = MaterialTheme.colorScheme
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = colorScheme.surface.copy(alpha = 0.8F)
+        )
+    }
+    // Build
     ElevatedCard(
         modifier = Modifier
             .statusBarsPadding()

@@ -2,10 +2,14 @@ package org.singularux.contacts.ui.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
 import org.singularux.contacts.model.ContactItem
 import org.singularux.contacts.model.HeaderItem
 import org.singularux.contacts.ui.itemview.ContactItemView
@@ -25,16 +29,25 @@ fun ContactListContentNotEmpty(
     val derivedContacts by remember(contacts) { derivedStateOf { deriveContacts(contacts) } }
     // Build
     LazyColumn(
-        contentPadding = paddingValues
+        contentPadding = PaddingValues(
+            top = paddingValues.calculateTopPadding(),
+            bottom = 88.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+        )
     ) {
         derivedContacts.forEach {
             // Create the header
-            item(key = { it.key }) {
+            item(
+                key = when (val key = it.key) {
+                    is HeaderItem.Letter -> -key.letter.code.toLong()
+                    else -> -key.id.toLong()
+                }
+            ) {
                 HeaderItemView(headerItem = it.key)
             }
             // Create the contacts
             items(
-                items = it.value
+                items = it.value,
+                key = { contactItem -> contactItem.lookupKey }
             ) { item ->
                 ContactItemView(
                     contactItem = item,

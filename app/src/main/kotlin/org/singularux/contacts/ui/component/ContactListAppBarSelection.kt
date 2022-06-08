@@ -3,6 +3,7 @@ package org.singularux.contacts.ui.component
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -10,10 +11,13 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.singularux.contacts.R
 import org.singularux.contacts.ui.theme.ContactsTheme
 
@@ -26,6 +30,15 @@ fun ContactListAppBarSelection(
     onSelectAllClick: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior
 ) {
+    // Set color of status bar
+    val colorScheme = MaterialTheme.colorScheme
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = Color.Transparent,
+            darkIcons = colorScheme.surface.luminance() > 0.5F
+        )
+    }
     // Top app bar insets hack. Found on Google's Jetchat app example
     val backgroundColors = TopAppBarDefaults.centerAlignedTopAppBarColors()
     val backgroundColor = backgroundColors.containerColor(
