@@ -81,6 +81,7 @@ fun ContactListRoute(
         }
     ) {
         ContactListContent(
+            readContactsPermissionState = readContactsPermission,
             selectedContacts = selectedContacts,
             contacts = contacts,
             onContactClick = {},
