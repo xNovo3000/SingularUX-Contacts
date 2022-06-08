@@ -1,6 +1,7 @@
 package org.singularux.contacts.ui.route
 
 import android.Manifest
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -19,6 +20,7 @@ import org.singularux.contacts.ui.component.ContactListAppBar
 import org.singularux.contacts.ui.component.ContactListContent
 import org.singularux.contacts.ui.component.ContactListFloatingActionButton
 
+@ExperimentalFoundationApi
 @ExperimentalPermissionsApi
 @ExperimentalMaterial3Api
 @Composable
@@ -39,12 +41,12 @@ fun ContactListRoute(
     // Static states
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(state = rememberTopAppBarScrollState())
     // Contacts
-    var selectedContacts by remember { mutableStateOf(setOf<ContactItem>()) }
+    var selectedContacts by remember { mutableStateOf(setOf<String>()) }
     val contacts by contactsViewModel.contactList.collectAsState()
     // Update selection according to contacts
     LaunchedEffect(contacts) {
         val orphans = selectedContacts.filter { selectedContact ->
-            contacts.none { selectedContact.lookupKey == it.lookupKey }
+            contacts.none { selectedContact == it.lookupKey }
         }
         if (orphans.isNotEmpty()) {
             selectedContacts = selectedContacts - orphans.toSet()
@@ -61,11 +63,9 @@ fun ContactListRoute(
                     }
                 },
                 onMoreVertClick = { /*TODO*/ },
-                onCloseClick = { /*TODO*/ },
+                onCloseClick = { selectedContacts = setOf() },
                 onShareClick = { /*TODO*/ },
-                onDeleteClick = {  // Empty selection
-                    selectedContacts = setOf()
-                },
+                onDeleteClick = { /*TODO*/ },
                 onSelectAllClick = { /*TODO*/ },
                 scrollBehavior = scrollBehavior
             )

@@ -6,5 +6,6 @@ import org.singularux.contacts.R
 sealed class HeaderItem(@StringRes val id: Int) {
     object UserProfile : HeaderItem(id = R.string.model_header_user_profile)
     object Starred : HeaderItem(id = R.string.model_header_starred)
+    object Symbols : HeaderItem(id = R.string.model_header_symbols)
     data class Letter(val letter: Char) : HeaderItem(id = R.string.placeholder)
 }

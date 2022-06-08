@@ -14,6 +14,7 @@
     <!-- ContactsModel -->
     <string name="model_header_user_profile">User profile</string>
     <string name="model_header_starred">Starred</string>
+    <string name="model_header_symbols">Symbols</string>
 
     <!-- Placeholder -->
     <string name="placeholder">Placeholder</string>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -15,7 +16,8 @@ class ComposeActivity : ComponentActivity() {
     @OptIn(
         ExperimentalMaterial3Api::class,
         ExperimentalAnimationApi::class,
-        ExperimentalPermissionsApi::class
+        ExperimentalPermissionsApi::class,
+        ExperimentalFoundationApi::class
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         // Set splash screen
