@@ -12,8 +12,8 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import org.singularux.contacts.ContactsModel
-import org.singularux.contacts.ContactsViewModel
+import org.singularux.contacts.viewmodel.ContactsViewModel
+import org.singularux.contacts.model.ContactItem
 import org.singularux.contacts.ui.ContactsRoute
 import org.singularux.contacts.ui.component.ContactListAppBar
 import org.singularux.contacts.ui.component.ContactListContent
@@ -37,10 +37,9 @@ fun ContactListRoute(
         }
     }
     // Static states
-    val scrollState = rememberTopAppBarScrollState()
-    val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior(scrollState) }
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(state = rememberTopAppBarScrollState())
     // Contacts
-    var selectedContacts by remember { mutableStateOf(setOf<ContactsModel.ContactItem>()) }
+    var selectedContacts by remember { mutableStateOf(setOf<ContactItem>()) }
     val contacts by contactsViewModel.contactList.collectAsState()
     // Update selection according to contacts
     LaunchedEffect(contacts) {

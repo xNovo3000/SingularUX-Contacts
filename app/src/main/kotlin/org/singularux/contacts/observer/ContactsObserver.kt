@@ -1,4 +1,4 @@
-package org.singularux.contacts
+package org.singularux.contacts.observer
 
 import android.Manifest
 import android.content.Context
@@ -11,10 +11,11 @@ import android.provider.ContactsContract
 import androidx.core.database.getStringOrNull
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.singularux.contacts.model.ContactItem
 
 class ContactsObserver(
     private val context: Context,
-    private val mutableContactList: MutableStateFlow<List<ContactsModel.ContactItem>>
+    private val mutableContactList: MutableStateFlow<List<ContactItem>>
 ) : ContentObserver(Handler(Looper.getMainLooper())) {
 
     companion object {
@@ -44,7 +45,7 @@ class ContactsObserver(
         onChange(selfChange)
     }
 
-    private suspend fun reloadContactList(): MutableList<ContactsModel.ContactItem> {
+    private suspend fun reloadContactList(): MutableList<ContactItem> {
         return withContext(Dispatchers.IO) {
             context.contentResolver.query(
                 ContactsContract.Contacts.CONTENT_URI,
@@ -52,10 +53,10 @@ class ContactsObserver(
                 null, null,
                 ContactsContract.Contacts.SORT_KEY_PRIMARY
             ).use {
-                val newContacts = mutableListOf<ContactsModel.ContactItem>()
+                val newContacts = mutableListOf<ContactItem>()
                 while (it?.moveToNext() == true) {
                     newContacts.add(
-                        ContactsModel.ContactItem(
+                        ContactItem(
                             lookupKey = it.getString(0),
                             displayName = it.getString(1),
                             thumbnailUri = it.getStringOrNull(2),

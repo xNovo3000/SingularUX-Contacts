@@ -1,4 +1,4 @@
-package org.singularux.contacts
+package org.singularux.contacts.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

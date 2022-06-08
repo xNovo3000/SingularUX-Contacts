@@ -1,5 +1,6 @@
-package org.singularux.contacts
+package org.singularux.contacts.viewmodel
 
+import android.Manifest
 import android.app.Application
 import android.provider.ContactsContract
 import androidx.lifecycle.AndroidViewModel
@@ -7,12 +8,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
+import org.singularux.contacts.observer.ContactsObserver
+import org.singularux.contacts.model.ContactItem
 
 class ContactsViewModel(app: Application) : AndroidViewModel(app) {
 
     /* Mutable data */
     private val givenPermissions = mutableListOf<String>()
-    private val mutableContactList = MutableStateFlow<List<ContactsModel.ContactItem>>(listOf())
+    private val mutableContactList = MutableStateFlow<List<ContactItem>>(listOf())
 
     /* Observers */
     private val contactsObserver = ContactsObserver(app.applicationContext, mutableContactList)
@@ -28,13 +31,20 @@ class ContactsViewModel(app: Application) : AndroidViewModel(app) {
             }
             // Set permission as given
             givenPermissions.add(permission)
-            // Register content observer
-            getApplication<Application>().contentResolver.registerContentObserver(
-                ContactsContract.Contacts.CONTENT_URI,
-                false,
-                contactsObserver
-            )
+            // For each permission given, do something
+            when (permission) {
+                Manifest.permission.READ_CONTACTS -> onReadContactsPermissionGiven()
+            }
         }
+    }
+
+    private fun onReadContactsPermissionGiven() {
+        // Register the content observer
+        getApplication<Application>().contentResolver.registerContentObserver(
+            ContactsContract.Contacts.CONTENT_URI,
+            false,
+            contactsObserver
+        )
     }
 
     override fun onCleared() {
@@ -43,6 +53,6 @@ class ContactsViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     /* Observer */
-    val contactList: StateFlow<List<ContactsModel.ContactItem>> = mutableContactList
+    val contactList: StateFlow<List<ContactItem>> = mutableContactList
 
 }

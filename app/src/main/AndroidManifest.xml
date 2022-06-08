@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.singularux.contacts">
 
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,10 +14,10 @@
         android:theme="@style/Theme.Contacts.Splash"
         tools:targetApi="32">
 
-        <activity android:name=".ComposeActivity"
-            android:exported="true"
+        <activity android:name=".activity.ComposeActivity"
+            android:launchMode="singleInstancePerTask"
             android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleInstancePerTask">
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <action android:name="android.intent.action.MAIN"/>

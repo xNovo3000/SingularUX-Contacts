@@ -18,16 +18,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import org.singularux.contacts.ContactsModel
+import org.singularux.contacts.model.ContactItem
 import org.singularux.contacts.ui.theme.ContactsTheme
 
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 @Composable
 fun ContactItemView(
-    contactItem: ContactsModel.ContactItem,
-    onClick: (ContactsModel.ContactItem) -> Unit,
-    onLongClick: (ContactsModel.ContactItem) -> Unit,
+    contactItem: ContactItem,
+    onClick: (ContactItem) -> Unit,
+    onLongClick: (ContactItem) -> Unit,
     isSelected: Boolean
 ) {
     Row(
@@ -110,7 +110,7 @@ private fun Preview() {
     ContactsTheme {
         Surface {
             ContactItemView(
-                contactItem = ContactsModel.ContactItem(
+                contactItem = ContactItem(
                     lookupKey = "key",
                     displayName = "Name Surname",
                     thumbnailUri = "content://contacts/key",

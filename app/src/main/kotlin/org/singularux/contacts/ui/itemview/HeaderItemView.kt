@@ -10,11 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.singularux.contacts.ContactsModel
+import org.singularux.contacts.model.HeaderItem
 import org.singularux.contacts.ui.theme.ContactsTheme
 
 @Composable
-fun HeaderItemView(headerItem: ContactsModel.HeaderItem) {
+fun HeaderItemView(headerItem: HeaderItem) {
     Text(
         modifier = Modifier
             .padding(
@@ -23,7 +23,7 @@ fun HeaderItemView(headerItem: ContactsModel.HeaderItem) {
             )
             .fillMaxWidth(),
         text = when (headerItem) {
-            is ContactsModel.HeaderItem.Letter -> headerItem.letter.toString()
+            is HeaderItem.Letter -> headerItem.letter.toString()
             else -> stringResource(id = headerItem.id)
         }
     )
@@ -36,7 +36,7 @@ private fun Preview() {
     ContactsTheme {
         Surface {
             HeaderItemView(
-                headerItem = ContactsModel.HeaderItem.Starred
+                headerItem = HeaderItem.Starred
             )
         }
     }

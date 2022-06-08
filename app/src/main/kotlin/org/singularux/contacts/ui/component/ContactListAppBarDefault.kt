@@ -25,6 +25,7 @@ fun ContactListAppBarDefault(
 ) {
     ElevatedCard(
         modifier = Modifier
+            .statusBarsPadding()
             .padding(
                 horizontal = 12.dp,
                 vertical = 6.dp
