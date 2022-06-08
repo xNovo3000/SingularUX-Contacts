@@ -14,7 +14,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import org.singularux.contacts.viewmodel.ContactsViewModel
-import org.singularux.contacts.model.ContactItem
 import org.singularux.contacts.ui.ContactsRoute
 import org.singularux.contacts.ui.component.ContactListAppBar
 import org.singularux.contacts.ui.component.ContactListContent
