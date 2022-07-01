@@ -54,7 +54,8 @@ fun ContactListContentMissingPermission(
             text = stringResource(id = R.string.contact_list_missing_permission_rationale),
             style = MaterialTheme.typography.bodyLarge,
         )
-        TextButton(
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedButton(
             onClick = {
                 if (readContactsPermissionState.status.shouldShowRationale) {
                     readContactsPermissionState.launchPermissionRequest()

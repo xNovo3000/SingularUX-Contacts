@@ -3,38 +3,35 @@ package org.singularux.contacts.viewmodel
 import android.Manifest
 import android.app.Application
 import android.provider.ContactsContract
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.replay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
-import org.singularux.contacts.observer.ContactsObserver
+import org.singularux.contacts.observer.ContactListObserver
 import org.singularux.contacts.model.ContactItem
 
-class ContactsViewModel(app: Application) : AndroidViewModel(app) {
+class ContactListViewModel(app: Application) : AndroidViewModel(app) {
 
     /* Mutable data */
-    private val givenPermissions = mutableListOf<String>()
+    private val givenPermissions = mutableSetOf<String>()
     private val mutableContactList = MutableStateFlow<List<ContactItem>>(listOf())
 
     /* Observers */
-    private val contactsObserver = ContactsObserver(app.applicationContext, mutableContactList)
+    private val contactListObserver = ContactListObserver(app.applicationContext, mutableContactList)
 
     /* Functions */
 
     suspend fun onGivenPermission(permission: String) {
         // Always do these operations in the ViewModel context
         withContext(viewModelScope.coroutineContext) {
-            // Check if already given
-            if (givenPermissions.contains(permission)) {
-                return@withContext
-            }
             // Set permission as given
-            givenPermissions.add(permission)
-            // For each permission given, do something
-            when (permission) {
-                Manifest.permission.READ_CONTACTS -> onReadContactsPermissionGiven()
+            givenPermissions.add(permission).also {
+                if (it) {
+                    when (permission) {
+                        Manifest.permission.READ_CONTACTS -> onReadContactsPermissionGiven()
+                    }
+                }
             }
         }
     }
@@ -44,18 +41,19 @@ class ContactsViewModel(app: Application) : AndroidViewModel(app) {
         getApplication<Application>().contentResolver.registerContentObserver(
             ContactsContract.Contacts.CONTENT_URI,
             false,
-            contactsObserver
+            contactListObserver
         )
         // Load contacts
-        contactsObserver.dispatchChange(false, null)
+        contactListObserver.dispatchChange(false, null)
     }
 
     override fun onCleared() {
+        Log.d("Viewmodel", "Oncleared called")
         // Unregister content observer (also if has not been registered)
-        getApplication<Application>().contentResolver.unregisterContentObserver(contactsObserver)
+        getApplication<Application>().contentResolver.unregisterContentObserver(contactListObserver)
     }
 
     /* Observer */
-    val contactList: StateFlow<List<ContactItem>> = mutableContactList
+    val contactList: StateFlow<List<ContactItem>> = mutableContactList.asStateFlow()
 
 }

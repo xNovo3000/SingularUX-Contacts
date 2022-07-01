@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -12,6 +13,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import org.singularux.contacts.ui.route.ContactListRoute
 import org.singularux.contacts.ui.route.SearchRoute
 import org.singularux.contacts.ui.theme.*
+import org.singularux.contacts.viewmodel.ContactListViewModel
 
 // All the routes in the application
 sealed class ContactsRoute(val name: String) {
@@ -41,8 +43,12 @@ fun ContactsUI() {
                 popEnterTransition = PopEnterTransition,
                 popExitTransition = PopExitTransition
             ) {
-                composable(ContactsRoute.ContactList.name) { ContactListRoute(navController = navController) }
-                composable(ContactsRoute.Search.name) { SearchRoute(navController = navController) }
+                composable(ContactsRoute.ContactList.name) {
+                    ContactListRoute(navController = navController)
+                }
+                composable(ContactsRoute.Search.name) {
+                    SearchRoute(navController = navController)
+                }
             }
         }
     }

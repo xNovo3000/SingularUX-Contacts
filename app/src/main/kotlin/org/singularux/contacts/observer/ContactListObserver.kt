@@ -13,7 +13,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.singularux.contacts.model.ContactItem
 
-class ContactsObserver(
+class ContactListObserver(
     private val context: Context,
     private val mutableContactList: MutableStateFlow<List<ContactItem>>
 ) : ContentObserver(Handler(Looper.getMainLooper())) {

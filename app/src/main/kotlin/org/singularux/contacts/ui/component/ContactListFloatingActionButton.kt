@@ -14,11 +14,15 @@ import org.singularux.contacts.ui.theme.ContactsTheme
 
 @Composable
 fun ContactListFloatingActionButton(
+    expanded: Boolean,
     onClick: () -> Unit
 ) {
     ExtendedFloatingActionButton(
         modifier = Modifier.navigationBarsPadding(),
-        text = { Text(text = stringResource(id = R.string.contact_list_new_contact)) },
+        text = {
+            Text(text = stringResource(id = R.string.contact_list_new_contact))
+        },
+        expanded = expanded,
         icon = {
             Icon(
                 imageVector = Icons.Rounded.Add,
@@ -36,9 +40,7 @@ fun ContactListFloatingActionButton(
 private fun Preview() {
     ContactsTheme {
         Surface {
-            ContactListFloatingActionButton(
-                onClick = {}
-            )
+            ContactListFloatingActionButton(true) {}
         }
     }
 }

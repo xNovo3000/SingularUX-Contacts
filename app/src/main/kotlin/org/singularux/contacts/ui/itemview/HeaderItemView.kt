@@ -18,7 +18,7 @@ fun HeaderItemView(headerItem: HeaderItem) {
     Text(
         modifier = Modifier
             .padding(
-                horizontal = 16.dp,
+                horizontal = 20.dp,
                 vertical = 8.dp
             )
             .fillMaxWidth(),

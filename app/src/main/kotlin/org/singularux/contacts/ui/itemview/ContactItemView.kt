@@ -39,8 +39,8 @@ fun ContactItemView(
             )
             .clip(
                 shape = RoundedCornerShape(
-                    topStart = 28.dp,
-                    bottomStart = 28.dp
+                    topStart = 16.dp,
+                    bottomStart = 16.dp
                 )
             )
             .background(
@@ -117,7 +117,7 @@ private fun Preview() {
                     isStarred = false,
                     isUserProfile = false
                 ),
-                isSelected = false,
+                isSelected = true,
                 onClick = {},
                 onLongClick = {}
             )

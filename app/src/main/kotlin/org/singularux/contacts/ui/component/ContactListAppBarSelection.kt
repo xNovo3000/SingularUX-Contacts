@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -31,12 +31,12 @@ fun ContactListAppBarSelection(
     scrollBehavior: TopAppBarScrollBehavior
 ) {
     // Set color of status bar
-    val colorScheme = MaterialTheme.colorScheme
+    val lightIcons = isSystemInDarkTheme()
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(
             color = Color.Transparent,
-            darkIcons = colorScheme.surface.luminance() > 0.5F
+            darkIcons = !lightIcons
         )
     }
     // Top app bar insets hack. Found on Google's Jetchat app example
@@ -81,6 +81,9 @@ fun ContactListAppBarSelection(
                 )
             },
             actions = {
+                // Dropdown state
+                var dropdownExpanded by remember { mutableStateOf(false) }
+                // Build actions
                 IconButton(onClick = onShareClick) {
                     Icon(
                         imageVector = Icons.Rounded.Share,
@@ -92,6 +95,23 @@ fun ContactListAppBarSelection(
                         imageVector = Icons.Rounded.Delete,
                         contentDescription = null
                     )
+                }
+                Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
+                    IconButton(onClick = { dropdownExpanded = true }) {
+                        Icon(
+                            imageVector = Icons.Rounded.MoreVert,
+                            contentDescription = null
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = dropdownExpanded,
+                        onDismissRequest = { dropdownExpanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(id = R.string.contact_list_select_all)) },
+                            onClick = onSelectAllClick
+                        )
+                    }
                 }
             },
             colors = foregroundColors,

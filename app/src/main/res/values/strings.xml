@@ -5,11 +5,13 @@
 
     <!-- ContactList -->
     <string name="contact_list_search_contacts">Search contacts</string>
+    <string name="contact_list_search_dot">Search…</string>
     <string name="contact_list_x_selected">%d selected</string>
     <string name="contact_list_new_contact">New contact</string>
     <string name="contact_list_empty">There are no contacts</string>
     <string name="contact_list_missing_permission_rationale">Read contacts permission is missing</string>
     <string name="contact_list_missing_permission_action">Give permission</string>
+    <string name="contact_list_select_all">Select all</string>
 
     <!-- ContactsModel -->
     <string name="model_header_user_profile">User profile</string>
