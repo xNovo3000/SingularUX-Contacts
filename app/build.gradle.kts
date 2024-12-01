@@ -1,12 +1,14 @@
 plugins {
     alias(libs.plugins.application)
     alias(libs.plugins.kotlin.android)
-    kotlin("kapt")
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "org.singularux.contacts"
+
+    buildToolsVersion = "35.0.0"
     compileSdk = 35
 
     defaultConfig {
@@ -32,6 +34,10 @@ android {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 
 }
