@@ -45,6 +45,12 @@ android {
 dependencies {
     // AndroidX
     implementation(libs.androidx.core)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.lifecycle.livedata)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
