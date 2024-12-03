@@ -4,6 +4,7 @@
     <string name="app_name">Contacts</string>
 
     <string name="new_contact_fab">New contact</string>
+    <string name="search_contacts">Search contacts</string>
 
     <string name="route_contact_list">Contact list</string>
 

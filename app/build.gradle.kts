@@ -19,6 +19,10 @@ android {
         versionName = "0.1.0"
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -30,7 +34,7 @@ android {
         }
     }
 
-    compileOptions {  // Use JDK 17
+    compileOptions {  // IMPORTANT: Use JDK 17 to compile this app, not the bundled JBR 21
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
