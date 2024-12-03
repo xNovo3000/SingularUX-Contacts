@@ -18,7 +18,8 @@
 
         <activity android:name=".ContactsActivity"
             android:exported="true"
-            android:launchMode="singleInstancePerTask">
+            android:launchMode="singleInstancePerTask"
+            android:theme="@style/Theme.Contacts.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

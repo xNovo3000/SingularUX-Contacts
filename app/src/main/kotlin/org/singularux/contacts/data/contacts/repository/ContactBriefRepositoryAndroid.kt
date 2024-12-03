@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import org.singularux.contacts.core.permission.ContactsPermission
 import org.singularux.contacts.core.permission.PermissionManager
 import org.singularux.contacts.data.contacts.ContactsObserver
-import org.singularux.contacts.data.contacts.model.ContactBrief
+import org.singularux.contacts.data.contacts.entity.ContactBriefEntity
 
 internal class ContactBriefRepositoryAndroid(
     private val context: Context,
@@ -25,14 +25,14 @@ internal class ContactBriefRepositoryAndroid(
         private const val TAG = "ContactBriefRepositoryAndroid"
     }
 
-    override suspend fun getAll(): List<ContactBrief> {
+    override suspend fun getAll(): List<ContactBriefEntity> {
         // Check for permission
         if (!permissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
             Log.i(TAG, "getAll(): permission denied, cannot retrieve contacts")
             return emptyList()
         }
         // Read
-        val result = mutableListOf<ContactBrief>()
+        val result = mutableListOf<ContactBriefEntity>()
         withContext(Dispatchers.IO) {
             context.contentResolver.query(
                 ContactsContract.Contacts.CONTENT_URI,
@@ -46,7 +46,7 @@ internal class ContactBriefRepositoryAndroid(
                 withContext(Dispatchers.Default) {
                     while (cursor?.moveToNext() == true) {
                         result.add(
-                            ContactBrief(
+                            ContactBriefEntity(
                                 lookupKey = cursor.getString(0),
                                 displayName = cursor.getString(1),
                                 thumbnailUri = cursor.getStringOrNull(2),
@@ -60,7 +60,7 @@ internal class ContactBriefRepositoryAndroid(
         return result
     }
 
-    override fun listenAll(): Flow<List<ContactBrief>> {
+    override fun listenAll(): Flow<List<ContactBriefEntity>> {
         return callbackFlow {
             val listener = object : ContactsObserver.Listener {
                 override suspend fun onUpdate() {

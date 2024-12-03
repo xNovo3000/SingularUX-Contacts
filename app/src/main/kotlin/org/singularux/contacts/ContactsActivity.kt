@@ -2,6 +2,7 @@ package org.singularux.contacts
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.AndroidEntryPoint
 import org.singularux.contacts.core.permission.ContactsPermission
@@ -16,6 +17,7 @@ class ContactsActivity : FragmentActivity(R.layout.activity_contacts) {
     @Inject lateinit var contactsObserver: ContactsObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
     }

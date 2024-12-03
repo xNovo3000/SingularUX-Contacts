@@ -44,6 +44,7 @@ android {
 dependencies {
     // AndroidX
     implementation(libs.androidx.core)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.lifecycle.livedata)
@@ -53,6 +54,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
     // Material 3
     implementation(libs.google.material)
 }

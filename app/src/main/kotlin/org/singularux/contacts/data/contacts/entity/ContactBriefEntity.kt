@@ -1,6 +1,6 @@
-package org.singularux.contacts.data.contacts.model
+package org.singularux.contacts.data.contacts.entity
 
-data class ContactBrief(
+data class ContactBriefEntity(
     val lookupKey: String,
     val displayName: String,
     val thumbnailUri: String?,
