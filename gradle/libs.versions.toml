@@ -6,6 +6,8 @@ androidx-activity = "1.9.3"
 androidx-fragment = "1.8.5"
 androidx-lifecycle = "2.8.7"
 androidx-navigation = "2.8.4"
+androidx-recyclerview = "1.3.2"
+androidx-recyclerview-selection = "1.1.0"
 google-material = "1.12.0"
 hilt = "2.52"
 hilt-navigation = "1.2.0"
@@ -21,6 +23,8 @@ androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidx-navigation" }
 androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidx-navigation" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidx-recyclerview" }
+androidx-recyclerview-selection = { group = "androidx.recyclerview", name = "recyclerview-selection", version.ref = "androidx-recyclerview-selection" }
 google-material = { group = "com.google.android.material", name = "material", version.ref = "google-material" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
