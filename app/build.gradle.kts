@@ -30,14 +30,13 @@ android {
         }
     }
 
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+    compileOptions {  // Use JDK 17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
 
 }
@@ -56,8 +55,6 @@ dependencies {
     kapt(libs.hilt.compiler)
     // Material 3
     implementation(libs.google.material)
-    // JDK 11 desugaring
-    coreLibraryDesugaring(libs.jdk.desugaring)
 }
 
 kapt {
