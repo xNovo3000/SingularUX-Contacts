@@ -8,4 +8,7 @@
 
     <string name="route_contact_list">Contact list</string>
 
+    <string name="placeholder">Placeholder</string>
+    <string name="p">P</string>
+
 </resources>

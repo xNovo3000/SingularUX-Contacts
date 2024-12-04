@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.recyclerview.selection)
+    // Coil
+    implementation(libs.coil)
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
