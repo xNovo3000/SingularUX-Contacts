@@ -47,6 +47,9 @@ android {
 }
 
 dependencies {
+    // Project
+    api(project(":core:permission"))
+    api(project(":core:ui"))
     // AndroidX
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
