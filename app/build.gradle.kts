@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
@@ -34,13 +34,14 @@ android {
         }
     }
 
-    compileOptions {  // IMPORTANT: Use JDK 17 to compile this app, not the bundled JBR 21
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
 }
@@ -61,12 +62,10 @@ dependencies {
     implementation(libs.coil)
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation)
     // Material 3
     implementation(libs.google.material)
-}
-
-kapt {
-    correctErrorTypes = true
+    // JDK desugaring
+    coreLibraryDesugaring(libs.jdk.desugar)
 }
