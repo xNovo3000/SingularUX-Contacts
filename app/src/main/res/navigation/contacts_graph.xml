@@ -6,7 +6,7 @@
     app:startDestination="@id/contact_list">
 
     <fragment android:id="@+id/contact_list"
-        android:name="org.singularux.contacts.feature.contactlist.ui.ContactListRouteFragment"
+        android:name="org.singularux.contacts.feature.contactlist.ui.ContactListRoute"
         android:label="@string/route_contact_list"
         tools:layout="@layout/route_contact_list"/>
 

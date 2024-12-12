@@ -13,27 +13,23 @@
         app:layout_behavior="@string/searchbar_scrolling_view_behavior"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:statusBarForeground="?attr/colorSurface">
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/search_contacts"
+        app:defaultMarginsEnabled="false"/>
 
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/search_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/search_contacts"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
-    
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/new_contact_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
-        android:text="@string/new_contact_fab"
-        app:icon="@drawable/rounded_add_24"/>
+        android:text="@string/new_contact"
+        app:icon="@drawable/round_add_24"/>
 
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"

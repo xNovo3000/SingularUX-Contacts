@@ -28,4 +28,6 @@ include(":core:ui")
 
 include(":data:contacts")
 
+include(":feature:contactlist")
+
 include(":app")
