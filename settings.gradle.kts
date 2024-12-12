@@ -26,4 +26,6 @@ rootProject.name = "Contacts"
 include(":core:permission")
 include(":core:ui")
 
+include(":data:contacts")
+
 include(":app")

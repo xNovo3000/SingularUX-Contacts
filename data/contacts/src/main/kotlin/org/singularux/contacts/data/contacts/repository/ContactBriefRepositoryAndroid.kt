@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.core.database.getStringOrNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.onFailure
+import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -65,6 +67,8 @@ internal class ContactBriefRepositoryAndroid(
             val listener = object : ContactsObserver.Listener {
                 override suspend fun onUpdate() {
                     trySendBlocking(getAll())
+                        .onSuccess { Log.d(TAG, "listenAll(): updated contact list") }
+                        .onFailure { Log.e(TAG, "listenAll(): failed to update contact list") }
                 }
             }
             // Subscribe at start

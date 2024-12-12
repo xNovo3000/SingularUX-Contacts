@@ -8,6 +8,8 @@ import android.provider.ContactsContract
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class ContactsObserver : ContentObserver(Handler(Looper.getMainLooper())) {
@@ -17,12 +19,14 @@ class ContactsObserver : ContentObserver(Handler(Looper.getMainLooper())) {
         val LISTEN_URI: Uri = ContactsContract.Contacts.CONTENT_URI
     }
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private var currentUpdateJob: Job? = null
 
     override fun onChange(selfChange: Boolean) {
         Log.d(TAG, "onChange#0(): received a change event from system")
         // Signal all subscribed functions
-        coroutineScope.launch {
+        currentUpdateJob?.cancel()
+        currentUpdateJob = coroutineScope.launch {
             for (listener in listeners) {
                 listener.onUpdate()
             }
