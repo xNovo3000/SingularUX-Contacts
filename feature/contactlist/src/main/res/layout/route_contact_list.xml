@@ -10,6 +10,7 @@
         android:id="@+id/contact_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         app:layout_behavior="@string/searchbar_scrolling_view_behavior"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
@@ -26,7 +27,8 @@
         android:id="@+id/new_contact_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_gravity="bottom|end"
         android:text="@string/new_contact"
         app:icon="@drawable/round_add_24"/>
