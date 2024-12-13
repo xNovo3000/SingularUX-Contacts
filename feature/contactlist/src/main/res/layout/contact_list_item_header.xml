@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textview.MaterialTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    android:maxLines="1"
+    android:ellipsize="end"
+    android:text="@string/placeholder"
+    android:textAppearance="?attr/textAppearanceTitleSmall"
+    android:textColor="?attr/colorOnSurface"/>
