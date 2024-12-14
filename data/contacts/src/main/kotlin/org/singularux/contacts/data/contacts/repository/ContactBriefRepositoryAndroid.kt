@@ -74,6 +74,8 @@ internal class ContactBriefRepositoryAndroid(
             }
             // Subscribe at start
             contactsObserver.attachListener(listener)
+            // Force push first event
+            trySendBlocking(getAll())
             // Unsubscribe at the end
             awaitClose { contactsObserver.detachListener(listener) }
         }

@@ -3,7 +3,7 @@ package org.singularux.contacts.feature.contactlist.ui
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,7 +25,7 @@ class ContactListRoute : Fragment(R.layout.route_contact_list) {
     private val viewModel: ContactListViewModel by viewModels()
     private lateinit var binding: RouteContactListBinding
 
-    private lateinit var permissionRequest: ActivityResultLauncher<String>
+    private lateinit var permissionsRequest: ActivityResultLauncher<Array<String>>
     @Inject lateinit var permissionManager: PermissionManager
     @Inject lateinit var contactListInsetListener: ContactListInsetListener
     @Inject lateinit var newContactFabInsetListener: NewContactFabInsetListener
@@ -35,11 +35,14 @@ class ContactListRoute : Fragment(R.layout.route_contact_list) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Create request permissions and actions
-        permissionRequest = registerForActivityResult(RequestPermission()) { granted ->
-            if (granted) {
+        permissionsRequest = registerForActivityResult(RequestMultiplePermissions()) { granted ->
+            if (granted.all { it.value }) {
                 lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        // TODO: Collect contacts and send to adapters
+                        // Collect contacts and send to adapters
+                        viewModel.contactListWithDecorators.collect {
+                            contactListAdapter.submitList(it)
+                        }
                     }
                 }
             } else {
@@ -58,7 +61,9 @@ class ContactListRoute : Fragment(R.layout.route_contact_list) {
         // Set list adapters
         binding.contactList.adapter = contactListAdapter
         // Request contacts read permission
-        permissionRequest.launch(permissionManager.getPermissionString(ContactsPermission.READ_CONTACTS))
+        permissionsRequest.launch(permissionManager.getPermissionsString(
+            permissions = listOf(ContactsPermission.READ_CONTACTS, ContactsPermission.READ_PROFILE)
+        ).toTypedArray())
     }
 
 }

@@ -19,9 +19,13 @@ internal class PermissionManagerAndroid(
         return when (permission) {
             ContactsPermission.READ_CONTACTS -> Manifest.permission.READ_CONTACTS
             ContactsPermission.WRITE_CONTACTS -> Manifest.permission.WRITE_CONTACTS
-            ContactsPermission.READ_PROFILE -> Manifest.permission.GET_ACCOUNTS
-            ContactsPermission.WRITE_PROFILE -> TODO()
+            ContactsPermission.READ_PROFILE -> "android.permission.READ_PROFILE"
+            ContactsPermission.WRITE_PROFILE -> "android.permission.WRITE_PROFILE"
         }
+    }
+
+    override fun getPermissionsString(permissions: List<ContactsPermission>): List<String> {
+        return permissions.map { getPermissionString(it) }
     }
 
 }
