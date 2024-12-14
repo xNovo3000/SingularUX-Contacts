@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.ui
+package org.singularux.contacts.feature.contactlist.ui.viewholder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

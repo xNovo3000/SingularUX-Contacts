@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="delete">Delete</string>
-    <string name="header_current_profile">Current profile</string>
+    <string name="header_current_profile">Your profile</string>
     <string name="header_starred">Starred</string>
     <string name="header_symbols">#</string>
+    <string name="missing_current_profile_action">Add personal info</string>
     <string name="new_contact">New contact</string>
     <string name="search_contacts">Search contacts</string>
     <string name="select_all">Select all</string>

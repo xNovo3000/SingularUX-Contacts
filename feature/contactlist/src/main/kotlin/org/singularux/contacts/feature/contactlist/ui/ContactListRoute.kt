@@ -26,18 +26,15 @@ class ContactListRoute : Fragment(R.layout.route_contact_list) {
     private lateinit var binding: RouteContactListBinding
 
     private lateinit var permissionRequest: ActivityResultLauncher<String>
-
     @Inject lateinit var permissionManager: PermissionManager
-
     @Inject lateinit var contactListInsetListener: ContactListInsetListener
     @Inject lateinit var newContactFabInsetListener: NewContactFabInsetListener
     @Inject lateinit var searchBarInsetListener: SearchBarInsetListener
-
     @Inject lateinit var contactListAdapter: ContactListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Register request permissions and actions
+        // Create request permissions and actions
         permissionRequest = registerForActivityResult(RequestPermission()) { granted ->
             if (granted) {
                 lifecycleScope.launch {

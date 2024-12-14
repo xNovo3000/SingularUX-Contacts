@@ -20,13 +20,14 @@ sealed class ContactBriefItem {
         val string: String
     ) : ContactBriefItem()
 
+    // Works also as current profile if present
     data class Contact(
         val lookupKey: String,
         val displayName: String,
         val thumbnailUri: String?
     ) : ContactBriefItem()
 
-    // Maybe also current profile?
+    data object MissingCurrentProfile : ContactBriefItem()
 
     object Callback : DiffUtil.ItemCallback<ContactBriefItem>() {
 
@@ -47,6 +48,7 @@ sealed class ContactBriefItem {
                     is Contact -> oldItem.lookupKey == newItem.lookupKey
                     else -> false
                 }
+                is MissingCurrentProfile -> newItem is MissingCurrentProfile
             }
         }
 
