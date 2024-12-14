@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.recyclerview.selection)
+    // Coil
+    implementation(libs.coil)
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

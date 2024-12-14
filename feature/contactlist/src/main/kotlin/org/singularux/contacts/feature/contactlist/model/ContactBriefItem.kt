@@ -1,10 +1,16 @@
 package org.singularux.contacts.feature.contactlist.model
 
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
+import org.singularux.contacts.feature.contactlist.R
 
 sealed class ContactBriefItem {
 
-    enum class HeaderType { CURRENT_PROFILE, STARRED, NON_ALPHABET }
+    enum class HeaderType(@StringRes val stringId: Int) {
+        CURRENT_PROFILE(R.string.header_current_profile),
+        STARRED(R.string.header_starred),
+        SYMBOLS(R.string.header_symbols)
+    }
 
     data class StandardHeader(
         val type: HeaderType
@@ -20,7 +26,7 @@ sealed class ContactBriefItem {
         val thumbnailUri: String?
     ) : ContactBriefItem()
 
-    // Maybe also profile?
+    // Maybe also current profile?
 
     object Callback : DiffUtil.ItemCallback<ContactBriefItem>() {
 
