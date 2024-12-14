@@ -1,32 +1,24 @@
 plugins {
-    alias(libs.plugins.application)
+    alias(libs.plugins.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "org.singularux.contacts"
+    namespace = "org.singularux.contacts.data.profile"
 
     buildToolsVersion = "35.0.0"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "org.singularux.contacts"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
-    }
-
-    buildFeatures {
-        viewBinding = true
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
-            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -48,18 +40,12 @@ android {
 
 dependencies {
     // Project
-    api(project(":feature:contactlist"))
+    api(project(":core:permission"))
     // AndroidX
     implementation(libs.androidx.core)
-    implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui)
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    implementation(libs.hilt.navigation)
     // JDK desugaring
     coreLibraryDesugaring(libs.jdk.desugar)
 }

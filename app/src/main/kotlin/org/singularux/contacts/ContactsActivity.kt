@@ -1,6 +1,7 @@
 package org.singularux.contacts
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
@@ -12,6 +13,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ContactsActivity : FragmentActivity(R.layout.activity_contacts) {
+
+    companion object {
+        private const val TAG = "ContactsActivity"
+    }
 
     @Inject lateinit var permissionManager: PermissionManager
     @Inject lateinit var contactsObserver: ContactsObserver
@@ -26,6 +31,7 @@ class ContactsActivity : FragmentActivity(R.layout.activity_contacts) {
         super.onResume()
         // Observe data
         if (permissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
+            Log.d(TAG, "onResume(): registered ContactsObserver")
             applicationContext.contentResolver.registerContentObserver(
                 ContactsObserver.LISTEN_URI, false, contactsObserver
             )
@@ -36,6 +42,7 @@ class ContactsActivity : FragmentActivity(R.layout.activity_contacts) {
         super.onPause()
         // Stop observing data
         if (permissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
+            Log.d(TAG, "onPause(): deregistered ContactsObserver")
             applicationContext.contentResolver.unregisterContentObserver(contactsObserver)
         }
     }

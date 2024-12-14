@@ -42,7 +42,8 @@ internal class ContactBriefRepositoryAndroid(
                     ContactsContract.Contacts.LOOKUP_KEY, ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
                     ContactsContract.Contacts.PHOTO_THUMBNAIL_URI, ContactsContract.Contacts.STARRED
                 ),
-                null, null,
+                "${ContactsContract.Contacts.IN_VISIBLE_GROUP} = ?",
+                arrayOf("1"),
                 ContactsContract.Contacts.SORT_KEY_PRIMARY
             ).use { cursor ->
                 withContext(Dispatchers.Default) {
