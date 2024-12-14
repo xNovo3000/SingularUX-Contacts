@@ -19,6 +19,8 @@ internal class PermissionManagerAndroid(
         return when (permission) {
             ContactsPermission.READ_CONTACTS -> Manifest.permission.READ_CONTACTS
             ContactsPermission.WRITE_CONTACTS -> Manifest.permission.WRITE_CONTACTS
+            ContactsPermission.READ_PROFILE -> Manifest.permission.GET_ACCOUNTS
+            ContactsPermission.WRITE_PROFILE -> TODO()
         }
     }
 

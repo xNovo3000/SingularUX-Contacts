@@ -46,6 +46,7 @@ dependencies {
     // Project
     api(project(":core:ui"))
     api(project(":data:contacts"))
+    api(project(":data:profile"))
     // AndroidX
     implementation(libs.androidx.core)
     implementation(libs.androidx.fragment)
