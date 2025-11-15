@@ -1,28 +1,24 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "org.singularux.contacts"
+    namespace = "org.singularux.contacts.core.permission"
     compileSdk {
         version = release(36)
     }
     defaultConfig {
-        applicationId = "org.singularux.contacts"
         minSdk = 26
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        consumerProguardFiles("consumer-rules.pro")
     }
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -41,9 +37,6 @@ android {
 }
 
 dependencies {
-    // Project
-    api(project(":core:permission"))
-    api(project(":core:ui"))
     // AndroidX
     implementation(libs.androidx.core)
     // Hilt
