@@ -8,6 +8,7 @@ hilt = "2.57.2"
 androidx-core = "1.17.0"
 androidx-core-splashscreen = "1.2.0"
 androidx-activity = "1.11.0"
+coil = "3.3.0"
 compose-bom = "2025.11.00"
 compose-material3 = "1.5.0-alpha08"
 lifecycle = "2.10.0-rc01"
@@ -17,6 +18,8 @@ lifecycle = "2.10.0-rc01"
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-core-splashscreen" }
 androidx-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
+# Coil 3
+coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 compose-animation = { group = "androidx.compose.animation", name = "animation" }
