@@ -3,7 +3,7 @@
 
     <application>
 
-        <activity android:name=".presentation.ContactListActivity"
+        <activity android:name=".ui.ContactListActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/Theme.Contacts.Splash"

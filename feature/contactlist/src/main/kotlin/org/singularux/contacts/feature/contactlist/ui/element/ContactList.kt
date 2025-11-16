@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.presentation.element
+package org.singularux.contacts.feature.contactlist.ui.element
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,14 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.singularux.contacts.core.ui.ContactsTheme
-import org.singularux.contacts.feature.contactlist.presentation.item.ContactBriefItem
-import org.singularux.contacts.feature.contactlist.presentation.item.ContactBriefItemAction
-import org.singularux.contacts.feature.contactlist.presentation.item.ContactBriefItemData
-import org.singularux.contacts.feature.contactlist.presentation.item.ContactBriefItemPosition
-import org.singularux.contacts.feature.contactlist.presentation.item.ContactBriefItemType
-import org.singularux.contacts.feature.contactlist.presentation.item.ContactHeaderItem
-import org.singularux.contacts.feature.contactlist.presentation.item.ContactHeaderItemData
-import org.singularux.contacts.feature.contactlist.presentation.item.ContactHeaderItemType
+import org.singularux.contacts.feature.contactlist.ui.item.ContactBriefItem
+import org.singularux.contacts.feature.contactlist.ui.item.ContactBriefItemAction
+import org.singularux.contacts.feature.contactlist.ui.item.ContactBriefItemData
+import org.singularux.contacts.feature.contactlist.ui.item.ContactBriefItemPosition
+import org.singularux.contacts.feature.contactlist.ui.item.ContactBriefItemType
+import org.singularux.contacts.feature.contactlist.ui.item.ContactHeaderItem
+import org.singularux.contacts.feature.contactlist.ui.item.ContactHeaderItemData
+import org.singularux.contacts.feature.contactlist.ui.item.ContactHeaderItemType
 
 @Composable
 fun ContactList(

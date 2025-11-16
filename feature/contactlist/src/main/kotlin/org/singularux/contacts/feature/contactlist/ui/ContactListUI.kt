@@ -1,7 +1,5 @@
-package org.singularux.contacts.feature.contactlist.presentation
+package org.singularux.contacts.feature.contactlist.ui
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.AppBarWithSearch
 import androidx.compose.material3.ExpandedFullScreenSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -10,12 +8,18 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import org.singularux.contacts.feature.contactlist.presentation.element.NewContactFab
-import org.singularux.contacts.feature.contactlist.presentation.element.SearchBarInput
+import org.singularux.contacts.feature.contactlist.presentation.ContactListViewModel
+import org.singularux.contacts.feature.contactlist.ui.element.ContactList
+import org.singularux.contacts.feature.contactlist.ui.element.NewContactFab
+import org.singularux.contacts.feature.contactlist.ui.element.SearchBarInput
+import org.singularux.contacts.feature.contactlist.ui.element.withFabPadding
+import org.singularux.contacts.feature.contactlist.ui.item.ContactHeaderItemData
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -51,10 +55,10 @@ fun ContactListUI(
             NewContactFab(onClick = onAddContactClick)
         }
     ) { contentPadding ->
-        contentPadding
         val contactListPermissionsState = rememberMultiplePermissionsState(viewModel.contactListPermissions)
         if (contactListPermissionsState.allPermissionsGranted) {
-            
+            val contactListData by viewModel.contactListData.collectAsStateWithLifecycle()
+
         } else {
             LaunchedEffect(Unit) { contactListPermissionsState.launchMultiplePermissionRequest() }
         }

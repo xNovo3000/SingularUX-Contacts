@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.presentation
+package org.singularux.contacts.feature.contactlist.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import org.singularux.contacts.core.ui.ContactsTheme
+import org.singularux.contacts.feature.contactlist.presentation.ContactListViewModel
 
 @AndroidEntryPoint
 class ContactListActivity : ComponentActivity() {

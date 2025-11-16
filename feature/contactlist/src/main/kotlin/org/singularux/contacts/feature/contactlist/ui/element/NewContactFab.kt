@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.presentation.element
+package org.singularux.contacts.feature.contactlist.ui.element
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.PaddingValues

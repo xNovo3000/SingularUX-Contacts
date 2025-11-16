@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.presentation.item
+package org.singularux.contacts.feature.contactlist.ui.item
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxWidth
