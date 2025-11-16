@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.presentation
+package org.singularux.contacts.feature.contactlist.presentation.item
 
 import android.content.res.Configuration
 import android.net.Uri
@@ -17,11 +17,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
 import org.singularux.contacts.core.ui.ContactsTheme
+
+object ContactBriefItemType
 
 data class ContactBriefItemData(
     val lookupKey: String,
@@ -72,11 +77,15 @@ fun ContactBriefItem(
                     text = data.displayName.firstOrNull()?.toString() ?: "",
                     style = MaterialTheme.typography.titleMedium
                 )
+                val avatarSizePx = (40 * LocalDensity.current.density).toInt()
                 AsyncImage(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(RoundedCornerShape(50)),
-                    model = data.photoThumbnailUri,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(data.photoThumbnailUri)
+                        .size(avatarSizePx, avatarSizePx)
+                        .build(),
                     contentDescription = data.displayName
                 )
             }
