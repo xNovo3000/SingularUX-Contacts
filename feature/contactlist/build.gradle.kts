@@ -61,6 +61,8 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     // Compose - Material 3
     implementation(libs.compose.material3)
+    // Compose - Accompanist
+    implementation(libs.compose.accompanist.permissions)
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
