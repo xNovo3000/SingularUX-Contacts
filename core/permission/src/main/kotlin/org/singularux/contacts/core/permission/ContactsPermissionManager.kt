@@ -5,8 +5,8 @@ interface ContactsPermissionManager {
     fun hasPermission(permission: ContactsPermission): Boolean
     fun getPermissionString(permission: ContactsPermission): String
 
-    fun hasPermissions(vararg permissions: ContactsPermission): List<Boolean> {
-        return permissions.map { hasPermission(it) }
+    fun hasPermissions(vararg permissions: ContactsPermission): Boolean {
+        return permissions.map { hasPermission(it) }.all { it }
     }
 
     fun getPermissionsString(vararg permissions: ContactsPermission): List<String> {

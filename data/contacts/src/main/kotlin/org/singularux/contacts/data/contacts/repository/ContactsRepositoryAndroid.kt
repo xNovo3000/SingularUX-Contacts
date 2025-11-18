@@ -1,6 +1,7 @@
 package org.singularux.contacts.data.contacts.repository
 
 import android.content.Context
+import android.net.Uri
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.core.database.getStringOrNull
@@ -17,7 +18,7 @@ internal class ContactsRepositoryAndroid(
     companion object {
         private const val TAG = "ContactsRepositoryAndroid"
 
-        private val URI = ContactsContract.Contacts.CONTENT_URI
+        val URI: Uri = ContactsContract.Contacts.CONTENT_URI
         private val GET_ALL_PROJECTION = arrayOf(
             ContactsContract.Contacts.LOOKUP_KEY, ContactsContract.Contacts.DISPLAY_NAME,
             ContactsContract.Contacts.PHOTO_THUMBNAIL_URI, ContactsContract.Contacts.STARRED

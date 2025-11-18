@@ -4,8 +4,11 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.withContext
 import org.singularux.contacts.feature.contactlist.domain.GetContactListPermissionsUseCase
 import org.singularux.contacts.feature.contactlist.domain.ListenContactListUseCase
 import javax.inject.Inject
@@ -20,6 +23,7 @@ class ContactListViewModel @Inject constructor(
 
     val contactListPermissions = getContactListPermissionsUseCase()
     val contactListData = listenContactListUseCase()
+        .map { withContext(Dispatchers.Default) { fromContactBriefEntityListToUiList(it) } }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
 }
