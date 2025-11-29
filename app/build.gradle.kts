@@ -42,9 +42,7 @@ android {
 
 dependencies {
     // Project
-    api(project(":core:permission"))
-    api(project(":core:ui"))
-    api(project(":data:contacts"))
+    api(project(":feature:contactlist"))
     // AndroidX
     implementation(libs.androidx.core)
     // Hilt
