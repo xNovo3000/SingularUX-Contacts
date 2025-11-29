@@ -51,7 +51,16 @@ fun ContactListUI(
                 inputField = inputField,
                 state = searchBarState
             ) {
-
+                val contactListData by viewModel.searchContactListData.collectAsStateWithLifecycle()
+                ContactList(
+                    contactListData = contactListData,
+                    onContactElementAction = { lookupKey, action ->
+                        when (action) {
+                            ContactBriefItemAction.GO_TO_DETAIL -> onGoToContactDetailClick(lookupKey)
+                            ContactBriefItemAction.SELECT -> {}
+                        }
+                    }
+                )
             }
         },
         floatingActionButton = {
