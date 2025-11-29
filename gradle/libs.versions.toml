@@ -7,12 +7,14 @@ hilt = "2.57.2"
 # Libraries
 androidx-core = "1.17.0"
 androidx-core-splashscreen = "1.2.0"
-androidx-activity = "1.11.0"
+androidx-activity = "1.12.0"
 coil = "3.3.0"
-compose-bom = "2025.11.00"
-compose-material3 = "1.5.0-alpha08"
+compose-bom = "2025.11.01"
+compose-material3 = "1.5.0-alpha09"
 compose-accompanist = "0.37.3"
-lifecycle = "2.10.0-rc01"
+kotlinx-serialization = "1.9.0"
+lifecycle = "2.10.0"
+navigation3 = "1.0.0"
 
 [libraries]
 # AndroidX
@@ -37,13 +39,20 @@ compose-accompanist-permissions = { group = "com.google.accompanist", name = "ac
 # Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+# KotlinX
+kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 # Lifecycle
 lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
+lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
+# Navigation 3
+navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation3" }
+navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "navigation3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
