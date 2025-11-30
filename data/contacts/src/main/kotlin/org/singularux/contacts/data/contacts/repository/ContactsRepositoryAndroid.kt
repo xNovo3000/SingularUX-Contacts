@@ -8,7 +8,9 @@ import androidx.core.database.getStringOrNull
 import androidx.core.net.toUri
 import org.singularux.contacts.core.permission.ContactsPermission
 import org.singularux.contacts.core.permission.ContactsPermissionManager
+import org.singularux.contacts.data.contacts.DataContactsCommon
 import org.singularux.contacts.data.contacts.entity.ContactBriefEntity
+import org.singularux.contacts.data.contacts.entity.ContactDetailEntity
 
 internal class ContactsRepositoryAndroid(
     private val context: Context,
@@ -43,8 +45,8 @@ internal class ContactsRepositoryAndroid(
         }
         // Query android provider
         return context.contentResolver.query(
-            URI, GET_ALL_PROJECTION, GET_ALL_SELECTION,
-            GET_ALL_SELECTION_ARGS, GET_ALL_SORT_ORDER
+            DataContactsCommon.getContactListUri(), GET_ALL_PROJECTION,
+            GET_ALL_SELECTION, GET_ALL_SELECTION_ARGS, GET_ALL_SORT_ORDER
         ).use { cursor ->
             val result = mutableListOf<ContactBriefEntity>()
             while (cursor?.moveToNext() == true) {
@@ -75,8 +77,8 @@ internal class ContactsRepositoryAndroid(
         }
         // Query android provider
         return context.contentResolver.query(
-            URI, GET_ALL_PROJECTION, GET_BY_DISPLAY_NAME_LIKE_SELECTION,
-            arrayOf("%$query%"), GET_ALL_SORT_ORDER
+            DataContactsCommon.getContactListUri(), GET_ALL_PROJECTION,
+            GET_BY_DISPLAY_NAME_LIKE_SELECTION, arrayOf("%$query%"), GET_ALL_SORT_ORDER
         ).use { cursor ->
             val result = mutableListOf<ContactBriefEntity>()
             while (cursor?.moveToNext() == true && result.size < limit) {
@@ -92,6 +94,16 @@ internal class ContactsRepositoryAndroid(
             }
             result
         }
+    }
+
+    override suspend fun getByLookupKey(lookupKey: String): ContactDetailEntity? {
+        // Check permissions
+        if (!contactsPermissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
+            Log.d(TAG, "Missing READ_CONTACTS permission")
+            return null
+        }
+        // Query android provider
+        TODO()
     }
 
 }
