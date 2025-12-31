@@ -3,13 +3,16 @@ package org.singularux.contacts.ui;
 import android.os.Bundle;
 
 import androidx.activity.ComponentActivity;
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.core.splashscreen.SplashScreen;
-import androidx.core.view.WindowCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
 
 import org.singularux.contacts.databinding.ActivityContactListBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import lombok.val;
 
 @AndroidEntryPoint
 public class ContactListActivity extends ComponentActivity {
@@ -18,11 +21,19 @@ public class ContactListActivity extends ComponentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         // Start activity with splash screen and edge-to-edge support
         SplashScreen.installSplashScreen(this);
-        WindowCompat.enableEdgeToEdge(getWindow());
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         // Set content view using view binding
-        ActivityContactListBinding binding = ActivityContactListBinding.inflate(getLayoutInflater());
+        val binding = ActivityContactListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        // Inset listeners
+        ViewGroupCompat.installCompatInsetsDispatch(binding.getRoot());
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contactListRecyclerview,
+                new ContactListRecyclerViewInsetListener());
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contactListSearchBar,
+                new ContactListSearchBarInsetListener());
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contactListFab,
+                new ContactListFabInsetListener());
     }
 
 }
