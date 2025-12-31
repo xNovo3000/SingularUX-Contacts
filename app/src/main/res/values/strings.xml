@@ -3,4 +3,6 @@
     <string name="activity_contact_list_search_hint">Search contacts</string>
     <string name="activity_contact_list_new_contact">New contact</string>
     <string name="manifest_app_name">Contacts</string>
+    <string name="p">P</string>
+    <string name="placeholder">Placeholder</string>
 </resources>
