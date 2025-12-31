@@ -1,0 +1,43 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.hilt)
+}
+
+android {
+    namespace = 'org.singularux.contacts'
+    compileSdk {
+        version = release(36)
+    }
+    defaultConfig {
+        applicationId 'org.singularux.contacts'
+        minSdk 26
+        targetSdk 36
+        versionCode 1
+        versionName '26.0.0'
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation libs.androidx.core
+    implementation libs.androidx.core.splashscreen
+    implementation libs.androidx.activity
+    implementation libs.google.material
+    implementation libs.hilt.android
+    annotationProcessor libs.hilt.compiler
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+}
