@@ -28,7 +28,7 @@
             android:id="@+id/component_contact_avatar_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Contacts.ComponentContactAvatar"/>
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Contacts.ComponentContactAvatarImage"/>
 
     </FrameLayout>
 
