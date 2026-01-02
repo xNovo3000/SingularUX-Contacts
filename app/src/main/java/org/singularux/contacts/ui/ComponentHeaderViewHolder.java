@@ -13,6 +13,8 @@ import lombok.val;
 
 public class ComponentHeaderViewHolder extends RecyclerView.ViewHolder {
 
+    public static final int VIEW_TYPE_ID = 100;
+
     public final MaterialTextView headline;
 
     public ComponentHeaderViewHolder(@NonNull View itemView) {

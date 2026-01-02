@@ -11,14 +11,14 @@ public class ComponentDataDiffCallback extends DiffUtil.ItemCallback<ComponentDa
     public boolean areItemsTheSame(@NonNull ComponentData oldItem,
                                    @NonNull ComponentData newItem
     ) {
-        return false;
+        return oldItem.getClass() == newItem.getClass() && oldItem.getId() == newItem.getId();
     }
 
     @Override
     public boolean areContentsTheSame(@NonNull ComponentData oldItem,
                                       @NonNull ComponentData newItem
     ) {
-        return Objects.equals(oldItem, newItem);
+        return newItem.equals(oldItem);
     }
 
 }

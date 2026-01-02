@@ -45,4 +45,6 @@ dependencies {
     annotationProcessor libs.lombok
     implementation libs.recyclerview
     implementation libs.recyclerview.selection
+    implementation libs.rxjava
+    implementation libs.rxjava.android
 }

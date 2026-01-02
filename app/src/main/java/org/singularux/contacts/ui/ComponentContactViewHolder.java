@@ -14,6 +14,8 @@ import lombok.val;
 
 public class ComponentContactViewHolder extends RecyclerView.ViewHolder {
 
+    public static final int VIEW_TYPE_ID = 101;
+
     public final ShapeableImageView avatarImage;
     public final MaterialTextView avatarText, headline;
 

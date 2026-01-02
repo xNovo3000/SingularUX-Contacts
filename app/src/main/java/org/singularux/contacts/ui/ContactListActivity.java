@@ -11,11 +11,15 @@ import androidx.core.view.ViewGroupCompat;
 
 import org.singularux.contacts.databinding.ActivityContactListBinding;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
 import lombok.val;
 
 @AndroidEntryPoint
 public class ContactListActivity extends ComponentActivity {
+
+    @Inject public ContactListRecyclerViewAdapter contactListRecyclerViewAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +38,8 @@ public class ContactListActivity extends ComponentActivity {
                 new ContactListSearchBarInsetListener());
         ViewCompat.setOnApplyWindowInsetsListener(binding.contactListFab,
                 new ContactListFabInsetListener());
+        // Set adapters
+        binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);
     }
 
 }
