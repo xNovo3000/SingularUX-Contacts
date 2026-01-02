@@ -17,7 +17,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:statusBarForeground="?attr/colorSurface">
+        app:liftOnScrollColor="?attr/colorSurface">
         <com.google.android.material.search.SearchBar
             android:id="@+id/contact_list_search_bar"
             android:layout_width="match_parent"

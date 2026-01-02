@@ -11,8 +11,8 @@
     android:gravity="center_vertical">
 
     <FrameLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/component_contact_avatar"
+        android:layout_height="@dimen/component_contact_avatar"
         android:background="@drawable/component_contact_avatar_background">
 
         <com.google.android.material.textview.MaterialTextView
@@ -26,8 +26,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/component_contact_avatar_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/component_contact_avatar"
+            android:layout_height="@dimen/component_contact_avatar"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Contacts.ComponentContactAvatarImage"/>
 
     </FrameLayout>

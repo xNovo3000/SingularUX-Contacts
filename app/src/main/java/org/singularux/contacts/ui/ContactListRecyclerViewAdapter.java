@@ -4,18 +4,19 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.singularux.contacts.R;
 import org.singularux.contacts.core.BackgroundExecutorService;
+import org.singularux.contacts.core.IOScheduler;
 
 import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.core.Scheduler;
 import lombok.val;
 
 public class ContactListRecyclerViewAdapter
@@ -23,13 +24,20 @@ public class ContactListRecyclerViewAdapter
 
     public static final int INVALID_VIEW_TYPE_ID = -1;
 
+    private final Scheduler ioScheduler;
+    private final ContactThumbnailCache contactThumbnailCache;
+
     @Inject
     public ContactListRecyclerViewAdapter(
-            @BackgroundExecutorService ExecutorService executorService
+            @BackgroundExecutorService ExecutorService executorService,
+            @IOScheduler Scheduler ioScheduler,
+            ContactThumbnailCache contactThumbnailCache
     ) {
         super(new AsyncDifferConfig.Builder<>(new ComponentDataDiffCallback())
                 .setBackgroundThreadExecutor(executorService)
                 .build());
+        this.ioScheduler = ioScheduler;
+        this.contactThumbnailCache = contactThumbnailCache;
         setHasStableIds(true);
     }
 
@@ -40,11 +48,9 @@ public class ContactListRecyclerViewAdapter
     ) {
         switch (viewType) {
             case ComponentHeaderViewHolder.VIEW_TYPE_ID:
-                return new ComponentHeaderViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.component_header, parent, false));
+                return ComponentHeaderViewHolder.create(parent);
             case ComponentContactViewHolder.VIEW_TYPE_ID:
-                return new ComponentContactViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.component_header, parent, false));
+                return ComponentContactViewHolder.create(parent);
             default:
                 throw new IllegalArgumentException("Invalid viewType: " + viewType);
         }
@@ -53,40 +59,22 @@ public class ContactListRecyclerViewAdapter
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         val currentItem = getItem(position);
-        int viewType = getItemViewType(position);
-        switch (viewType) {
-            case ComponentHeaderViewHolder.VIEW_TYPE_ID:
-                assert currentItem instanceof ComponentHeaderData;
-                onBindComponentHeaderViewHolder((ComponentHeaderData) currentItem,
-                        (ComponentHeaderViewHolder) holder);
-            case ComponentContactViewHolder.VIEW_TYPE_ID:
-                assert currentItem instanceof ComponentContactData;
-                onBindComponentContactViewHolder((ComponentContactData) currentItem,
-                        (ComponentContactViewHolder) holder);
-            default:
-                throw new IllegalArgumentException("Invalid viewType: " + viewType);
-        }
-    }
-
-    private void onBindComponentHeaderViewHolder(@NonNull ComponentHeaderData data,
-                                                 @NonNull ComponentHeaderViewHolder holder
-    ) {
-        if (data.getLabelRes() != null) {
-            val context = ContextCompat.getContextForLanguage(holder.itemView.getContext());
-            val label = context.getString(data.getLabelRes());
-            holder.headline.setText(label);
-        } else if (data.getLabel() != null) {
-            holder.headline.setText(data.getLabel());
+        if (holder instanceof ComponentHeaderViewHolder) {
+            ((ComponentHeaderViewHolder) holder)
+                    .onBindViewHolder((ComponentHeaderData) currentItem);
+        } else if (holder instanceof ComponentContactViewHolder) {
+            ((ComponentContactViewHolder) holder)
+                    .onBindViewHolder((ComponentContactData) currentItem, ioScheduler, contactThumbnailCache);
         } else {
-            throw new RuntimeException("Both labelRes and label are null");
+            throw new IllegalArgumentException("Invalid holder class: " + holder.getClass());
         }
     }
 
-    private void onBindComponentContactViewHolder(@NonNull ComponentContactData data,
-                                                  @NonNull ComponentContactViewHolder holder
-    ) {
-
-        // TODO: Load avatar
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        if (holder instanceof ComponentContactViewHolder) {
+            ((ComponentContactViewHolder) holder).onViewRecycled();
+        }
     }
 
     @Override

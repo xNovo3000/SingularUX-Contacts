@@ -11,6 +11,9 @@ import androidx.core.view.ViewGroupCompat;
 
 import org.singularux.contacts.databinding.ActivityContactListBinding;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -40,6 +43,12 @@ public class ContactListActivity extends ComponentActivity {
                 new ContactListFabInsetListener());
         // Set adapters
         binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);
+        // Inject fake data
+        val fakeList = IntStream.range(0, 100)
+                .mapToObj(i -> new ComponentContactData("" + i, "Contact "+ i, null))
+                .map(i -> (ComponentData) i)
+                .collect(Collectors.toList());
+        contactListRecyclerViewAdapter.submitList(fakeList);
     }
 
 }

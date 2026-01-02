@@ -9,6 +9,8 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @Module
 @InstallIn(SingletonComponent.class)
@@ -24,9 +26,24 @@ public class MultithreadingSingletonModule {
 
     @Provides
     @Singleton
+    @BackgroundScheduler
+    public Scheduler backgroundScheduler(
+            @BackgroundExecutorService ExecutorService executorService) {
+        return Schedulers.from(executorService, true, true);
+    }
+
+    @Provides
+    @Singleton
     @IOExecutorService
     public ExecutorService ioExecutorService() {
         return Executors.newCachedThreadPool(new BackgroundThreadFactory("IO"));
+    }
+
+    @Provides
+    @Singleton
+    @IOScheduler
+    public Scheduler ioScheduler(@IOExecutorService ExecutorService executorService) {
+        return Schedulers.from(executorService, true, true);
     }
 
 }
