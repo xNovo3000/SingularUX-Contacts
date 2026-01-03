@@ -4,13 +4,19 @@ import android.os.Bundle;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.singularux.contacts.databinding.ActivityContactListBinding;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -20,9 +26,12 @@ import dagger.hilt.android.AndroidEntryPoint;
 import lombok.val;
 
 @AndroidEntryPoint
-public class ContactListActivity extends ComponentActivity {
+public class ContactListActivity extends ComponentActivity
+        implements ActivityResultCallback<Map<String, Boolean>> {
 
     @Inject public ContactListRecyclerViewAdapter contactListRecyclerViewAdapter;
+
+    private ContactListViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,12 +52,25 @@ public class ContactListActivity extends ComponentActivity {
                 new ContactListFabInsetListener());
         // Set adapters
         binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);
-        // Inject fake data
-        val fakeList = IntStream.range(0, 100)
-                .mapToObj(i -> new ComponentContactData("" + i, "Contact "+ i, null))
-                .map(i -> (ComponentData) i)
-                .collect(Collectors.toList());
-        contactListRecyclerViewAdapter.submitList(fakeList);
+
+        // Get ViewModel
+        viewModel = new ViewModelProvider(this).get(ContactListViewModel.class);
+
+        // TEST: Request permission for data
+        val requestReadContactsPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(), this);
+        requestReadContactsPermissionLauncher.launch(viewModel.getReadContactsPermissions());
+    }
+
+    @Override
+    public void onActivityResult(@NonNull Map<String, Boolean> result) {
+        String[] readContactsPermissions = viewModel.getReadContactsPermissions();
+        boolean hasReadContactsPermissions = Arrays.stream(readContactsPermissions)
+                .allMatch(s -> result.getOrDefault(s, false));
+        if (hasReadContactsPermissions) {
+            viewModel.getContactListLiveData().observe(this, contactBriefEntities ->
+                    contactListRecyclerViewAdapter.submitList(contactBriefEntities));
+        }
     }
 
 }
