@@ -2,6 +2,9 @@ package org.singularux.contacts.core;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -36,7 +39,12 @@ public class MultithreadingSingletonModule {
     @Singleton
     @IOExecutorService
     public ExecutorService ioExecutorService() {
-        return Executors.newCachedThreadPool(new BackgroundThreadFactory("IO"));
+        return new ThreadPoolExecutor(0,
+                Runtime.getRuntime().availableProcessors() * 4,
+                10L,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(),
+                new BackgroundThreadFactory("IO"));
     }
 
     @Provides

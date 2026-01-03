@@ -27,12 +27,12 @@ public class ContactListRecyclerViewAdapter
 
     @Inject
     public ContactListRecyclerViewAdapter(
-            @BackgroundExecutorService ExecutorService executorService,
+            @BackgroundExecutorService ExecutorService backgroundExecutorService,
             @IOScheduler Scheduler ioScheduler,
             ContactThumbnailCache contactThumbnailCache
     ) {
         super(new AsyncDifferConfig.Builder<>(new ComponentDataDiffCallback())
-                .setBackgroundThreadExecutor(executorService)
+                .setBackgroundThreadExecutor(backgroundExecutorService)
                 .build());
         this.ioScheduler = ioScheduler;
         this.contactThumbnailCache = contactThumbnailCache;

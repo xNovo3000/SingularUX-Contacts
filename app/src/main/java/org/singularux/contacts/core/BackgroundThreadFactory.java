@@ -16,12 +16,12 @@ public class BackgroundThreadFactory implements ThreadFactory {
     private int ordinal = -1;
 
     @Override
-    public Thread newThread( Runnable r) {
+    public Thread newThread(Runnable r) {
         ordinal += 1;
         return new BackgroundThread(r, factoryName + "-" + ordinal);
     }
 
-    private static final class BackgroundThread extends Thread {
+    private static class BackgroundThread extends Thread {
 
         public BackgroundThread(Runnable r, String name) {
             super(r, name);
