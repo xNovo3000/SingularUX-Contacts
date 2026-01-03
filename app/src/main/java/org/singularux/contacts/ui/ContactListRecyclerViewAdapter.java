@@ -1,6 +1,5 @@
 package org.singularux.contacts.ui;
 
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.singularux.contacts.R;
 import org.singularux.contacts.core.BackgroundExecutorService;
 import org.singularux.contacts.core.IOScheduler;
 
@@ -88,9 +86,9 @@ public class ContactListRecyclerViewAdapter
     @Override
     public int getItemViewType(int position) {
         val currentItem = getItem(position);
-        if (currentItem.getClass() == ComponentContactData.class) {
+        if (currentItem instanceof ComponentContactData) {
             return ComponentContactViewHolder.VIEW_TYPE_ID;
-        } else if (currentItem.getClass() == ComponentHeaderData.class) {
+        } else if (currentItem instanceof ComponentHeaderData) {
             return ComponentHeaderViewHolder.VIEW_TYPE_ID;
         }
         return INVALID_VIEW_TYPE_ID;
