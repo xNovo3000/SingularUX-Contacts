@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
@@ -31,7 +30,7 @@ public class ComponentHeaderViewHolder extends RecyclerView.ViewHolder {
         // If there is a labelRes, then should be put in the header
         // Use the label otherwise
         if (data.getLabelRes() != null) {
-            val context = ContextCompat.getContextForLanguage(itemView.getContext());
+            val context = itemView.getContext();
             val label = context.getString(data.getLabelRes());
             headline.setText(label);
         } else if (data.getLabel() != null) {
