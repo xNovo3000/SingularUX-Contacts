@@ -17,26 +17,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.qualifiers.ApplicationContext;
-import dagger.hilt.android.scopes.ActivityRetainedScoped;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 
-@ActivityRetainedScoped
-public class ContactRepositoryAndroid implements ContactRepository {
+@RequiredArgsConstructor
+public class ContactsRepositoryAndroid implements ContactsRepository {
 
     private static final String TAG = "ContactRepositoryAndroid";
 
     private final Context context;
     private final ContactsPermissionManager contactsPermissionManager;
-
-    @Inject
-    public ContactRepositoryAndroid(@ApplicationContext Context context,
-                                    ContactsPermissionManager contactsPermissionManager) {
-        this.context = context;
-        this.contactsPermissionManager = contactsPermissionManager;
-    }
 
     @Override
     public List<ContactBriefEntity> getAll() {

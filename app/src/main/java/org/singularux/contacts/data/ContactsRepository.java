@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-public interface ContactRepository {
+public interface ContactsRepository {
     List<ContactBriefEntity> getAll();
     List<ContactBriefEntity> getByDisplayNameLike(@NonNull String query);
 }

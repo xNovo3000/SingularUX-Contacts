@@ -14,7 +14,7 @@ import dagger.hilt.android.scopes.ActivityRetainedScoped;
 
 @Module
 @InstallIn(ActivityRetainedComponent.class)
-public class PermissionActivityRetainedModule {
+public class CoreActivityRetainedModule {
 
     @Provides
     @ActivityRetainedScoped

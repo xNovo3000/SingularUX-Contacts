@@ -23,7 +23,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @Module
 @InstallIn(SingletonComponent.class)
-public class MultithreadingSingletonModule {
+public class CoreSingletonModule {
 
     @Provides
     @Singleton
