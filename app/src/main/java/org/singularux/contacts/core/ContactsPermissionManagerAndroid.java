@@ -7,20 +7,12 @@ import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import javax.inject.Inject;
+import lombok.RequiredArgsConstructor;
 
-import dagger.hilt.android.qualifiers.ApplicationContext;
-import dagger.hilt.android.scopes.ActivityRetainedScoped;
-
-@ActivityRetainedScoped
+@RequiredArgsConstructor
 public class ContactsPermissionManagerAndroid implements ContactsPermissionManager {
 
     private final Context context;
-
-    @Inject
-    public ContactsPermissionManagerAndroid(@ApplicationContext Context context) {
-        this.context = context;
-    }
 
     @Override
     public boolean hasPermission(@NonNull ContactsPermission permission) {

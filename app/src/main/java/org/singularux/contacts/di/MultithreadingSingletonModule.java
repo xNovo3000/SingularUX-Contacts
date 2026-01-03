@@ -1,4 +1,10 @@
-package org.singularux.contacts.core;
+package org.singularux.contacts.di;
+
+import org.singularux.contacts.core.BackgroundExecutorService;
+import org.singularux.contacts.core.BackgroundScheduler;
+import org.singularux.contacts.core.BackgroundThreadFactory;
+import org.singularux.contacts.core.IOExecutorService;
+import org.singularux.contacts.core.IOScheduler;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
