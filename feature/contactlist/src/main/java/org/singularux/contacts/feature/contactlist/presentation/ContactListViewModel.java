@@ -45,12 +45,12 @@ public class ContactListViewModel extends ViewModel {
         this.contactListLiveData = LiveDataReactiveStreams
                 .fromPublisher(listenContactListUseCase.get()
                         .observeOn(backgroundScheduler)
-                        .map(new ContactListTransformations.Standard()));
+                        .map(new TransformationsCollection.ContactList()));
         this.searchQueryEmitter = new ListenContactListByNameUseCase.Emitter();
         this.searchContactListLiveData = LiveDataReactiveStreams
                 .fromPublisher(listenContactListByNameUseCase.get(searchQueryEmitter)
                         .observeOn(backgroundScheduler)
-                        .map(new ContactListTransformations.Search()));
+                        .map(new TransformationsCollection.SearchContactList()));
     }
 
     public void updateSearchQuery(@NonNull String query) {

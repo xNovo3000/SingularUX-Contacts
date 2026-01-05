@@ -6,49 +6,37 @@ import org.singularux.contacts.data.contacts.entity.ContactBriefEntity;
 import org.singularux.contacts.feature.contactlist.ui.ComponentContactData;
 import org.singularux.contacts.feature.contactlist.ui.ComponentData;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.functions.Function;
 
-public class ContactListTransformations {
+class TransformationsCollection {
 
-    private ContactListTransformations() {}
+    private TransformationsCollection() {}
 
-    public static final class WithHeaders
+    public static final class ContactList
             implements Function<List<ContactBriefEntity>, List<ComponentData>> {
 
         @Override
         public @NonNull List<ComponentData> apply(
                 @NonNull List<ContactBriefEntity> contactBriefEntityList) {
-            // TODO: Implement
-            return Collections.emptyList();
-        }
-
-    }
-
-    public static final class Standard
-            implements Function<List<ContactBriefEntity>, List<ComponentData>> {
-
-        @Override
-        public @NonNull List<ComponentData> apply(
-                @NonNull List<ContactBriefEntity> contactBriefEntityList) {
+            // TODO: Implement headers
             return contactBriefEntityList.stream()
-                    .map(new ContactBriefEntityTransformation())
+                    .map(new TransformationsEntity.IContactBriefEntity())
                     .collect(Collectors.toList());
         }
 
     }
 
-    public static final class Search
+    public static final class SearchContactList
             implements Function<List<ContactBriefEntity>, List<ComponentContactData>> {
 
         @Override
         public @NonNull List<ComponentContactData> apply(
                 @NonNull List<ContactBriefEntity> contactBriefEntityList) {
             return contactBriefEntityList.stream()
-                    .map(new ContactBriefEntityTransformation())
+                    .map(new TransformationsEntity.IContactBriefEntity())
                     .collect(Collectors.toList());
         }
 
