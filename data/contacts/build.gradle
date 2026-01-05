@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'org.singularux.contacts.core.contacts'
+    namespace = 'org.singularux.contacts.core.contacts'
     buildToolsVersion '36.1.0'
     compileSdk {
         version = release(36)
