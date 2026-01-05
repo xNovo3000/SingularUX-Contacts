@@ -45,12 +45,7 @@ public class CoreSingletonModule {
     @Singleton
     @IOExecutorService
     public ExecutorService ioExecutorService() {
-        return new ThreadPoolExecutor(0,
-                Runtime.getRuntime().availableProcessors() * 4,
-                10L,
-                TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(),
-                new BackgroundThreadFactory("IO"));
+        return Executors.newCachedThreadPool(new BackgroundThreadFactory("IO"));
     }
 
     @Provides

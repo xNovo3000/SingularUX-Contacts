@@ -14,11 +14,10 @@ import androidx.core.view.ViewGroupCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.singularux.contacts.databinding.ActivityContactListBinding;
+import org.singularux.contacts.presentation.ContactListViewModel;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 
@@ -42,7 +41,7 @@ public class ContactListActivity extends ComponentActivity
         // Set content view using view binding
         val binding = ActivityContactListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        // Inset listeners
+        // Install inset listeners
         ViewGroupCompat.installCompatInsetsDispatch(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(binding.contactListRecyclerview,
                 new ContactListRecyclerViewInsetListener());
@@ -50,13 +49,14 @@ public class ContactListActivity extends ComponentActivity
                 new ContactListSearchBarInsetListener());
         ViewCompat.setOnApplyWindowInsetsListener(binding.contactListFab,
                 new ContactListFabInsetListener());
+        // Install behavior listeners
+        binding.contactListRecyclerview.addOnScrollListener(
+                new ContactListFabHideOnScrollListener(binding.contactListFab));
         // Set adapters
         binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);
-
         // Get ViewModel
         viewModel = new ViewModelProvider(this).get(ContactListViewModel.class);
-
-        // TEST: Request permission for data
+        // Request permission to listen for contacts
         val requestReadContactsPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(), this);
         requestReadContactsPermissionLauncher.launch(viewModel.getReadContactsPermissions());
@@ -64,6 +64,7 @@ public class ContactListActivity extends ComponentActivity
 
     @Override
     public void onActivityResult(@NonNull Map<String, Boolean> result) {
+        // Listen contacts permission check
         String[] readContactsPermissions = viewModel.getReadContactsPermissions();
         boolean hasReadContactsPermissions = Arrays.stream(readContactsPermissions)
                 .allMatch(s -> result.getOrDefault(s, false));
