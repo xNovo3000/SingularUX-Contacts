@@ -1,5 +1,6 @@
 package org.singularux.contacts.ui;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +13,8 @@ import lombok.val;
 
 public class ContactListFabInsetListener implements OnApplyWindowInsetsListener {
 
+    private static final String TAG = "ContactListFabInsetListener";
+
     public static final int MARGIN_DP = 16;
 
     @Override
@@ -19,6 +22,7 @@ public class ContactListFabInsetListener implements OnApplyWindowInsetsListener 
             @NonNull View view,
             @NonNull WindowInsetsCompat windowInsets
     ) {
+        Log.d(TAG, "WindowInsets received, updating margins");
         // Get information about metrics and insets
         val density = view.getResources().getDisplayMetrics().density;
         val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());

@@ -9,12 +9,14 @@ import lombok.Value;
 @Value
 public class ComponentHeaderData extends ComponentData {
 
+    public static final long DATA_TYPE_ID = 100L << 32;
+
     @StringRes Integer labelRes;
     String label;
 
     @Override
-    public int getId() {
-        return hashCode();
+    public long getId() {
+        return DATA_TYPE_ID | (hashCode() & 0xFFFFFFFFL);
     }
 
 }

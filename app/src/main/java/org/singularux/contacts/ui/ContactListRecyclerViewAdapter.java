@@ -77,10 +77,7 @@ public class ContactListRecyclerViewAdapter
 
     @Override
     public long getItemId(int position) {
-        val currentItem = getItem(position);
-        int classHashCode = currentItem.getClass().hashCode();
-        int id = currentItem.getId();
-        return (((long) classHashCode) << 32) | (id & 0xFFFFFFFFL);
+        return getItem(position).getId();
     }
 
     @Override

@@ -29,6 +29,7 @@ public class ContactListActivity extends ComponentActivity
         implements ActivityResultCallback<Map<String, Boolean>> {
 
     @Inject public ContactListRecyclerViewAdapter contactListRecyclerViewAdapter;
+    @Inject public ContactListSearchRecyclerViewAdapter contactListSearchRecyclerViewAdapter;
 
     private ContactListViewModel viewModel;
 
@@ -56,12 +57,16 @@ public class ContactListActivity extends ComponentActivity
                 new ContactListFabHideOnScrollListener(binding.contactListFab));
         // Set adapters
         binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);
+        binding.contactListSearchRecyclerview.setAdapter(contactListSearchRecyclerViewAdapter);
         // Get ViewModel
         viewModel = new ViewModelProvider(this).get(ContactListViewModel.class);
         // Request permission to listen for contacts
         val requestReadContactsPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(), this);
         requestReadContactsPermissionLauncher.launch(viewModel.getReadContactsPermissions());
+        // Install text listeners
+        binding.contactListSearchView.getEditText().addTextChangedListener(
+                new ContactListSearchTextWatcher(viewModel));
     }
 
     @Override
