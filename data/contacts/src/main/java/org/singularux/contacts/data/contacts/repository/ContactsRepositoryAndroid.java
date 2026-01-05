@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import org.singularux.contacts.core.permission.ContactsPermission;
 import org.singularux.contacts.core.permission.ContactsPermissionManager;
 import org.singularux.contacts.data.contacts.entity.ContactBriefEntity;
-import org.singularux.contacts.data.contacts.util.ContactBriefEntityExtractor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +51,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         queryArgs.putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, new String[]{"1"});
         queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SORT_ORDER, ContactsContract.Contacts.SORT_KEY_PRIMARY);
         // Create utility classes
-        val extractor = new ContactBriefEntityExtractor();
+        val extractor = new Extractors.IContactBriefEntity();
         // Make query and extract data
         try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
             val result = new ArrayList<ContactBriefEntity>();
@@ -95,7 +94,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SORT_ORDER, ContactsContract.Contacts.SORT_KEY_PRIMARY);
         queryArgs.putString(ContentResolver.QUERY_ARG_SQL_LIMIT, String.valueOf(FILTER_QUERY_MAX_SIZE));
         // Create utility classes
-        val extractor = new ContactBriefEntityExtractor();
+        val extractor = new Extractors.IContactBriefEntity();
         // Make query and extract data
         try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
             val result = new ArrayList<ContactBriefEntity>();
