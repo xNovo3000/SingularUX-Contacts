@@ -1,5 +1,0 @@
-<resources>
-    <style name="ShapeAppearanceOverlay.Contacts.ComponentContactAvatarImage" parent="">
-        <item name="cornerSize">20dp</item>
-    </style>
-</resources>
