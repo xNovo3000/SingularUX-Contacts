@@ -28,8 +28,8 @@ import lombok.val;
 public class ContactListActivity extends ComponentActivity
         implements ActivityResultCallback<Map<String, Boolean>> {
 
-    @Inject public ContactListRecyclerViewAdapter contactListRecyclerViewAdapter;
-    @Inject public ContactListSearchRecyclerViewAdapter contactListSearchRecyclerViewAdapter;
+    public @Inject ContactListRecyclerViewAdapter contactListRecyclerViewAdapter;
+    public @Inject ContactListSearchRecyclerViewAdapter contactListSearchRecyclerViewAdapter;
 
     private ContactListViewModel viewModel;
 
