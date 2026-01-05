@@ -13,6 +13,7 @@ public class BackgroundThreadFactory implements ThreadFactory {
     private static final String TAG = "BackgroundThreadFactory";
 
     private final String factoryName;
+
     private int ordinal = -1;
 
     @Override
@@ -29,7 +30,7 @@ public class BackgroundThreadFactory implements ThreadFactory {
 
         @Override
         public void run() {
-            Log.d(TAG, "Starting thread '" + getName() + "'");
+            Log.d(TAG, "Starting thread " + getName());
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             super.run();
         }

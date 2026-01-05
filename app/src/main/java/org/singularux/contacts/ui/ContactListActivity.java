@@ -77,7 +77,8 @@ public class ContactListActivity extends ComponentActivity
         if (hasReadContactsPermissions) {
             viewModel.getContactListLiveData().observe(this, componentDataList ->
                     contactListRecyclerViewAdapter.submitList(componentDataList));
-            viewModel.getSearchContactListLiveData().observe(this, componentContactDataList -> {});
+            viewModel.getSearchContactListLiveData().observe(this, componentContactDataList ->
+                    contactListSearchRecyclerViewAdapter.submitList(componentContactDataList));
         }
     }
 

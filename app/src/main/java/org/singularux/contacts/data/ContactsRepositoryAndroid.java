@@ -30,9 +30,10 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
 
     @Override
     public List<ContactBriefEntity> getAll() {
+        Log.d(TAG, "Requested all contacts");
         // Check permissions
         if (!contactsPermissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
-            Log.d(TAG, "Permission READ_CONTACTS not granted");
+            Log.i(TAG, "Permission READ_CONTACTS not granted");
             return Collections.emptyList();
         }
         // Generate query arguments
@@ -66,14 +67,15 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
 
     @Override
     public List<ContactBriefEntity> getByDisplayNameLike(@NonNull String query) {
+        Log.d(TAG, "Requested contacts with query: " + query);
         // Check query length
         if (query.trim().isEmpty()) {
-            Log.d(TAG, "Query is empty");
+            Log.i(TAG, "Query is empty");
             return Collections.emptyList();
         }
         // Check permissions
         if (!contactsPermissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
-            Log.d(TAG, "Permission READ_CONTACTS not granted");
+            Log.i(TAG, "Permission READ_CONTACTS not granted");
             return Collections.emptyList();
         }
         // Generate query arguments

@@ -1,5 +1,7 @@
 package org.singularux.contacts.presentation;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
@@ -23,6 +25,8 @@ import lombok.Getter;
 
 @HiltViewModel
 public class ContactListViewModel extends ViewModel {
+
+    private static final String TAG = "ContactListViewModel";
 
     private final @Getter String[] readContactsPermissions;
 
@@ -51,6 +55,7 @@ public class ContactListViewModel extends ViewModel {
 
     public void updateSearchQuery(@NonNull String query) {
         if (searchQueryEmitter.emitter != null) {
+            Log.d(TAG, "Emitting new request query: " + query);
             searchQueryEmitter.emitter.onNext(query);
         }
     }
