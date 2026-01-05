@@ -21,7 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "Contacts"
 include ':app'
-include ':core:ui'
-include ':core:permission'
 include ':core:threading'
+include ':core:permission'
+include ':core:ui'
 include ':data:contacts'
+include ':feature:contactlist'

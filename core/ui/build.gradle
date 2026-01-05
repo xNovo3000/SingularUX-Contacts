@@ -28,6 +28,6 @@ dependencies {
     // AndroidX
     implementation libs.androidx.core
     implementation libs.androidx.core.splashscreen
-    // Material
+    // Google Material
     implementation libs.google.material
 }
