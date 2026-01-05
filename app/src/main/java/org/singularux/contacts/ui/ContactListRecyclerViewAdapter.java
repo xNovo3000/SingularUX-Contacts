@@ -20,7 +20,7 @@ import lombok.val;
 public class ContactListRecyclerViewAdapter
         extends ListAdapter<ComponentData, RecyclerView.ViewHolder> {
 
-    public static final int INVALID_VIEW_TYPE_ID = -1;
+    private static final int INVALID_VIEW_TYPE_ID = -1;
 
     private final Scheduler ioScheduler;
     private final ContactThumbnailCache contactThumbnailCache;

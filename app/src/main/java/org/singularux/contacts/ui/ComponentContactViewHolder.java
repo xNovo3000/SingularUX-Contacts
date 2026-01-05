@@ -58,7 +58,6 @@ public class ComponentContactViewHolder extends RecyclerView.ViewHolder {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(maybeBitmap -> maybeBitmap.ifPresent(avatarImage::setImageBitmap));
         } else {
-            avatarImageLoad = Disposable.empty();
             avatarImage.setImageBitmap(null);
         }
     }
@@ -67,6 +66,7 @@ public class ComponentContactViewHolder extends RecyclerView.ViewHolder {
         if (avatarImageLoad != null) {
             // Cancel image loading
             avatarImageLoad.dispose();
+            avatarImageLoad = null;
         }
     }
 

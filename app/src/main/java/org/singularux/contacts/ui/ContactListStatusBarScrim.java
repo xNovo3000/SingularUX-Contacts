@@ -13,11 +13,6 @@ public class ContactListStatusBarScrim extends View {
 
     private int statusBarHeightPx = 0;
 
-    public ContactListStatusBarScrim(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        initializeStatusBarSizeListener();
-    }
-
     public ContactListStatusBarScrim(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initializeStatusBarSizeListener();

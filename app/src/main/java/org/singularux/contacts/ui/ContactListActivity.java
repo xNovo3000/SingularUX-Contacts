@@ -49,6 +49,8 @@ public class ContactListActivity extends ComponentActivity
                 new ContactListSearchBarInsetListener());
         ViewCompat.setOnApplyWindowInsetsListener(binding.contactListFab,
                 new ContactListFabInsetListener());
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contactListSearchRecyclerview,
+                new ContactListSearchRecyclerViewInsetListener());
         // Install behavior listeners
         binding.contactListRecyclerview.addOnScrollListener(
                 new ContactListFabHideOnScrollListener(binding.contactListFab));
@@ -64,13 +66,13 @@ public class ContactListActivity extends ComponentActivity
 
     @Override
     public void onActivityResult(@NonNull Map<String, Boolean> result) {
-        // Listen contacts permission check
-        String[] readContactsPermissions = viewModel.getReadContactsPermissions();
-        boolean hasReadContactsPermissions = Arrays.stream(readContactsPermissions)
-                .allMatch(s -> result.getOrDefault(s, false));
+        // Listen read contacts permission check
+        boolean hasReadContactsPermissions = Arrays.stream(viewModel.getReadContactsPermissions())
+                .allMatch(permission -> result.getOrDefault(permission, false));
         if (hasReadContactsPermissions) {
-            viewModel.getContactListLiveData().observe(this, contactBriefEntities ->
-                    contactListRecyclerViewAdapter.submitList(contactBriefEntities));
+            viewModel.getContactListLiveData().observe(this, componentDataList ->
+                    contactListRecyclerViewAdapter.submitList(componentDataList));
+            viewModel.getSearchContactListLiveData().observe(this, componentContactDataList -> {});
         }
     }
 
