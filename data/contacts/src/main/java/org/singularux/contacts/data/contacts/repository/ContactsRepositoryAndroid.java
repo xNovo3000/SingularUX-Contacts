@@ -8,6 +8,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.singularux.contacts.core.permission.ContactsPermission;
 import org.singularux.contacts.core.permission.ContactsPermissionManager;
@@ -31,7 +32,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
     private final ContactsPermissionManager contactsPermissionManager;
 
     @Override
-    public List<ContactBriefEntity> getAll() {
+    public @NonNull List<ContactBriefEntity> getAll() {
         Log.d(TAG, "Requested all contacts");
         // Check permissions
         if (!contactsPermissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
@@ -68,7 +69,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
     }
 
     @Override
-    public List<ContactBriefEntity> getByDisplayNameLike(@NonNull String query) {
+    public @NonNull List<ContactBriefEntity> getByDisplayNameLike(@NonNull String query) {
         Log.d(TAG, "Requested contacts with query: " + query);
         // Check query length
         if (query.trim().isEmpty()) {
@@ -108,6 +109,47 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
             Log.e(TAG, "Cannot execute getByDisplayNameLike query", e);
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public @Nullable ContactBriefEntity getByLookupKey(String lookupKey) {
+        // Check permissions
+        if (!contactsPermissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
+            Log.i(TAG, "Permission READ_CONTACTS not granted");
+            return null;
+        }
+        // Extract main contact
+        var uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+        String[] projection = {
+                ContactsContract.Contacts.DISPLAY_NAME,
+                ContactsContract.Contacts.PHOTO_URI,
+                ContactsContract.Contacts.STARRED
+        };
+        val queryArgs = new Bundle();
+        // Create utility classes
+        val extractor = new Extractors.IContactBriefEntity();
+        // Make query and extract data
+        ContactBriefEntity contactBriefEntity = null;
+        try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
+            if (cursor != null) {
+                if (cursor.moveToNext()) {
+                    contactBriefEntity = extractor.apply(cursor);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Cannot execute getByLookupKey::contactBriefEntity query", e);
+            return null;
+        }
+        // Extract phone numbers and email addresses
+        uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+        projection = new String[]{
+                ContactsContract.Data.MIMETYPE,
+                ContactsContract.Data.DATA1,
+                ContactsContract.Data.DATA2,
+                ContactsContract.Data.DATA3
+        };
+
+        return null;
     }
 
 }
