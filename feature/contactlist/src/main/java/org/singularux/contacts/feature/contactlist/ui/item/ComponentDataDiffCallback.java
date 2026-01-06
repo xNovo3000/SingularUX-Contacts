@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.ui;
+package org.singularux.contacts.feature.contactlist.ui.item;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;

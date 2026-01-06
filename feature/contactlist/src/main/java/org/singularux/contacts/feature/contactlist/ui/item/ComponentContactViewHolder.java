@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.ui;
+package org.singularux.contacts.feature.contactlist.ui.item;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.singularux.contacts.feature.contactlist.R;
 import org.singularux.contacts.feature.contactlist.databinding.ItemContactBinding;
+import org.singularux.contacts.feature.contactlist.ui.util.ContactThumbnailCache;
 
 import java.util.Optional;
 

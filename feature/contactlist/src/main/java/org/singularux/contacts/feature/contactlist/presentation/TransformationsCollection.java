@@ -3,8 +3,8 @@ package org.singularux.contacts.feature.contactlist.presentation;
 import androidx.annotation.NonNull;
 
 import org.singularux.contacts.data.contacts.entity.ContactBriefEntity;
-import org.singularux.contacts.feature.contactlist.ui.ComponentContactData;
-import org.singularux.contacts.feature.contactlist.ui.ComponentData;
+import org.singularux.contacts.feature.contactlist.ui.item.ComponentContactData;
+import org.singularux.contacts.feature.contactlist.ui.item.ComponentData;
 
 import java.util.List;
 import java.util.stream.Collectors;

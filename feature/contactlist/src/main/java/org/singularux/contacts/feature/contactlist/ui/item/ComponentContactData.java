@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.ui;
+package org.singularux.contacts.feature.contactlist.ui.item;
 
 import android.net.Uri;
 

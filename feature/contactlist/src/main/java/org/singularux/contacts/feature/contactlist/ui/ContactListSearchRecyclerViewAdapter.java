@@ -8,6 +8,10 @@ import androidx.recyclerview.widget.ListAdapter;
 
 import org.singularux.contacts.core.threading.BackgroundExecutorService;
 import org.singularux.contacts.core.threading.IOScheduler;
+import org.singularux.contacts.feature.contactlist.ui.item.ComponentContactData;
+import org.singularux.contacts.feature.contactlist.ui.item.ComponentContactDataDiffCallback;
+import org.singularux.contacts.feature.contactlist.ui.item.ComponentContactViewHolder;
+import org.singularux.contacts.feature.contactlist.ui.util.ContactThumbnailCache;
 
 import java.util.concurrent.ExecutorService;
 

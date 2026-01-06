@@ -7,13 +7,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.ViewModel;
 
-import org.singularux.contacts.core.permission.ContactsPermission;
-import org.singularux.contacts.core.permission.ContactsPermissionManager;
 import org.singularux.contacts.core.threading.BackgroundScheduler;
+import org.singularux.contacts.feature.contactlist.domain.GetReadContactsPermissionsUseCase;
 import org.singularux.contacts.feature.contactlist.domain.ListenContactListByNameUseCase;
 import org.singularux.contacts.feature.contactlist.domain.ListenContactListUseCase;
-import org.singularux.contacts.feature.contactlist.ui.ComponentContactData;
-import org.singularux.contacts.feature.contactlist.ui.ComponentData;
+import org.singularux.contacts.feature.contactlist.ui.item.ComponentContactData;
+import org.singularux.contacts.feature.contactlist.ui.item.ComponentData;
 
 import java.util.List;
 
@@ -36,16 +35,18 @@ public class ContactListViewModel extends ViewModel {
     private final @Getter LiveData<List<ComponentContactData>> searchContactListLiveData;
 
     @Inject
-    public ContactListViewModel(ContactsPermissionManager contactsPermissionManager,
+    public ContactListViewModel(GetReadContactsPermissionsUseCase getReadContactsPermissionsUseCase,
                                 ListenContactListUseCase listenContactListUseCase,
                                 ListenContactListByNameUseCase listenContactListByNameUseCase,
                                 @BackgroundScheduler Scheduler backgroundScheduler) {
-        this.readContactsPermissions = contactsPermissionManager.getPermissionStrings(
-                ContactsPermission.READ_CONTACTS, ContactsPermission.READ_PROFILE);
+        // Runtime permissions
+        this.readContactsPermissions = getReadContactsPermissionsUseCase.get();
+        // Contact list
         this.contactListLiveData = LiveDataReactiveStreams
                 .fromPublisher(listenContactListUseCase.get()
                         .observeOn(backgroundScheduler)
                         .map(new TransformationsCollection.ContactList()));
+        // Search
         this.searchQueryEmitter = new ListenContactListByNameUseCase.Emitter();
         this.searchContactListLiveData = LiveDataReactiveStreams
                 .fromPublisher(listenContactListByNameUseCase.get(searchQueryEmitter)

@@ -1,4 +1,4 @@
-package org.singularux.contacts.feature.contactlist.ui;
+package org.singularux.contacts.feature.contactlist.ui.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;

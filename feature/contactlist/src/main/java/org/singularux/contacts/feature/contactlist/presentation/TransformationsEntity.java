@@ -3,7 +3,7 @@ package org.singularux.contacts.feature.contactlist.presentation;
 import androidx.annotation.NonNull;
 
 import org.singularux.contacts.data.contacts.entity.ContactBriefEntity;
-import org.singularux.contacts.feature.contactlist.ui.ComponentContactData;
+import org.singularux.contacts.feature.contactlist.ui.item.ComponentContactData;
 
 import java.util.function.Function;
 
