@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="activity_contact_list_search_hint">Search contacts</string>
-    <string name="activity_contact_list_new_contact">New contact</string>
+    <string name="contact_list_new_contact">New contact</string>
+    <string name="contact_list_search_hint">Search contacts</string>
+    <string name="item_header_symbols">…</string>
 </resources>

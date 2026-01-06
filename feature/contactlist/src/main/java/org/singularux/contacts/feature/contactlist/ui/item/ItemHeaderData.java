@@ -1,7 +1,5 @@
 package org.singularux.contacts.feature.contactlist.ui.item;
 
-import androidx.annotation.StringRes;
-
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
@@ -11,7 +9,7 @@ public class ItemHeaderData extends ItemData {
 
     public static final long DATA_TYPE_ID = 100L << 32;
 
-    @StringRes Integer labelRes;
+    ItemHeaderLabel standardLabel;
     String label;
 
     @Override

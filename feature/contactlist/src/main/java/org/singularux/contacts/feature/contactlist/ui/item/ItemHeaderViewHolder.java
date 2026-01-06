@@ -29,14 +29,14 @@ public class ItemHeaderViewHolder extends RecyclerView.ViewHolder {
     public void onBindViewHolder(@NonNull ItemHeaderData data) {
         // If there is a labelRes, then should be put in the header
         // Use the label otherwise
-        if (data.getLabelRes() != null) {
+        if (data.getStandardLabel() != null) {
             val context = itemView.getContext();
-            val label = context.getString(data.getLabelRes());
+            val label = context.getString(data.getStandardLabel().labelRes);
             headline.setText(label);
         } else if (data.getLabel() != null) {
             headline.setText(data.getLabel());
         } else {
-            throw new RuntimeException("Both labelRes and label are null");
+            throw new RuntimeException("Both standardLabel and label are null");
         }
     }
 
