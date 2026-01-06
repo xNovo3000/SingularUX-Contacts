@@ -60,7 +60,8 @@ public class ContactListActivity extends ComponentActivity {
         binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);
         binding.contactListSearchRecyclerview.setAdapter(contactListSearchRecyclerViewAdapter);
         // Get ViewModel
-        val viewModel = new ViewModelProvider(this).get(ContactListViewModel.class);
+        val viewModel = new ViewModelProvider(this)
+                .get(ContactListViewModel.class);
         // Request permission to listen for contacts
         val requestReadContactsPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),

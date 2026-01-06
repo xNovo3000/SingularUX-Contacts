@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/contact_view_toolbar_edit"
+        android:title="@string/contact_view_edit"
+        android:contentDescription="@string/contact_view_edit"
+        android:icon="@drawable/edit_24"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/contact_view_toolbar_favorite"
+        android:title="@string/contact_view_favorite_add"
+        android:contentDescription="@string/contact_view_favorite_add"
+        android:icon="@drawable/star_outline_24"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/contact_view_toolbar_delete"
+        android:title="@string/contact_view_delete"
+        android:contentDescription="@string/contact_view_delete"
+        android:icon="@drawable/delete_24"
+        app:showAsAction="ifRoom"/>
+
+</menu>

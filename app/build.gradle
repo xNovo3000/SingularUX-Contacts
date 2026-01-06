@@ -35,6 +35,7 @@ android {
 dependencies {
     // Project
     api(project ':feature:contactlist')
+    api(project ':feature:contactview')
     // AndroidX
     implementation libs.androidx.core
     // Hilt
