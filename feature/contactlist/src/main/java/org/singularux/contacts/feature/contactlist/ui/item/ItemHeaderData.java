@@ -7,7 +7,7 @@ import lombok.Value;
 
 @EqualsAndHashCode(callSuper = false)
 @Value
-public class ComponentHeaderData extends ComponentData {
+public class ItemHeaderData extends ItemData {
 
     public static final long DATA_TYPE_ID = 100L << 32;
 

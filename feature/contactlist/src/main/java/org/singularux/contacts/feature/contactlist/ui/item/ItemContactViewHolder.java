@@ -23,7 +23,7 @@ import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.val;
 
-public class ComponentContactViewHolder extends RecyclerView.ViewHolder {
+public class ItemContactViewHolder extends RecyclerView.ViewHolder {
 
     public static final int VIEW_TYPE_ID = 101;
 
@@ -32,7 +32,7 @@ public class ComponentContactViewHolder extends RecyclerView.ViewHolder {
 
     private @Nullable Disposable avatarImageLoad = null;
 
-    public ComponentContactViewHolder(@NonNull View itemView) {
+    public ItemContactViewHolder(@NonNull View itemView) {
         super(itemView);
         val binding = ItemContactBinding.bind(itemView);
         this.avatarImage = binding.itemContactAvatarImage;
@@ -40,7 +40,7 @@ public class ComponentContactViewHolder extends RecyclerView.ViewHolder {
         this.headline = binding.itemContactHeadline;
     }
 
-    public void onBindViewHolder(@NonNull ComponentContactData data,
+    public void onBindViewHolder(@NonNull ItemContactData data,
                                  @NonNull Scheduler ioScheduler,
                                  ContactThumbnailCache contactThumbnailCache
     ) {
@@ -71,8 +71,8 @@ public class ComponentContactViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public static @NonNull ComponentContactViewHolder create(@NonNull ViewGroup parent) {
-        return new ComponentContactViewHolder(LayoutInflater.from(parent.getContext())
+    public static @NonNull ItemContactViewHolder create(@NonNull ViewGroup parent) {
+        return new ItemContactViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_contact, parent, false));
     }
 

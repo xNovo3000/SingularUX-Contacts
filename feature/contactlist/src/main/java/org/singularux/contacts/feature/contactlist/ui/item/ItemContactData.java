@@ -9,7 +9,7 @@ import lombok.Value;
 
 @EqualsAndHashCode(callSuper = false)
 @Value
-public class ComponentContactData extends ComponentData {
+public class ItemContactData extends ItemData {
 
     public static final long DATA_TYPE_ID = 101L << 32;
 

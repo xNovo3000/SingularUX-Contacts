@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.singularux.contacts.core.threading.BackgroundExecutorService;
 import org.singularux.contacts.core.threading.IOScheduler;
-import org.singularux.contacts.feature.contactlist.ui.item.ComponentContactData;
-import org.singularux.contacts.feature.contactlist.ui.item.ComponentContactViewHolder;
-import org.singularux.contacts.feature.contactlist.ui.item.ComponentData;
-import org.singularux.contacts.feature.contactlist.ui.item.ComponentDataDiffCallback;
-import org.singularux.contacts.feature.contactlist.ui.item.ComponentHeaderData;
-import org.singularux.contacts.feature.contactlist.ui.item.ComponentHeaderViewHolder;
+import org.singularux.contacts.feature.contactlist.ui.item.ItemContactData;
+import org.singularux.contacts.feature.contactlist.ui.item.ItemContactViewHolder;
+import org.singularux.contacts.feature.contactlist.ui.item.ItemData;
+import org.singularux.contacts.feature.contactlist.ui.item.ItemDataDiffCallback;
+import org.singularux.contacts.feature.contactlist.ui.item.ItemHeaderData;
+import org.singularux.contacts.feature.contactlist.ui.item.ItemHeaderViewHolder;
 import org.singularux.contacts.feature.contactlist.ui.util.ContactThumbnailCache;
 
 import java.util.concurrent.ExecutorService;
@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.core.Scheduler;
 import lombok.val;
 
 public class ContactListRecyclerViewAdapter
-        extends ListAdapter<ComponentData, RecyclerView.ViewHolder> {
+        extends ListAdapter<ItemData, RecyclerView.ViewHolder> {
 
     private static final int INVALID_VIEW_TYPE_ID = -1;
 
@@ -38,7 +38,7 @@ public class ContactListRecyclerViewAdapter
             @IOScheduler Scheduler ioScheduler,
             ContactThumbnailCache contactThumbnailCache
     ) {
-        super(new AsyncDifferConfig.Builder<>(new ComponentDataDiffCallback())
+        super(new AsyncDifferConfig.Builder<>(new ItemDataDiffCallback())
                 .setBackgroundThreadExecutor(backgroundExecutorService)
                 .build());
         this.ioScheduler = ioScheduler;
@@ -52,10 +52,10 @@ public class ContactListRecyclerViewAdapter
             int viewType
     ) {
         switch (viewType) {
-            case ComponentHeaderViewHolder.VIEW_TYPE_ID:
-                return ComponentHeaderViewHolder.create(parent);
-            case ComponentContactViewHolder.VIEW_TYPE_ID:
-                return ComponentContactViewHolder.create(parent);
+            case ItemHeaderViewHolder.VIEW_TYPE_ID:
+                return ItemHeaderViewHolder.create(parent);
+            case ItemContactViewHolder.VIEW_TYPE_ID:
+                return ItemContactViewHolder.create(parent);
             default:
                 throw new IllegalArgumentException("Invalid viewType: " + viewType);
         }
@@ -64,12 +64,12 @@ public class ContactListRecyclerViewAdapter
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         val currentItem = getItem(position);
-        if (holder instanceof ComponentHeaderViewHolder) {
-            ((ComponentHeaderViewHolder) holder)
-                    .onBindViewHolder((ComponentHeaderData) currentItem);
-        } else if (holder instanceof ComponentContactViewHolder) {
-            ((ComponentContactViewHolder) holder)
-                    .onBindViewHolder((ComponentContactData) currentItem, ioScheduler, contactThumbnailCache);
+        if (holder instanceof ItemHeaderViewHolder) {
+            ((ItemHeaderViewHolder) holder)
+                    .onBindViewHolder((ItemHeaderData) currentItem);
+        } else if (holder instanceof ItemContactViewHolder) {
+            ((ItemContactViewHolder) holder)
+                    .onBindViewHolder((ItemContactData) currentItem, ioScheduler, contactThumbnailCache);
         } else {
             throw new IllegalArgumentException("Invalid holder class: " + holder.getClass());
         }
@@ -77,8 +77,8 @@ public class ContactListRecyclerViewAdapter
 
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
-        if (holder instanceof ComponentContactViewHolder) {
-            ((ComponentContactViewHolder) holder).onViewRecycled();
+        if (holder instanceof ItemContactViewHolder) {
+            ((ItemContactViewHolder) holder).onViewRecycled();
         }
     }
 
@@ -90,10 +90,10 @@ public class ContactListRecyclerViewAdapter
     @Override
     public int getItemViewType(int position) {
         val currentItem = getItem(position);
-        if (currentItem instanceof ComponentContactData) {
-            return ComponentContactViewHolder.VIEW_TYPE_ID;
-        } else if (currentItem instanceof ComponentHeaderData) {
-            return ComponentHeaderViewHolder.VIEW_TYPE_ID;
+        if (currentItem instanceof ItemContactData) {
+            return ItemContactViewHolder.VIEW_TYPE_ID;
+        } else if (currentItem instanceof ItemHeaderData) {
+            return ItemHeaderViewHolder.VIEW_TYPE_ID;
         }
         return INVALID_VIEW_TYPE_ID;
     }
