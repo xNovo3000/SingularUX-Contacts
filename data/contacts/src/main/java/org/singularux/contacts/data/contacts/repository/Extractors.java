@@ -44,10 +44,10 @@ class Extractors {
         @Override
         public @NonNull PhoneNumberEntity apply(@NonNull Cursor cursor) {
             // Get phone number
-            String number = cursor.getString(0);
+            String number = cursor.getString(1);
             // Get label
             PhoneNumberLabel label = PhoneNumberLabel.CUSTOM;
-            switch (cursor.getInt(1)) {
+            switch (cursor.getInt(2)) {
                 case ContactsContract.CommonDataKinds.Phone.TYPE_HOME:
                     label = PhoneNumberLabel.HOME;
                     break;
@@ -60,8 +60,8 @@ class Extractors {
             }
             // Get custom label (if present)
             String customLabel = null;
-            if (!cursor.isNull(2)) {
-                customLabel = cursor.getString(2);
+            if (!cursor.isNull(3)) {
+                customLabel = cursor.getString(3);
             }
             // Return entity
             return new PhoneNumberEntity(number, label, customLabel);
@@ -74,10 +74,10 @@ class Extractors {
         @Override
         public @NonNull EmailAddressEntity apply(@NonNull Cursor cursor) {
             // Get email address
-            String address = cursor.getString(0);
+            String address = cursor.getString(1);
             // Get label
             EmailAddressLabel label = EmailAddressLabel.CUSTOM;
-            switch (cursor.getInt(1)) {
+            switch (cursor.getInt(2)) {
                 case ContactsContract.CommonDataKinds.Email.TYPE_HOME:
                     label = EmailAddressLabel.HOME;
                     break;
@@ -90,8 +90,8 @@ class Extractors {
             }
             // Get custom label (if present)
             String customLabel = null;
-            if (!cursor.isNull(2)) {
-                customLabel = cursor.getString(2);
+            if (!cursor.isNull(3)) {
+                customLabel = cursor.getString(3);
             }
             // Return entity
             return new EmailAddressEntity(address, label, customLabel);

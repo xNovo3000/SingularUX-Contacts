@@ -13,10 +13,14 @@ import androidx.annotation.Nullable;
 import org.singularux.contacts.core.permission.ContactsPermission;
 import org.singularux.contacts.core.permission.ContactsPermissionManager;
 import org.singularux.contacts.data.contacts.entity.ContactBriefEntity;
+import org.singularux.contacts.data.contacts.entity.ContactEntity;
+import org.singularux.contacts.data.contacts.entity.EmailAddressEntity;
+import org.singularux.contacts.data.contacts.entity.PhoneNumberEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -112,7 +116,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
     }
 
     @Override
-    public @Nullable ContactBriefEntity getByLookupKey(String lookupKey) {
+    public @Nullable ContactEntity getByLookupKey(String lookupKey) {
         // Check permissions
         if (!contactsPermissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
             Log.i(TAG, "Permission READ_CONTACTS not granted");
@@ -125,31 +129,56 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
                 ContactsContract.Contacts.PHOTO_URI,
                 ContactsContract.Contacts.STARRED
         };
-        val queryArgs = new Bundle();
+        var queryArgs = new Bundle();
         // Create utility classes
         val extractor = new Extractors.IContactBriefEntity();
         // Make query and extract data
-        ContactBriefEntity contactBriefEntity = null;
+        ContactBriefEntity contactBriefEntity;
         try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
-            if (cursor != null) {
-                if (cursor.moveToNext()) {
-                    contactBriefEntity = extractor.apply(cursor);
-                }
+            if (cursor != null && cursor.moveToNext()) {
+                contactBriefEntity = extractor.apply(cursor);
+            } else {
+                Log.i(TAG, "Contact with lookup key " + lookupKey + " does not exists");
+                return null;
             }
         } catch (Exception e) {
             Log.e(TAG, "Cannot execute getByLookupKey::contactBriefEntity query", e);
             return null;
         }
         // Extract phone numbers and email addresses
-        uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+        uri = ContactsContract.Data.CONTENT_URI;
         projection = new String[]{
                 ContactsContract.Data.MIMETYPE,
                 ContactsContract.Data.DATA1,
                 ContactsContract.Data.DATA2,
                 ContactsContract.Data.DATA3
         };
-
-        return null;
+        queryArgs = new Bundle();
+        queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SELECTION, ContactsContract.Data.LOOKUP_KEY + " = ?");  // TODO: Optimize selecting only specific mime types
+        queryArgs.putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, new String[]{lookupKey});
+        // Create utility classes
+        val phoneNumberExtractor = new Extractors.IPhoneNumberEntity();
+        val emailAddressExtractor = new Extractors.IEmailAddressEntity();
+        // Make query and extract data
+        val phoneNumberList = new ArrayList<PhoneNumberEntity>();
+        val emailAddressList = new ArrayList<EmailAddressEntity>();
+        try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    String mimeType = cursor.getString(0);
+                    if (Objects.equals(mimeType, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
+                        phoneNumberList.add(phoneNumberExtractor.apply(cursor));
+                    } else if (Objects.equals(mimeType, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
+                        emailAddressList.add(emailAddressExtractor.apply(cursor));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Cannot execute getByLookupKey::phoneNumberAndEmailAddressEntity query", e);
+            return null;
+        }
+        // Return the contact
+        return new ContactEntity(contactBriefEntity, phoneNumberList, emailAddressList);
     }
 
 }
