@@ -11,5 +11,5 @@ import java.util.List;
 public interface ContactsRepository {
     @NonNull List<ContactBriefEntity> getAll();
     @NonNull List<ContactBriefEntity> getByDisplayNameLike(@NonNull String query);
-    @Nullable ContactEntity getByLookupKey(String lookupKey);
+    @Nullable ContactEntity getByLookupKey(@NonNull String lookupKey);
 }

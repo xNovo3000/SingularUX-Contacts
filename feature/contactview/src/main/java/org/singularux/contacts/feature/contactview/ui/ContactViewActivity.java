@@ -1,6 +1,7 @@
 package org.singularux.contacts.feature.contactview.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.EdgeToEdge;
@@ -43,6 +44,8 @@ public class ContactViewActivity extends ComponentActivity {
                 (ContactViewViewModelFactory factory) -> factory.create(lookupKey));
         val viewModel = new ViewModelProvider(getViewModelStore(), defaultFactory, creationExtras)
                 .get(ContactViewViewModel.class);
+
+        viewModel.getContactEntityLiveData().observe(this, data -> Log.d("Final", data.toString()));
     }
 
 }

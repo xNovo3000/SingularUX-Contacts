@@ -116,7 +116,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
     }
 
     @Override
-    public @Nullable ContactEntity getByLookupKey(String lookupKey) {
+    public @Nullable ContactEntity getByLookupKey(@NonNull String lookupKey) {
         // Check permissions
         if (!contactsPermissionManager.hasPermission(ContactsPermission.READ_CONTACTS)) {
             Log.i(TAG, "Permission READ_CONTACTS not granted");
@@ -125,6 +125,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         // Extract main contact
         var uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
         String[] projection = {
+                ContactsContract.Contacts.LOOKUP_KEY,
                 ContactsContract.Contacts.DISPLAY_NAME,
                 ContactsContract.Contacts.PHOTO_URI,
                 ContactsContract.Contacts.STARRED
