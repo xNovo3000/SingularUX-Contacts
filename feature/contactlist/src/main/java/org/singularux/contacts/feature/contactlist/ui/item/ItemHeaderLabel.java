@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum ItemHeaderLabel {
+    STARRED(R.string.item_header_starred),
     SYMBOLS(R.string.item_header_symbols);
     public final @StringRes Integer labelRes;
 }
