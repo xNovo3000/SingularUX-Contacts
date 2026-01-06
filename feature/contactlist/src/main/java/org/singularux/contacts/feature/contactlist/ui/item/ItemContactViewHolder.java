@@ -13,6 +13,7 @@ import com.google.android.material.textview.MaterialTextView;
 
 import org.singularux.contacts.feature.contactlist.R;
 import org.singularux.contacts.feature.contactlist.databinding.ItemContactBinding;
+import org.singularux.contacts.feature.contactlist.ui.behavior.ItemContactGoToContactOnClick;
 import org.singularux.contacts.feature.contactlist.ui.util.ContactThumbnailCache;
 
 import java.util.Optional;
@@ -52,6 +53,7 @@ public class ItemContactViewHolder extends RecyclerView.ViewHolder {
         // Set avatar character and headline
         avatarText.setText(String.valueOf(firstCharacter));
         headline.setText(data.getDisplayName());
+        itemView.setOnClickListener(new ItemContactGoToContactOnClick(data.getLookupKey()));
         // Load avatar async
         if (data.getThumbnailPath() != null) {
             avatarImageLoad = Maybe.fromCallable(() -> Optional.ofNullable(contactThumbnailCache.get(data.getThumbnailPath())))
@@ -59,7 +61,7 @@ public class ItemContactViewHolder extends RecyclerView.ViewHolder {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(maybeBitmap -> maybeBitmap.ifPresent(avatarImage::setImageBitmap));
         } else {
-            avatarImage.setImageBitmap(null);
+            avatarImage.setImageResource(0);
         }
     }
 

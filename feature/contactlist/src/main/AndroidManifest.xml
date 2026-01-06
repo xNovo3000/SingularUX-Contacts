@@ -16,4 +16,14 @@
 
     </application>
 
+    <queries>
+
+        <intent>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="content" android:mimeType="vnd.android.cursor.item/*"/>
+        </intent>
+
+    </queries>
+
 </manifest>

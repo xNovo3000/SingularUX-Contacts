@@ -8,6 +8,7 @@
     android:paddingHorizontal="16dp"
     android:paddingVertical="8dp"
     android:background="@color/item_contact_background"
+    android:foreground="?attr/selectableItemBackground"
     android:gravity="center_vertical">
 
     <FrameLayout
