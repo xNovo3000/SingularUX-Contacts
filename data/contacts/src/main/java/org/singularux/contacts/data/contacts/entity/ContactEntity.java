@@ -11,4 +11,5 @@ public class ContactEntity {
     @NonNull ContactBriefEntity contactBriefEntity;
     @NonNull List<PhoneNumberEntity> phoneNumberList;
     @NonNull List<EmailAddressEntity> emailAddressList;
+    @NonNull PhotoEntity photoEntity;
 }

@@ -16,6 +16,7 @@ import org.singularux.contacts.data.contacts.entity.ContactBriefEntity;
 import org.singularux.contacts.data.contacts.entity.ContactEntity;
 import org.singularux.contacts.data.contacts.entity.EmailAddressEntity;
 import org.singularux.contacts.data.contacts.entity.PhoneNumberEntity;
+import org.singularux.contacts.data.contacts.entity.PhotoEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -127,7 +128,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         String[] projection = {
                 ContactsContract.Contacts.LOOKUP_KEY,
                 ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.PHOTO_URI,
+                ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
                 ContactsContract.Contacts.STARRED
         };
         var queryArgs = new Bundle();
@@ -152,7 +153,8 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
                 ContactsContract.Data.MIMETYPE,
                 ContactsContract.Data.DATA1,
                 ContactsContract.Data.DATA2,
-                ContactsContract.Data.DATA3
+                ContactsContract.Data.DATA3,
+                ContactsContract.Data.DATA14
         };
         queryArgs = new Bundle();
         queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SELECTION, ContactsContract.Data.LOOKUP_KEY + " = ?");  // TODO: Optimize selecting only specific mime types
@@ -160,14 +162,18 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         // Create utility classes
         val phoneNumberExtractor = new Extractors.IPhoneNumberEntity();
         val emailAddressExtractor = new Extractors.IEmailAddressEntity();
+        val photoExtractor = new Extractors.IPhotoEntity();
         // Make query and extract data
+        var photoEntity = new PhotoEntity(null);
         val phoneNumberList = new ArrayList<PhoneNumberEntity>();
         val emailAddressList = new ArrayList<EmailAddressEntity>();
         try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     String mimeType = cursor.getString(0);
-                    if (Objects.equals(mimeType, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
+                    if (Objects.equals(mimeType, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)) {
+                        photoEntity = photoExtractor.apply(cursor);
+                    } else if (Objects.equals(mimeType, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
                         phoneNumberList.add(phoneNumberExtractor.apply(cursor));
                     } else if (Objects.equals(mimeType, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
                         emailAddressList.add(emailAddressExtractor.apply(cursor));
@@ -179,7 +185,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
             return null;
         }
         // Return the contact
-        return new ContactEntity(contactBriefEntity, phoneNumberList, emailAddressList);
+        return new ContactEntity(contactBriefEntity, phoneNumberList, emailAddressList, photoEntity);
     }
 
 }

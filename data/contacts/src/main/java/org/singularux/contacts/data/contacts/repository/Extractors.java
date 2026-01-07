@@ -1,5 +1,6 @@
 package org.singularux.contacts.data.contacts.repository;
 
+import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -11,6 +12,7 @@ import org.singularux.contacts.data.contacts.entity.EmailAddressEntity;
 import org.singularux.contacts.data.contacts.entity.EmailAddressLabel;
 import org.singularux.contacts.data.contacts.entity.PhoneNumberEntity;
 import org.singularux.contacts.data.contacts.entity.PhoneNumberLabel;
+import org.singularux.contacts.data.contacts.entity.PhotoEntity;
 
 import java.util.function.Function;
 
@@ -95,6 +97,22 @@ class Extractors {
             }
             // Return entity
             return new EmailAddressEntity(address, label, customLabel);
+        }
+
+    }
+
+    public static class IPhotoEntity implements Function<Cursor, PhotoEntity> {
+
+        @Override
+        public @NonNull PhotoEntity apply(@NonNull Cursor cursor) {
+            // Get photo path from photo id (if present)
+            Uri photoPath = null;
+            if (!cursor.isNull(4)) {
+                photoPath = ContentUris.withAppendedId(ContactsContract.DisplayPhoto.CONTENT_URI,
+                        cursor.getInt(4));
+            }
+            // Return entity
+            return new PhotoEntity(photoPath);
         }
 
     }
