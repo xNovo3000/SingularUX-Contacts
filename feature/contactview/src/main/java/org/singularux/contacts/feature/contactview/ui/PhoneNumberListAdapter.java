@@ -19,8 +19,10 @@ import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.scopes.ActivityRetainedScoped;
 import lombok.val;
 
+@ActivityRetainedScoped
 public class PhoneNumberListAdapter extends ListAdapter<ItemPhoneData, ItemPhoneViewHolder> {
 
     @Inject

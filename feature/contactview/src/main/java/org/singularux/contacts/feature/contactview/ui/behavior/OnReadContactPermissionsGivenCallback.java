@@ -30,9 +30,9 @@ public class OnReadContactPermissionsGivenCallback
 
     @Override
     public void onActivityResult(@NonNull Map<String, Boolean> result) {
-        boolean hasReadContactsPermissions = result.values().stream()
+        boolean hasReadContactPermissions = result.values().stream()
                 .allMatch(Boolean::booleanValue);
-        if (hasReadContactsPermissions) {
+        if (hasReadContactPermissions) {
             // Observe and update all views
             contactViewViewModel.getItemContactLiveData().observe(lifecycleOwner, itemContact -> {
                 // TODO: Update menu bar

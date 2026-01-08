@@ -17,9 +17,9 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
-import dagger.hilt.android.scopes.ActivityScoped;
+import dagger.hilt.android.scopes.ActivityRetainedScoped;
 
-@ActivityScoped  // UI only, if something changes, the cache is cleared with the application
+@ActivityRetainedScoped
 public class ContactThumbnailCache extends LruCache<Uri, Bitmap> {
 
     private static final String TAG = "ContactThumbnailCache";

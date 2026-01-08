@@ -21,9 +21,11 @@ import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.scopes.ActivityRetainedScoped;
 import io.reactivex.rxjava3.core.Scheduler;
 import lombok.val;
 
+@ActivityRetainedScoped
 public class ContactListRecyclerViewAdapter
         extends ListAdapter<ItemData, RecyclerView.ViewHolder> {
 
