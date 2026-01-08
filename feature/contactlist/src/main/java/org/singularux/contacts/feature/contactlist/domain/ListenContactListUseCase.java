@@ -5,11 +5,11 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.ContactsContract;
 
 import androidx.annotation.NonNull;
 
 import org.singularux.contacts.core.threading.IOScheduler;
+import org.singularux.contacts.data.contacts.DataContactsUri;
 import org.singularux.contacts.data.contacts.entity.ContactBriefEntity;
 import org.singularux.contacts.data.contacts.repository.ContactsRepository;
 
@@ -47,7 +47,7 @@ public class ListenContactListUseCase {
                     // Start observing
                     val observer = new ForwardingRxContentObserver(emitter);
                     context.getContentResolver().registerContentObserver(
-                            ContactsContract.Contacts.CONTENT_URI, true, observer);
+                            DataContactsUri.ofContactList(), false, observer);
                     // Force first update
                     observer.onChange(false);
                     // Unregister when not needed anymore

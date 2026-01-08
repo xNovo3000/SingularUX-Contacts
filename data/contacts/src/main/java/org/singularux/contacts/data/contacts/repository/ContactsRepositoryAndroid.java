@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import org.singularux.contacts.core.permission.ContactsPermission;
 import org.singularux.contacts.core.permission.ContactsPermissionManager;
+import org.singularux.contacts.data.contacts.DataContactsUri;
 import org.singularux.contacts.data.contacts.entity.ContactBriefEntity;
 import org.singularux.contacts.data.contacts.entity.ContactEntity;
 import org.singularux.contacts.data.contacts.entity.EmailAddressEntity;
@@ -31,6 +32,19 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
 
     private static final String TAG = "ContactRepositoryAndroid";
 
+    private static final String[] PROJECTION_CONTACT = {
+            ContactsContract.Contacts.LOOKUP_KEY,
+            ContactsContract.Contacts.DISPLAY_NAME,
+            ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
+            ContactsContract.Contacts.STARRED
+    };
+    private static final String[] PROJECTION_DATA = {
+            ContactsContract.Data.MIMETYPE,
+            ContactsContract.Data.DATA1,
+            ContactsContract.Data.DATA2,
+            ContactsContract.Data.DATA3,
+            ContactsContract.Data.DATA14
+    };
     private static final int FILTER_QUERY_MAX_SIZE = 20;
 
     private final Context context;
@@ -46,12 +60,6 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         }
         // Generate query arguments
         val uri = ContactsContract.Contacts.CONTENT_URI;
-        String[] projection = {
-                ContactsContract.Contacts.LOOKUP_KEY,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-                ContactsContract.Contacts.STARRED
-        };
         val queryArgs = new Bundle();
         queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SELECTION, ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?");
         queryArgs.putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, new String[]{"1"});
@@ -59,7 +67,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         // Create utility classes
         val extractor = new Extractors.IContactBriefEntity();
         // Make query and extract data
-        try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
+        try (val cursor = context.getContentResolver().query(uri, PROJECTION_CONTACT, queryArgs, null)) {
             val result = new ArrayList<ContactBriefEntity>();
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -88,12 +96,6 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         }
         // Generate query arguments
         val uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI, query);
-        String[] projection = {
-                ContactsContract.Contacts.LOOKUP_KEY,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-                ContactsContract.Contacts.STARRED
-        };
         val queryArgs = new Bundle();
         queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SELECTION, ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?");
         queryArgs.putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, new String[]{"1"});
@@ -102,7 +104,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         // Create utility classes
         val extractor = new Extractors.IContactBriefEntity();
         // Make query and extract data
-        try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
+        try (val cursor = context.getContentResolver().query(uri, PROJECTION_CONTACT, queryArgs, null)) {
             val result = new ArrayList<ContactBriefEntity>();
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -125,18 +127,12 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         }
         // Extract main contact
         var uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
-        String[] projection = {
-                ContactsContract.Contacts.LOOKUP_KEY,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.PHOTO_THUMBNAIL_URI,
-                ContactsContract.Contacts.STARRED
-        };
         var queryArgs = new Bundle();
         // Create utility classes
         val extractor = new Extractors.IContactBriefEntity();
         // Make query and extract data
         ContactBriefEntity contactBriefEntity;
-        try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
+        try (val cursor = context.getContentResolver().query(uri, PROJECTION_CONTACT, queryArgs, null)) {
             if (cursor != null && cursor.moveToNext()) {
                 contactBriefEntity = extractor.apply(cursor);
             } else {
@@ -149,13 +145,6 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         }
         // Extract phone numbers and email addresses
         uri = ContactsContract.Data.CONTENT_URI;
-        projection = new String[]{
-                ContactsContract.Data.MIMETYPE,
-                ContactsContract.Data.DATA1,
-                ContactsContract.Data.DATA2,
-                ContactsContract.Data.DATA3,
-                ContactsContract.Data.DATA14
-        };
         queryArgs = new Bundle();
         queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SELECTION, ContactsContract.Data.LOOKUP_KEY + " = ?");  // TODO: Optimize selecting only specific mime types
         queryArgs.putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, new String[]{lookupKey});
@@ -167,7 +156,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         var photoEntity = new PhotoEntity(null);
         val phoneNumberList = new ArrayList<PhoneNumberEntity>();
         val emailAddressList = new ArrayList<EmailAddressEntity>();
-        try (val cursor = context.getContentResolver().query(uri, projection, queryArgs, null)) {
+        try (val cursor = context.getContentResolver().query(uri, PROJECTION_DATA, queryArgs, null)) {
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     String mimeType = cursor.getString(0);

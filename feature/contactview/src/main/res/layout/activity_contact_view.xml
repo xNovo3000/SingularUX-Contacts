@@ -7,7 +7,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:liftOnScroll="true">
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/contact_view_toolbar"
             android:layout_width="match_parent"
@@ -16,13 +17,93 @@
             app:navigationIcon="@drawable/arrow_back_24"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/contact_view_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/contact_view_avatar_background">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="?attr/textAppearanceDisplayLarge"
+                    android:id="@+id/contact_view_content_avatar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/p"
+                    android:textColor="?attr/colorOnPrimaryContainer"/>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/contact_view_content_avatar_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/contact_view_content_avatar_size_max"
+                    android:minHeight="@dimen/contact_view_content_avatar_size_max"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Contacts.ContactViewContentAvatarImage"/>
+
+            </FrameLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="?attr/textAppearanceDisplaySmall"
+                android:id="@+id/contact_view_content_display_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center_horizontal"
+                android:text="@string/placeholder"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="?attr/textAppearanceTitleSmall"
+                android:id="@+id/contact_view_content_phone_numbers_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp"
+                android:text="@string/contact_view_content_header_phone_numbers"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/contact_view_content_phone_numbers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="?attr/textAppearanceTitleSmall"
+                android:id="@+id/contact_view_content_email_addresses_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp"
+                android:text="@string/contact_view_content_header_email_addresses"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/contact_view_content_email_addresses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

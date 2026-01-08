@@ -4,10 +4,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.WindowInsetsCompat;
-
-import org.jspecify.annotations.NonNull;
 
 import lombok.val;
 

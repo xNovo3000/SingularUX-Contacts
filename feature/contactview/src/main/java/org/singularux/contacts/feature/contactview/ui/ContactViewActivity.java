@@ -6,11 +6,14 @@ import android.util.Log;
 import androidx.activity.ComponentActivity;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.singularux.contacts.feature.contactview.databinding.ActivityContactViewBinding;
 import org.singularux.contacts.feature.contactview.presentation.ContactViewViewModel;
 import org.singularux.contacts.feature.contactview.presentation.ContactViewViewModelFactory;
+import org.singularux.contacts.feature.contactview.ui.inset.ContactViewContentInsetListener;
+import org.singularux.contacts.feature.contactview.ui.inset.ContactViewToolbarInsetListener;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import dagger.hilt.android.lifecycle.HiltViewModelExtensions;
@@ -27,6 +30,15 @@ public class ContactViewActivity extends ComponentActivity {
         // Set view using viewbinding
         val binding = ActivityContactViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Install inset listeners
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contactViewToolbar,
+                new ContactViewToolbarInsetListener());
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contactViewContent,
+                new ContactViewContentInsetListener());
+        // Install static behavior listeners
+        binding.contactViewToolbar.setNavigationOnClickListener(v -> finish());
+
         // Get lookupKey, stop activity if does not exists
         String lookupKey;
         if (getIntent().getData() != null) {
@@ -38,11 +50,11 @@ public class ContactViewActivity extends ComponentActivity {
             finish();
         }
         // Get ViewModel
-        val defaultFactory = getDefaultViewModelProviderFactory();
+        val providerFactory = getDefaultViewModelProviderFactory();
         val creationExtras = HiltViewModelExtensions.withCreationCallback(
                 getDefaultViewModelCreationExtras(),
                 (ContactViewViewModelFactory factory) -> factory.create(lookupKey));
-        val viewModel = new ViewModelProvider(getViewModelStore(), defaultFactory, creationExtras)
+        val viewModel = new ViewModelProvider(getViewModelStore(), providerFactory, creationExtras)
                 .get(ContactViewViewModel.class);
 
         viewModel.getContactEntityLiveData().observe(this, data -> Log.d("Final", data.toString()));

@@ -3,10 +3,9 @@ package org.singularux.contacts.feature.contactlist.ui.inset;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.WindowInsetsCompat;
-
-import org.jspecify.annotations.NonNull;
 
 import lombok.val;
 

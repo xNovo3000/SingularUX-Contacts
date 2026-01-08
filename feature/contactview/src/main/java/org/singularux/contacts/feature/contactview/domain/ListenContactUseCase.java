@@ -10,6 +10,7 @@ import android.provider.ContactsContract;
 import androidx.annotation.NonNull;
 
 import org.singularux.contacts.core.threading.IOScheduler;
+import org.singularux.contacts.data.contacts.DataContactsUri;
 import org.singularux.contacts.data.contacts.entity.ContactEntity;
 import org.singularux.contacts.data.contacts.repository.ContactsRepository;
 
@@ -43,10 +44,10 @@ public class ListenContactUseCase {
     public @NonNull Flowable<ContactEntity> get(@NonNull String lookupKey) {
         return Flowable
                 .create(emitter -> {
-                    // Start observing. TODO: Optimize
+                    // Start observing
                     val observer = new ForwardingRxContentObserver(emitter);
                     context.getContentResolver().registerContentObserver(
-                            ContactsContract.Contacts.CONTENT_URI, true, observer);
+                            DataContactsUri.ofContact(lookupKey), false, observer);
                     // Force first update
                     observer.onChange(false);
                     // Unregister when not needed anymore
