@@ -18,14 +18,14 @@ import lombok.val;
 public class ItemPhoneViewHolder extends RecyclerView.ViewHolder {
 
     public final MaterialTextView phoneNumberTextView, labelTextView;
-    public final MaterialButton phoneButton, messageButton;
+    public final MaterialButton callButton, messageButton;
 
     public ItemPhoneViewHolder(@NonNull View itemView) {
         super(itemView);
         val binding = ItemPhoneBinding.bind(itemView);
         this.phoneNumberTextView = binding.itemPhoneNumber;
         this.labelTextView = binding.itemPhoneLabel;
-        this.phoneButton = binding.itemPhoneActionCall;
+        this.callButton = binding.itemPhoneActionCall;
         this.messageButton = binding.itemPhoneActionMessage;
     }
 

@@ -16,16 +16,19 @@ public class OnCallClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(@NonNull View v) {
+        val context = v.getContext();
         // Build URI
         val uri = new Uri.Builder()
                 .scheme("tel")
                 .appendEncodedPath(phoneNumber)
                 .build();
-
+        // Build intent
         val intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(uri);
-
-        v.getContext().startActivity(intent);
+        // Launch activity
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
     }
 
 }

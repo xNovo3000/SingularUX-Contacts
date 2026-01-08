@@ -8,7 +8,6 @@ import lombok.Value;
 @Value
 public class ItemEmailData {
     @NonNull String emailAddress;
-    @Nullable
-    ItemEmailLabel label;
+    @Nullable ItemEmailLabel label;
     @Nullable String customLabel;
 }

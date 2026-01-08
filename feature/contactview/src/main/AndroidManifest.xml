@@ -16,4 +16,26 @@
 
     </application>
 
+    <queries>
+
+        <intent>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <action android:name="android.intent.action.DIAL"/>
+            <data android:scheme="tel"/>
+        </intent>
+
+        <intent>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <action android:name="android.intent.action.SEND"/>
+            <data android:scheme="sms"/>
+        </intent>
+
+        <intent>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <action android:name="android.intent.action.SENDTO"/>
+            <data android:mimeType="*/*"/>
+        </intent>
+
+    </queries>
+
 </manifest>

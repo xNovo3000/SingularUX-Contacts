@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.ListAdapter;
 
 import org.singularux.contacts.core.threading.BackgroundExecutorService;
-import org.singularux.contacts.feature.contactview.R;
+import org.singularux.contacts.feature.contactview.ui.behavior.OnCallClickListener;
+import org.singularux.contacts.feature.contactview.ui.behavior.OnMessageClickListener;
 import org.singularux.contacts.feature.contactview.ui.item.ItemPhoneData;
 import org.singularux.contacts.feature.contactview.ui.item.ItemPhoneDataDiffCallback;
 import org.singularux.contacts.feature.contactview.ui.item.ItemPhoneViewHolder;
@@ -45,12 +46,17 @@ public class PhoneNumberListAdapter extends ListAdapter<ItemPhoneData, ItemPhone
                 currentItem.getPhoneNumber(), Locale.getDefault().getISO3Country()));
         // Set label
         if (currentItem.getLabel() != null) {
-            val labelText = holder.itemView.getContext().getString(currentItem.getLabel().labelRes);
+            val context = holder.itemView.getContext();
+            val labelText = context.getString(currentItem.getLabel().labelRes);
             holder.labelTextView.setText(labelText);
         } else {
             holder.labelTextView.setText(currentItem.getCustomLabel());
         }
         // Set call and message click listeners
+        holder.callButton.setOnClickListener(
+                new OnCallClickListener(currentItem.getPhoneNumber()));
+        holder.messageButton.setOnClickListener(
+                new OnMessageClickListener(currentItem.getPhoneNumber()));
     }
 
     @Override
