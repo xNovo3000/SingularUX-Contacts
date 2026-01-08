@@ -47,7 +47,7 @@ public class ItemContactViewHolder extends RecyclerView.ViewHolder {
     ) {
         // Calculate first character and capitalize it
         char firstCharacter = 0x00B7;
-        if (!data.getDisplayName().isEmpty()) {
+        if (!data.getDisplayName().isBlank()) {
             firstCharacter = Character.toUpperCase(data.getDisplayName().charAt(0));
         }
         // Set avatar character and headline

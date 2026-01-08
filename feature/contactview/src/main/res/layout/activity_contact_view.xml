@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/contact_view_toolbar"
-            app:navigationIcon="@drawable/arrow_back_24"/>
+            app:navigationIcon="@drawable/arrow_back_24"
+            app:navigationContentDescription="@string/contact_view_back"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -22,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -82,6 +84,7 @@
                 android:id="@+id/contact_view_content_phone_numbers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <com.google.android.material.textview.MaterialTextView
@@ -100,6 +103,7 @@
                 android:id="@+id/contact_view_content_email_addresses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

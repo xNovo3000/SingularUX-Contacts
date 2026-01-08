@@ -85,7 +85,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
     public @NonNull List<ContactBriefEntity> getByDisplayNameLike(@NonNull String query) {
         Log.d(TAG, "Requested contacts with query: " + query);
         // Check query length
-        if (query.trim().isEmpty()) {
+        if (query.trim().isBlank()) {
             Log.i(TAG, "Query is empty");
             return Collections.emptyList();
         }

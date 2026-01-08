@@ -26,14 +26,14 @@
 
         <intent>
             <category android:name="android.intent.category.DEFAULT"/>
-            <action android:name="android.intent.action.SEND"/>
-            <data android:scheme="sms"/>
+            <action android:name="android.intent.action.SENDTO"/>
+            <data android:scheme="smsto"/>
         </intent>
 
         <intent>
             <category android:name="android.intent.category.DEFAULT"/>
             <action android:name="android.intent.action.SENDTO"/>
-            <data android:mimeType="*/*"/>
+            <data android:scheme="mailto"/>
         </intent>
 
     </queries>

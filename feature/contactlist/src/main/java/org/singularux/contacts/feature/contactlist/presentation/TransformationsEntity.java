@@ -34,8 +34,8 @@ class TransformationsEntity {
                 return new ItemHeaderData(ItemHeaderLabel.STARRED, null);
             }
             // Get first character
-            char firstCharacter = 0x00;
-            if (!contactBriefEntity.getDisplayName().isEmpty()) {
+            char firstCharacter = 0x00B7;
+            if (!contactBriefEntity.getDisplayName().isBlank()) {
                 firstCharacter = contactBriefEntity.getDisplayName().charAt(0);
             }
             // Check if letter or non-letter

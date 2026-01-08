@@ -17,9 +17,13 @@ public class OnSendEmailClickListener implements View.OnClickListener {
     @Override
     public void onClick(@NonNull View v) {
         val context = v.getContext();
+        // Build URI
+        val uri = new Uri.Builder()
+                .scheme("mailto")
+                .build();
         // Build intent
-        val intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("*/*");
+        val intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(uri);
         intent.putExtra(Intent.EXTRA_EMAIL, emailAddress);
         // Launch activity
         if (intent.resolveActivity(context.getPackageManager()) != null) {

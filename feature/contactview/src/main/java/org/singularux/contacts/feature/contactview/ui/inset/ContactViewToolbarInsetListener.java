@@ -2,6 +2,7 @@ package org.singularux.contacts.feature.contactview.ui.inset;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.WindowInsetsCompat;
@@ -19,12 +20,13 @@ public class ContactViewToolbarInsetListener implements OnApplyWindowInsetsListe
             @NonNull View view,
             @NonNull WindowInsetsCompat windowInsets
     ) {
-        Log.d(TAG, "WindowInsets received, updating paddings");
+        Log.d(TAG, "WindowInsets received, updating margins");
         // Get information about metrics and insets
-        val density = view.getResources().getDisplayMetrics().density;
         val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
         // Update padding
-        view.setPadding(insets.left, insets.top, insets.right, 0);
+        val layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        layoutParams.setMargins(insets.left, insets.top, insets.right, 0);
+        view.setLayoutParams(layoutParams);
         // All insets were consumed
         return WindowInsetsCompat.CONSUMED;
     }

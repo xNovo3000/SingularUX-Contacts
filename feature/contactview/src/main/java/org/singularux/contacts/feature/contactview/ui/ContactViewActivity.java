@@ -1,7 +1,6 @@
 package org.singularux.contacts.feature.contactview.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.EdgeToEdge;
@@ -72,12 +71,12 @@ public class ContactViewActivity extends ComponentActivity {
         val readContactPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),
                 new OnReadContactPermissionsGivenCallback(this, viewModel,
+                        emailAddressListAdapter, phoneNumberListAdapter,
                         binding.contactViewContentAvatarImage,
                         binding.contactViewContentAvatarText,
                         binding.contactViewContentDisplayName));
         readContactPermissionLauncher.launch(viewModel.getReadContactPermissions());
 
-        viewModel.getItemContactLiveData().observe(this, data -> Log.d("Final", data.toString()));
     }
 
 }

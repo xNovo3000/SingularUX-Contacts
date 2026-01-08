@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="contact_view_back">Back</string>
     <string name="contact_view_edit">Edit</string>
     <string name="contact_view_favorite_add">Add to favorites</string>
     <string name="contact_view_favorite_remove">Remove from favorites</string>

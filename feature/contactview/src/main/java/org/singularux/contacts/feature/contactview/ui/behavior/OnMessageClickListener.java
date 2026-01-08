@@ -19,11 +19,11 @@ public class OnMessageClickListener implements View.OnClickListener {
         val context = v.getContext();
         // Build URI
         val uri = new Uri.Builder()
-                .scheme("sms")
+                .scheme("smsto")
                 .appendEncodedPath(phoneNumber)
                 .build();
         // Build intent
-        val intent = new Intent(Intent.ACTION_SEND);
+        val intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(uri);
         // Launch activity
         if (intent.resolveActivity(context.getPackageManager()) != null) {
