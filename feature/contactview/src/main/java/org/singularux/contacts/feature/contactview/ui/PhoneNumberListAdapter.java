@@ -44,8 +44,12 @@ public class PhoneNumberListAdapter extends ListAdapter<ItemPhoneData, ItemPhone
     public void onBindViewHolder(@NonNull ItemPhoneViewHolder holder, int position) {
         val currentItem = getItem(position);
         // Set phone number
-        holder.phoneNumberTextView.setText(PhoneNumberUtils.formatNumber(
-                currentItem.getPhoneNumber(), Locale.getDefault().getISO3Country()));
+        var formattedNumber = PhoneNumberUtils.formatNumber(
+                currentItem.getPhoneNumber(), Locale.getDefault().getISO3Country());
+        if (formattedNumber == null) {
+            formattedNumber = currentItem.getPhoneNumber();
+        }
+        holder.phoneNumberTextView.setText(formattedNumber);
         // Set label
         if (currentItem.getLabel() != null) {
             val context = holder.itemView.getContext();
