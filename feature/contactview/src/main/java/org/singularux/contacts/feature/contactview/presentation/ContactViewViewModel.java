@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import org.singularux.contacts.core.threading.BackgroundScheduler;
 import org.singularux.contacts.feature.contactview.domain.GetReadContactsPermissionsUseCase;
 import org.singularux.contacts.feature.contactview.domain.ListenContactUseCase;
+import org.singularux.contacts.feature.contactview.domain.SetStarredUseCase;
 import org.singularux.contacts.feature.contactview.ui.item.ItemContact;
 
 import dagger.assisted.Assisted;
@@ -18,7 +19,10 @@ import lombok.Getter;
 @HiltViewModel(assistedFactory = ContactViewViewModelFactory.class)
 public class ContactViewViewModel extends ViewModel {
 
+    private final String lookupKey;
     private final @Getter String[] readContactPermissions;
+
+    private final SetStarredUseCase setStarredUseCase;
 
     private final @Getter LiveData<ItemContact> itemContactLiveData;
 
@@ -26,12 +30,23 @@ public class ContactViewViewModel extends ViewModel {
     public ContactViewViewModel(@Assisted String lookupKey,
                                 @BackgroundScheduler Scheduler backgroundScheduler,
                                 GetReadContactsPermissionsUseCase getReadContactsPermissionsUseCase,
+                                SetStarredUseCase setStarredUseCase,
                                 ListenContactUseCase listenContactUseCase) {
+        this.lookupKey = lookupKey;
         this.readContactPermissions = getReadContactsPermissionsUseCase.get();
+        this.setStarredUseCase = setStarredUseCase;
         this.itemContactLiveData = LiveDataReactiveStreams
                 .fromPublisher(listenContactUseCase.get(lookupKey)
                         .observeOn(backgroundScheduler)
                         .map(new Transformations.IItemContact()));
+    }
+
+    public void addToFavorites() {
+        setStarredUseCase.set(lookupKey, true);
+    }
+
+    public void removeFromFavorites() {
+        setStarredUseCase.set(lookupKey, false);
     }
 
 }

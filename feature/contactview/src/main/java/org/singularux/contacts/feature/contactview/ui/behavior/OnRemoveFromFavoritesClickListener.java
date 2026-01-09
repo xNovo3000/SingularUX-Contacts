@@ -1,4 +1,21 @@
 package org.singularux.contacts.feature.contactview.ui.behavior;
 
-public class OnRemoveFromFavoritesClickListener {
+import android.view.View;
+
+import androidx.annotation.NonNull;
+
+import org.singularux.contacts.feature.contactview.presentation.ContactViewViewModel;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class OnRemoveFromFavoritesClickListener implements View.OnClickListener {
+
+    private final ContactViewViewModel viewModel;
+
+    @Override
+    public void onClick(@NonNull View v) {
+        viewModel.removeFromFavorites();
+    }
+
 }

@@ -1,6 +1,7 @@
 package org.singularux.contacts.data.contacts.repository;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -175,6 +176,22 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         }
         // Return the contact
         return new ContactEntity(contactBriefEntity, phoneNumberList, emailAddressList, photoEntity);
+    }
+
+    @Override
+    public boolean setStarred(@NonNull String lookupKey, boolean starred) {
+        // Check permissions
+        if (!contactsPermissionManager.hasPermission(ContactsPermission.WRITE_CONTACTS)) {
+            Log.i(TAG, "Permission WRITE_CONTACTS not granted");
+            return false;
+        }
+        // Extract main data
+        val uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+        val contentValues = new ContentValues();
+        contentValues.put(ContactsContract.Contacts.STARRED, starred ? 1 : 0);
+        val queryArgs = new Bundle();
+        // Update
+        return context.getContentResolver().update(uri, contentValues, queryArgs) != 0;
     }
 
 }
