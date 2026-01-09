@@ -3,7 +3,6 @@ package org.singularux.contacts.feature.contactview.presentation;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import org.singularux.contacts.data.contacts.entity.ContactEntity;
 import org.singularux.contacts.data.contacts.entity.EmailAddressEntity;
@@ -14,7 +13,6 @@ import org.singularux.contacts.feature.contactview.ui.item.ItemEmailLabel;
 import org.singularux.contacts.feature.contactview.ui.item.ItemPhoneData;
 import org.singularux.contacts.feature.contactview.ui.item.ItemPhoneLabel;
 
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -27,8 +25,7 @@ public class Transformations {
     public static class IItemContact implements Function<ContactEntity, ItemContact> {
 
         @Override
-        public @Nullable ItemContact apply(@Nullable ContactEntity contactEntity) {
-            assert contactEntity != null;
+        public @NonNull ItemContact apply(@NonNull ContactEntity contactEntity) {
             // Retrieve photo path
             Uri photoPath = contactEntity.getPhotoEntity().getPhotoPath();
             if (photoPath == null) {
