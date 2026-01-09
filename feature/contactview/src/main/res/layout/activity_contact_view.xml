@@ -13,6 +13,7 @@
             android:id="@+id/contact_view_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
             app:menu="@menu/contact_view_toolbar"
             app:navigationIcon="@drawable/arrow_back_24"
             app:navigationContentDescription="@string/contact_view_back"/>

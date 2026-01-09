@@ -9,17 +9,20 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import org.singularux.contacts.core.threading.IOScheduler;
 import org.singularux.contacts.feature.contactview.databinding.ActivityContactViewBinding;
 import org.singularux.contacts.feature.contactview.presentation.ContactViewViewModel;
 import org.singularux.contacts.feature.contactview.presentation.ContactViewViewModelFactory;
 import org.singularux.contacts.feature.contactview.ui.behavior.OnReadContactPermissionsGivenCallback;
 import org.singularux.contacts.feature.contactview.ui.inset.ContactViewContentInsetListener;
 import org.singularux.contacts.feature.contactview.ui.inset.ContactViewToolbarInsetListener;
+import org.singularux.contacts.feature.contactview.ui.util.ContactPhotoCache;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import dagger.hilt.android.lifecycle.HiltViewModelExtensions;
+import io.reactivex.rxjava3.core.Scheduler;
 import lombok.val;
 
 @AndroidEntryPoint
@@ -27,6 +30,9 @@ public class ContactViewActivity extends ComponentActivity {
 
     public @Inject EmailAddressListAdapter emailAddressListAdapter;
     public @Inject PhoneNumberListAdapter phoneNumberListAdapter;
+
+    public @Inject ContactPhotoCache contactPhotoCache;
+    public @Inject @IOScheduler Scheduler ioScheduler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,10 +77,13 @@ public class ContactViewActivity extends ComponentActivity {
         val readContactPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),
                 new OnReadContactPermissionsGivenCallback(this, viewModel,
+                        contactPhotoCache, ioScheduler,
                         emailAddressListAdapter, phoneNumberListAdapter,
                         binding.contactViewContentAvatarImage,
                         binding.contactViewContentAvatarText,
-                        binding.contactViewContentDisplayName));
+                        binding.contactViewContentDisplayName,
+                        binding.contactViewContentPhoneNumbersHeader,
+                        binding.contactViewContentEmailAddressesHeader));
         readContactPermissionLauncher.launch(viewModel.getReadContactPermissions());
 
     }
