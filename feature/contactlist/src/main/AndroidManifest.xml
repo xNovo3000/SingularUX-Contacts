@@ -9,6 +9,8 @@
             android:theme="@style/Theme.Contacts.Splash"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
+                <category android:name="android.intent.category.APP_CONTACTS"/>
+                <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
@@ -21,7 +23,17 @@
         <intent>
             <category android:name="android.intent.category.DEFAULT"/>
             <action android:name="android.intent.action.VIEW"/>
-            <data android:scheme="content" android:mimeType="vnd.android.cursor.item/*"/>
+            <data android:scheme="content" android:mimeType="vnd.android.cursor.item/contact"/>
+        </intent>
+        <intent>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="content" android:mimeType="vnd.android.cursor.item/person"/>
+        </intent>
+        <intent>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="content" android:mimeType="vnd.android.cursor.item/raw_contact"/>
         </intent>
 
     </queries>
