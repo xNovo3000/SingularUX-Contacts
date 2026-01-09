@@ -14,6 +14,7 @@ import org.singularux.contacts.feature.contactview.ui.item.ItemEmailLabel;
 import org.singularux.contacts.feature.contactview.ui.item.ItemPhoneData;
 import org.singularux.contacts.feature.contactview.ui.item.ItemPhoneLabel;
 
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,15 +24,11 @@ public class Transformations {
 
     private Transformations() {}
 
-    public static class IItemContact
-            implements io.reactivex.rxjava3.functions.Function<ContactEntity, ItemContact> {
+    public static class IItemContact implements Function<ContactEntity, ItemContact> {
 
         @Override
         public @Nullable ItemContact apply(@Nullable ContactEntity contactEntity) {
-            // Return null if ContactEntity does not exists
-            if (contactEntity == null) {
-                return null;
-            }
+            assert contactEntity != null;
             // Retrieve photo path
             Uri photoPath = contactEntity.getPhotoEntity().getPhotoPath();
             if (photoPath == null) {

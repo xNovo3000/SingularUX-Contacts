@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 
-public class SetStarredUseCase {
+public class DeleteContactUseCase {
 
     private final ContactsRepository contactsRepository;
     private final Scheduler ioScheduler;
@@ -21,20 +21,20 @@ public class SetStarredUseCase {
     private @Nullable Disposable currentAction = null;
 
     @Inject
-    public SetStarredUseCase(ContactsRepository contactsRepository,
+    public DeleteContactUseCase(ContactsRepository contactsRepository,
                              @IOScheduler Scheduler ioScheduler) {
         this.contactsRepository = contactsRepository;
         this.ioScheduler = ioScheduler;
     }
 
-    public void set(@NonNull String lookupKey, boolean starred) {
+    public void set(@NonNull String lookupKey) {
         // Stop current action if still performing
         if (currentAction != null) {
             currentAction.dispose();
         }
         // Start new action
         currentAction = Completable
-                .fromCallable(() -> contactsRepository.setStarred(lookupKey, starred))
+                .fromCallable(() -> contactsRepository.delete(lookupKey))
                 .subscribeOn(ioScheduler)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();

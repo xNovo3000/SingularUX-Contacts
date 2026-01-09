@@ -195,12 +195,17 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
     }
 
     @Override
-    public void delete(@NonNull String lookupKey) {
+    public boolean delete(@NonNull String lookupKey) {
         // Check permissions
         if (!contactsPermissionManager.hasPermission(ContactsPermission.WRITE_CONTACTS)) {
             Log.i(TAG, "Permission WRITE_CONTACTS not granted");
-            return;
+            return false;
         }
+        // Extract main data
+        val uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+        val queryArgs = new Bundle();
+        // Delete
+        return context.getContentResolver().delete(uri, queryArgs) != 0;
     }
 
 }

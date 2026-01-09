@@ -15,6 +15,7 @@ import org.singularux.contacts.data.contacts.entity.ContactEntity;
 import org.singularux.contacts.data.contacts.repository.ContactsRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -41,7 +42,7 @@ public class ListenContactUseCase {
         this.ioScheduler = ioScheduler;
     }
 
-    public @NonNull Flowable<ContactEntity> get(@NonNull String lookupKey) {
+    public @NonNull Flowable<Optional<ContactEntity>> get(@NonNull String lookupKey) {
         return Flowable
                 .create(emitter -> {
                     // Start observing
@@ -56,7 +57,7 @@ public class ListenContactUseCase {
                 }, BackpressureStrategy.LATEST)
                 .subscribeOn(AndroidSchedulers.mainThread(), false)
                 .observeOn(ioScheduler)
-                .map(o -> contactsRepository.getByLookupKey(lookupKey));
+                .map(o -> Optional.ofNullable(contactsRepository.getByLookupKey(lookupKey)));
     }
 
     private static class ForwardingRxContentObserver extends ContentObserver {
