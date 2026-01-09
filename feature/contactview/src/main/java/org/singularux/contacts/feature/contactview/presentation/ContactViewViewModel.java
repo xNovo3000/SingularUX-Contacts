@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.ViewModel;
 
 import org.singularux.contacts.core.threading.BackgroundScheduler;
-import org.singularux.contacts.feature.contactview.domain.GetContactsPermissionUseCase;
+import org.singularux.contacts.feature.contactview.domain.GetContactPermissionsUseCase;
 import org.singularux.contacts.feature.contactview.domain.ListenContactUseCase;
 import org.singularux.contacts.feature.contactview.domain.SetStarredUseCase;
 import org.singularux.contacts.feature.contactview.ui.item.ItemContact;
@@ -29,11 +29,11 @@ public class ContactViewViewModel extends ViewModel {
     @AssistedInject
     public ContactViewViewModel(@Assisted String lookupKey,
                                 @BackgroundScheduler Scheduler backgroundScheduler,
-                                GetContactsPermissionUseCase getContactsPermissionUseCase,
+                                GetContactPermissionsUseCase getContactPermissionsUseCase,
                                 SetStarredUseCase setStarredUseCase,
                                 ListenContactUseCase listenContactUseCase) {
         this.lookupKey = lookupKey;
-        this.getContactPermissions = getContactsPermissionUseCase.get();
+        this.getContactPermissions = getContactPermissionsUseCase.get();
         this.setStarredUseCase = setStarredUseCase;
         this.itemContactLiveData = LiveDataReactiveStreams
                 .fromPublisher(listenContactUseCase.get(lookupKey)
@@ -47,6 +47,10 @@ public class ContactViewViewModel extends ViewModel {
 
     public void removeFromFavorites() {
         setStarredUseCase.set(lookupKey, false);
+    }
+
+    public void delete() {
+
     }
 
 }

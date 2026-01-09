@@ -75,8 +75,8 @@ public class ContactViewActivity extends ComponentActivity {
                 .get(ContactViewViewModel.class);
 
         // Set dynamic behavior listeners
-        binding.contactViewToolbar
-                .setOnMenuItemClickListener(new OnToolbarMenuItemClickListener(viewModel));
+        binding.contactViewToolbar.setOnMenuItemClickListener(
+                new OnToolbarMenuItemClickListener(this, viewModel));
 
         // Observe data
         val readContactPermissionLauncher = registerForActivityResult(

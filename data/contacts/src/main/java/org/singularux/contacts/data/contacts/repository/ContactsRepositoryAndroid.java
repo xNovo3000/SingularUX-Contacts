@@ -194,4 +194,13 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
         return context.getContentResolver().update(uri, contentValues, queryArgs) != 0;
     }
 
+    @Override
+    public void delete(@NonNull String lookupKey) {
+        // Check permissions
+        if (!contactsPermissionManager.hasPermission(ContactsPermission.WRITE_CONTACTS)) {
+            Log.i(TAG, "Permission WRITE_CONTACTS not granted");
+            return;
+        }
+    }
+
 }

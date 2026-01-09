@@ -52,6 +52,11 @@ public class OnReadContactPermissionsGivenCallback
         if (hasReadContactPermissions) {
             // Observe and update all views
             contactViewViewModel.getItemContactLiveData().observe(activity, itemContact -> {
+                // Close activity if null
+                if (itemContact == null) {
+                    activity.finish();
+                    return;
+                }
                 // Update menu bar - delete item
                 val deleteItem = contactViewToolbar.getMenu()
                         .findItem(R.id.contact_view_toolbar_delete);

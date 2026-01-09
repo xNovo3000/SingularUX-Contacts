@@ -9,6 +9,11 @@
     <string name="contact_view_content_header_email_addresses">Email addresses</string>
     <string name="contact_view_content_header_phone_numbers">Phone numbers</string>
 
+    <string name="delete_dialog_title">Delete contact</string>
+    <string name="delete_dialog_description">Are you sure to delete this contact? This action cannot be undone</string>
+    <string name="delete_dialog_action_positive">Yes</string>
+    <string name="delete_dialog_action_negative">No</string>
+
     <string name="item_phone_action_call">Call</string>
     <string name="item_phone_action_message">Message</string>
     <string name="item_phone_label_home">Home</string>
