@@ -179,7 +179,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
     }
 
     @Override
-    public boolean setStarred(@NonNull String lookupKey, boolean starred) {
+    public boolean setStarredByLookupKey(@NonNull String lookupKey, boolean starred) {
         // Check permissions
         if (!contactsPermissionManager.hasPermission(ContactsPermission.WRITE_CONTACTS)) {
             Log.i(TAG, "Permission WRITE_CONTACTS not granted");
@@ -195,7 +195,7 @@ public class ContactsRepositoryAndroid implements ContactsRepository {
     }
 
     @Override
-    public boolean delete(@NonNull String lookupKey) {
+    public boolean deleteByLookupKey(@NonNull String lookupKey) {
         // Check permissions
         if (!contactsPermissionManager.hasPermission(ContactsPermission.WRITE_CONTACTS)) {
             Log.i(TAG, "Permission WRITE_CONTACTS not granted");

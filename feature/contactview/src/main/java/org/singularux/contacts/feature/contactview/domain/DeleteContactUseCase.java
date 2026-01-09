@@ -34,7 +34,7 @@ public class DeleteContactUseCase {
         }
         // Start new action
         currentAction = Completable
-                .fromCallable(() -> contactsRepository.delete(lookupKey))
+                .fromCallable(() -> contactsRepository.deleteByLookupKey(lookupKey))
                 .subscribeOn(ioScheduler)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();

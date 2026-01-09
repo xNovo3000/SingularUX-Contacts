@@ -34,7 +34,7 @@ public class SetStarredUseCase {
         }
         // Start new action
         currentAction = Completable
-                .fromCallable(() -> contactsRepository.setStarred(lookupKey, starred))
+                .fromCallable(() -> contactsRepository.setStarredByLookupKey(lookupKey, starred))
                 .subscribeOn(ioScheduler)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();

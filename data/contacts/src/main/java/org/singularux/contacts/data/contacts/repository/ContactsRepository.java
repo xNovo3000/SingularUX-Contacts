@@ -12,6 +12,6 @@ public interface ContactsRepository {
     @NonNull List<ContactBriefEntity> getAll();
     @NonNull List<ContactBriefEntity> getByDisplayNameLike(@NonNull String query);
     @Nullable ContactEntity getByLookupKey(@NonNull String lookupKey);
-    boolean setStarred(@NonNull String lookupKey, boolean starred);
-    boolean delete(@NonNull String lookupKey);
+    boolean setStarredByLookupKey(@NonNull String lookupKey, boolean starred);
+    boolean deleteByLookupKey(@NonNull String lookupKey);
 }
