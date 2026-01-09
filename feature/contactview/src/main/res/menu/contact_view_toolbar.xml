@@ -8,10 +8,18 @@
         android:icon="@drawable/edit_24"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/contact_view_toolbar_favorite"
+    <item android:id="@+id/contact_view_toolbar_favorite_add"
         android:title="@string/contact_view_favorite_add"
         android:contentDescription="@string/contact_view_favorite_add"
         android:icon="@drawable/star_outline_24"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/contact_view_toolbar_favorite_remove"
+        android:title="@string/contact_view_favorite_remove"
+        android:contentDescription="@string/contact_view_favorite_remove"
+        android:icon="@drawable/star_filled_24"
+        android:enabled="false"
+        android:visible="false"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/contact_view_toolbar_delete"

@@ -7,9 +7,11 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.singularux.contacts.feature.contactview.R;
 import org.singularux.contacts.feature.contactview.presentation.ContactViewViewModel;
 import org.singularux.contacts.feature.contactview.ui.EmailAddressListAdapter;
 import org.singularux.contacts.feature.contactview.ui.PhoneNumberListAdapter;
@@ -23,6 +25,7 @@ import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 @RequiredArgsConstructor
 public class OnReadContactPermissionsGivenCallback
@@ -36,6 +39,7 @@ public class OnReadContactPermissionsGivenCallback
     private final EmailAddressListAdapter emailAddressListAdapter;
     private final PhoneNumberListAdapter phoneNumberListAdapter;
 
+    private final MaterialToolbar contactViewToolbar;
     private final ShapeableImageView avatarImage;
     private final MaterialTextView avatarText, displayName, headerPhone, headerEmail;
 
@@ -48,7 +52,27 @@ public class OnReadContactPermissionsGivenCallback
         if (hasReadContactPermissions) {
             // Observe and update all views
             contactViewViewModel.getItemContactLiveData().observe(activity, itemContact -> {
-                // TODO: Update menu bar
+                // Update menu bar - delete item
+                val deleteItem = contactViewToolbar.getMenu()
+                        .findItem(R.id.contact_view_toolbar_delete);
+                deleteItem.setVisible(!itemContact.isUserProfile());
+                deleteItem.setEnabled(!itemContact.isUserProfile());
+                // Update menu bar - favorite item
+                val favoriteAddItem = contactViewToolbar.getMenu()
+                        .findItem(R.id.contact_view_toolbar_favorite_add);
+                val favoriteRemoveItem = contactViewToolbar.getMenu()
+                        .findItem(R.id.contact_view_toolbar_favorite_remove);
+                if (itemContact.isStarred()) {
+                    favoriteAddItem.setVisible(false);
+                    favoriteAddItem.setEnabled(false);
+                    favoriteRemoveItem.setVisible(true);
+                    favoriteRemoveItem.setEnabled(true);
+                } else {
+                    favoriteAddItem.setVisible(true);
+                    favoriteAddItem.setEnabled(true);
+                    favoriteRemoveItem.setVisible(false);
+                    favoriteRemoveItem.setEnabled(false);
+                }
                 // Update avatar image
                 if (avatarImageLoad != null) {
                     avatarImageLoad.dispose();

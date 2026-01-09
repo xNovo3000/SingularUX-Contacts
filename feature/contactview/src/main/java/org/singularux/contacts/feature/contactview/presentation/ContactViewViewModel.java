@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.ViewModel;
 
 import org.singularux.contacts.core.threading.BackgroundScheduler;
-import org.singularux.contacts.feature.contactview.domain.GetReadContactsPermissionsUseCase;
+import org.singularux.contacts.feature.contactview.domain.GetContactsPermissionUseCase;
 import org.singularux.contacts.feature.contactview.domain.ListenContactUseCase;
 import org.singularux.contacts.feature.contactview.domain.SetStarredUseCase;
 import org.singularux.contacts.feature.contactview.ui.item.ItemContact;
@@ -20,7 +20,7 @@ import lombok.Getter;
 public class ContactViewViewModel extends ViewModel {
 
     private final String lookupKey;
-    private final @Getter String[] readContactPermissions;
+    private final @Getter String[] getContactPermissions;
 
     private final SetStarredUseCase setStarredUseCase;
 
@@ -29,11 +29,11 @@ public class ContactViewViewModel extends ViewModel {
     @AssistedInject
     public ContactViewViewModel(@Assisted String lookupKey,
                                 @BackgroundScheduler Scheduler backgroundScheduler,
-                                GetReadContactsPermissionsUseCase getReadContactsPermissionsUseCase,
+                                GetContactsPermissionUseCase getContactsPermissionUseCase,
                                 SetStarredUseCase setStarredUseCase,
                                 ListenContactUseCase listenContactUseCase) {
         this.lookupKey = lookupKey;
-        this.readContactPermissions = getReadContactsPermissionsUseCase.get();
+        this.getContactPermissions = getContactsPermissionUseCase.get();
         this.setStarredUseCase = setStarredUseCase;
         this.itemContactLiveData = LiveDataReactiveStreams
                 .fromPublisher(listenContactUseCase.get(lookupKey)

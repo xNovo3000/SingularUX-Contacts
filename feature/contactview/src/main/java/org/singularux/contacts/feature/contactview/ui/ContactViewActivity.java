@@ -14,6 +14,7 @@ import org.singularux.contacts.feature.contactview.databinding.ActivityContactVi
 import org.singularux.contacts.feature.contactview.presentation.ContactViewViewModel;
 import org.singularux.contacts.feature.contactview.presentation.ContactViewViewModelFactory;
 import org.singularux.contacts.feature.contactview.ui.behavior.OnReadContactPermissionsGivenCallback;
+import org.singularux.contacts.feature.contactview.ui.behavior.OnToolbarMenuItemClickListener;
 import org.singularux.contacts.feature.contactview.ui.inset.ContactViewContentInsetListener;
 import org.singularux.contacts.feature.contactview.ui.inset.ContactViewToolbarInsetListener;
 import org.singularux.contacts.feature.contactview.ui.util.ContactPhotoCache;
@@ -73,18 +74,23 @@ public class ContactViewActivity extends ComponentActivity {
         val viewModel = new ViewModelProvider(getViewModelStore(), providerFactory, creationExtras)
                 .get(ContactViewViewModel.class);
 
+        // Set dynamic behavior listeners
+        binding.contactViewToolbar
+                .setOnMenuItemClickListener(new OnToolbarMenuItemClickListener(viewModel));
+
         // Observe data
         val readContactPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),
                 new OnReadContactPermissionsGivenCallback(this, viewModel,
                         contactPhotoCache, ioScheduler,
                         emailAddressListAdapter, phoneNumberListAdapter,
+                        binding.contactViewToolbar,
                         binding.contactViewContentAvatarImage,
                         binding.contactViewContentAvatarText,
                         binding.contactViewContentDisplayName,
                         binding.contactViewContentPhoneNumbersHeader,
                         binding.contactViewContentEmailAddressesHeader));
-        readContactPermissionLauncher.launch(viewModel.getReadContactPermissions());
+        readContactPermissionLauncher.launch(viewModel.getGetContactPermissions());
 
     }
 

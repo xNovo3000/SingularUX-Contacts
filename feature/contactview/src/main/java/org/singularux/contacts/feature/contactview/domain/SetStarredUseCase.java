@@ -15,6 +15,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 public class SetStarredUseCase {
 
+    public static final String TAG = "";
+
     private final ContactsRepository contactsRepository;
     private final Scheduler ioScheduler;
 
