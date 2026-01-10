@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/contact_list_selection_share"
+        android:title="@string/contact_list_selection_share"
+        android:contentDescription="@string/contact_list_selection_share"
+        android:icon="@drawable/share_24"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/contact_list_selection_delete"
+        android:title="@string/contact_list_selection_delete"
+        android:contentDescription="@string/contact_list_selection_delete"
+        android:icon="@drawable/delete_24"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/contact_list_selection_select_all"
+        android:title="@string/contact_list_selection_select_all"
+        android:contentDescription="@string/contact_list_selection_select_all"
+        app:showAsAction="never"/>
+
+</menu>

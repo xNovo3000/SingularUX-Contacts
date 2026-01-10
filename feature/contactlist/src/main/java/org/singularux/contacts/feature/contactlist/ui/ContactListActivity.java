@@ -20,6 +20,7 @@ import org.singularux.contacts.feature.contactlist.ui.inset.ContactListRecyclerV
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSearchBarInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSearchRecyclerViewInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ContactListSearchTextWatcher;
+import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSelectionToolbarInsetListener;
 
 import javax.inject.Inject;
 
@@ -52,6 +53,8 @@ public class ContactListActivity extends ComponentActivity {
                 new ContactListFabInsetListener());
         ViewCompat.setOnApplyWindowInsetsListener(binding.contactListSearchRecyclerview,
                 new ContactListSearchRecyclerViewInsetListener());
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contactListSelectionToolbar,
+                new ContactListSelectionToolbarInsetListener());
         // Install behavior listeners
         binding.contactListRecyclerview.addOnScrollListener(
                 new ContactListFabHideOnScrollListener(binding.contactListFab));

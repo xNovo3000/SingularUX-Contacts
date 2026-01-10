@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="contact_list_new_contact">New contact</string>
     <string name="contact_list_search_hint">Search contacts</string>
+
+    <string name="contact_list_selection_title">%d selected</string>
+    <string name="contact_list_selection_close">Close</string>
+    <string name="contact_list_selection_share">Share</string>
+    <string name="contact_list_selection_delete">Delete</string>
+    <string name="contact_list_selection_select_all">Select all</string>
+
     <string name="item_header_starred">Starred</string>
     <string name="item_header_symbols">…</string>
+
 </resources>
