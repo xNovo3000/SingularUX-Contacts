@@ -22,7 +22,8 @@ public class ContactViewToolbarInsetListener implements OnApplyWindowInsetsListe
     ) {
         Log.d(TAG, "WindowInsets received, updating margins");
         // Get information about metrics and insets
-        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() |
+                WindowInsetsCompat.Type.displayCutout());
         // Update padding
         val layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         layoutParams.setMargins(insets.left, insets.top, insets.right, 0);

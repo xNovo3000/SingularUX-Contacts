@@ -20,7 +20,8 @@ public class ContactViewContentInsetListener implements OnApplyWindowInsetsListe
     ) {
         Log.d(TAG, "WindowInsets received, updating paddings");
         // Get information about metrics and insets
-        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() |
+                WindowInsetsCompat.Type.displayCutout());
         // Update padding
         view.setPadding(insets.left, 0, insets.right, insets.bottom);
         // All insets were consumed

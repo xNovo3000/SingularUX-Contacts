@@ -20,7 +20,8 @@ public class ContactListSearchRecyclerViewInsetListener implements OnApplyWindow
     ) {
         Log.d(TAG, "WindowInsets received, updating padding");
         // Get information about insets
-        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() |
+                WindowInsetsCompat.Type.displayCutout());
         // Update padding
         view.setPadding(insets.left, 0, insets.right, insets.bottom);
         // All insets were consumed

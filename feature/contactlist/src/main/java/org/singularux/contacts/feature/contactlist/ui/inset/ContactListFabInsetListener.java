@@ -24,7 +24,8 @@ public class ContactListFabInsetListener implements OnApplyWindowInsetsListener 
         Log.d(TAG, "WindowInsets received, updating margins");
         // Get information about metrics and insets
         val density = view.getResources().getDisplayMetrics().density;
-        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() |
+                WindowInsetsCompat.Type.displayCutout());
         // Update margins
         val marginLayoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         marginLayoutParams.topMargin = (int) (density * MARGIN_DP);
