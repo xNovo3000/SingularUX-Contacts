@@ -11,7 +11,12 @@ import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StableIdKeyProvider;
+import androidx.recyclerview.selection.StorageStrategy;
 
+import org.singularux.contacts.core.threading.BackgroundExecutorService;
+import org.singularux.contacts.core.threading.IOScheduler;
 import org.singularux.contacts.feature.contactlist.databinding.ActivityContactListBinding;
 import org.singularux.contacts.feature.contactlist.presentation.ContactListViewModel;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ContactListFabHideOnScrollListener;
@@ -24,17 +29,26 @@ import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSearchBar
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSearchRecyclerViewInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ContactListSearchTextWatcher;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSelectionToolbarInsetListener;
+import org.singularux.contacts.feature.contactlist.ui.util.ContactThumbnailCache;
+import org.singularux.contacts.feature.contactlist.ui.util.OnlyContactSelectionPredicate;
+import org.singularux.contacts.feature.contactlist.ui.util.StandardRecyclerViewItemDetailsLookup;
+
+import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.core.Scheduler;
 import lombok.val;
 
 @AndroidEntryPoint
 public class ContactListActivity extends ComponentActivity {
 
-    public @Inject ContactListRecyclerViewAdapter contactListRecyclerViewAdapter;
     public @Inject ContactListSearchRecyclerViewAdapter contactListSearchRecyclerViewAdapter;
+
+    public @Inject @BackgroundExecutorService ExecutorService backgroundExecutorService;
+    public @Inject @IOScheduler Scheduler ioScheduler;
+    public @Inject ContactThumbnailCache contactThumbnailCache;
 
     public ActivityContactListBinding binding;
 
@@ -67,6 +81,18 @@ public class ContactListActivity extends ComponentActivity {
                 new OnCloseMenuItemClickListener());
         binding.contactListSelectionToolbar.setOnMenuItemClickListener(
                 new OnSelectionMenuItemClickListener());
+
+        // Create standard RecyclerView adapter
+        SelectionTracker<Long> selectionTracker =
+                new SelectionTracker.Builder<>("selection",
+                        binding.contactListRecyclerview,
+                        new StableIdKeyProvider(binding.contactListRecyclerview),
+                        new StandardRecyclerViewItemDetailsLookup(binding.contactListRecyclerview),
+                        StorageStrategy.createLongStorage())
+                        .withSelectionPredicate(new OnlyContactSelectionPredicate())
+                        .build();
+        val contactListRecyclerViewAdapter = new ContactListRecyclerViewAdapter(
+                backgroundExecutorService, ioScheduler, contactThumbnailCache, selectionTracker);
 
         // Set adapters
         binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);

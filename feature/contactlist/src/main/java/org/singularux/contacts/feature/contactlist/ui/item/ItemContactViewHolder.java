@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.selection.SelectionTracker;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
@@ -14,6 +14,7 @@ import com.google.android.material.textview.MaterialTextView;
 import org.singularux.contacts.feature.contactlist.R;
 import org.singularux.contacts.feature.contactlist.databinding.ItemContactBinding;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ItemContactGoToContactOnClick;
+import org.singularux.contacts.feature.contactlist.ui.behavior.ItemContactSelectOnLongClick;
 import org.singularux.contacts.feature.contactlist.ui.util.ContactThumbnailCache;
 
 import java.util.Optional;
@@ -24,7 +25,7 @@ import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.val;
 
-public class ItemContactViewHolder extends RecyclerView.ViewHolder {
+public class ItemContactViewHolder extends ItemViewHolder {
 
     public static final int VIEW_TYPE_ID = 101;
 
@@ -43,7 +44,8 @@ public class ItemContactViewHolder extends RecyclerView.ViewHolder {
 
     public void onBindViewHolder(@NonNull ItemContactData data,
                                  @NonNull Scheduler ioScheduler,
-                                 ContactThumbnailCache contactThumbnailCache
+                                 ContactThumbnailCache contactThumbnailCache,
+                                 @Nullable SelectionTracker<Long> selectionTracker
     ) {
         // Calculate first character and capitalize it
         char firstCharacter = 0x00B7;
@@ -54,6 +56,12 @@ public class ItemContactViewHolder extends RecyclerView.ViewHolder {
         avatarText.setText(String.valueOf(firstCharacter));
         headline.setText(data.getDisplayName());
         itemView.setOnClickListener(new ItemContactGoToContactOnClick(data.getLookupKey()));
+        if (selectionTracker != null) {
+            itemView.setOnLongClickListener(
+                    new ItemContactSelectOnLongClick(getItemId(), selectionTracker));
+        } else {
+            itemView.setOnLongClickListener(null);
+        }
         // Load avatar async
         if (data.getThumbnailPath() != null) {
             avatarImageLoad = Maybe.fromCallable(() -> Optional.ofNullable(contactThumbnailCache.get(data.getThumbnailPath())))

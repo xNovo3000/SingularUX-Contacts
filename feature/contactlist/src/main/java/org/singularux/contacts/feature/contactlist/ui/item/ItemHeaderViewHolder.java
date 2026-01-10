@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 
@@ -14,7 +13,7 @@ import org.singularux.contacts.feature.contactlist.databinding.ItemHeaderBinding
 
 import lombok.val;
 
-public class ItemHeaderViewHolder extends RecyclerView.ViewHolder {
+public class ItemHeaderViewHolder extends ItemViewHolder {
 
     public static final int VIEW_TYPE_ID = 100;
 

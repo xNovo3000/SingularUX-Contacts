@@ -3,6 +3,7 @@ package org.singularux.contacts.feature.contactlist.ui;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,43 +16,40 @@ import org.singularux.contacts.feature.contactlist.ui.item.ItemData;
 import org.singularux.contacts.feature.contactlist.ui.item.ItemDataDiffCallback;
 import org.singularux.contacts.feature.contactlist.ui.item.ItemHeaderData;
 import org.singularux.contacts.feature.contactlist.ui.item.ItemHeaderViewHolder;
+import org.singularux.contacts.feature.contactlist.ui.item.ItemViewHolder;
 import org.singularux.contacts.feature.contactlist.ui.util.ContactThumbnailCache;
 
 import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
-import dagger.hilt.android.scopes.ActivityRetainedScoped;
 import dagger.hilt.android.scopes.ActivityScoped;
 import io.reactivex.rxjava3.core.Scheduler;
 import lombok.val;
 
-@ActivityScoped
 public class ContactListRecyclerViewAdapter
-        extends ListAdapter<ItemData, RecyclerView.ViewHolder> {
-
-    private static final int INVALID_VIEW_TYPE_ID = -1;
+        extends ListAdapter<ItemData, ItemViewHolder> {
 
     private final Scheduler ioScheduler;
     private final ContactThumbnailCache contactThumbnailCache;
+    private final SelectionTracker<Long> selectionTracker;
 
-    @Inject
-    public ContactListRecyclerViewAdapter(
-            @BackgroundExecutorService ExecutorService backgroundExecutorService,
-            @IOScheduler Scheduler ioScheduler,
-            ContactThumbnailCache contactThumbnailCache
-    ) {
+    public ContactListRecyclerViewAdapter(ExecutorService backgroundExecutorService,
+                                          Scheduler ioScheduler,
+                                          ContactThumbnailCache contactThumbnailCache,
+                                          SelectionTracker<Long> selectionTracker) {
         super(new AsyncDifferConfig.Builder<>(new ItemDataDiffCallback())
                 .setBackgroundThreadExecutor(backgroundExecutorService)
                 .build());
         this.ioScheduler = ioScheduler;
         this.contactThumbnailCache = contactThumbnailCache;
+        this.selectionTracker = selectionTracker;
         setHasStableIds(true);
         setStateRestorationPolicy(StateRestorationPolicy.PREVENT_WHEN_EMPTY);
     }
 
     @Override
-    public @NonNull RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+    public @NonNull ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                                int viewType) {
         switch (viewType) {
             case ItemHeaderViewHolder.VIEW_TYPE_ID:
@@ -64,21 +62,22 @@ public class ContactListRecyclerViewAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         val currentItem = getItem(position);
         if (holder instanceof ItemHeaderViewHolder) {
             ((ItemHeaderViewHolder) holder)
                     .onBindViewHolder((ItemHeaderData) currentItem);
         } else if (holder instanceof ItemContactViewHolder) {
             ((ItemContactViewHolder) holder)
-                    .onBindViewHolder((ItemContactData) currentItem, ioScheduler, contactThumbnailCache);
+                    .onBindViewHolder((ItemContactData) currentItem,
+                            ioScheduler, contactThumbnailCache, selectionTracker);
         } else {
             throw new IllegalArgumentException("Invalid holder class: " + holder.getClass());
         }
     }
 
     @Override
-    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+    public void onViewRecycled(@NonNull ItemViewHolder holder) {
         if (holder instanceof ItemContactViewHolder) {
             ((ItemContactViewHolder) holder).onViewRecycled();
         }
@@ -97,7 +96,7 @@ public class ContactListRecyclerViewAdapter
         } else if (currentItem instanceof ItemHeaderData) {
             return ItemHeaderViewHolder.VIEW_TYPE_ID;
         }
-        return INVALID_VIEW_TYPE_ID;
+        return RecyclerView.INVALID_TYPE;
     }
 
 }

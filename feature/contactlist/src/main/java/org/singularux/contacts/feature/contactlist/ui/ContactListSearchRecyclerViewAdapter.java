@@ -49,7 +49,7 @@ public class ContactListSearchRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ItemContactViewHolder holder, int position) {
-        holder.onBindViewHolder(getItem(position), ioScheduler, contactThumbnailCache);
+        holder.onBindViewHolder(getItem(position), ioScheduler, contactThumbnailCache, null);
     }
 
     @Override
