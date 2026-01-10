@@ -37,6 +37,7 @@
         android:background="?attr/colorSurfaceContainer"
         app:title="@string/contact_list_selection_title"
         app:navigationIcon="@drawable/close_24"
+        app:navigationContentDescription="@string/contact_list_selection_close"
         app:menu="@menu/contact_list_selection"
         android:visibility="gone"/>
 

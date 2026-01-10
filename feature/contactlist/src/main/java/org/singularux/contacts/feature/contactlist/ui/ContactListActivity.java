@@ -15,6 +15,8 @@ import org.singularux.contacts.feature.contactlist.databinding.ActivityContactLi
 import org.singularux.contacts.feature.contactlist.presentation.ContactListViewModel;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ContactListFabHideOnScrollListener;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ContactListObserveWhenGivenPermissionCallback;
+import org.singularux.contacts.feature.contactlist.ui.behavior.OnCloseMenuItemClickListener;
+import org.singularux.contacts.feature.contactlist.ui.behavior.OnSelectionMenuItemClickListener;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListFabInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListRecyclerViewInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSearchBarInsetListener;
@@ -58,6 +60,10 @@ public class ContactListActivity extends ComponentActivity {
         // Install behavior listeners
         binding.contactListRecyclerview.addOnScrollListener(
                 new ContactListFabHideOnScrollListener(binding.contactListFab));
+        binding.contactListSelectionToolbar.setNavigationOnClickListener(
+                new OnCloseMenuItemClickListener());
+        binding.contactListSelectionToolbar.setOnMenuItemClickListener(
+                new OnSelectionMenuItemClickListener());
 
         // Set adapters
         binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);
