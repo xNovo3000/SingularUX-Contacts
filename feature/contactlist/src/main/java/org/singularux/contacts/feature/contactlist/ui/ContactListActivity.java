@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.activity.ComponentActivity;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
@@ -35,6 +36,8 @@ public class ContactListActivity extends ComponentActivity {
     public @Inject ContactListRecyclerViewAdapter contactListRecyclerViewAdapter;
     public @Inject ContactListSearchRecyclerViewAdapter contactListSearchRecyclerViewAdapter;
 
+    public ActivityContactListBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         // Start activity with splash screen and edge-to-edge support
@@ -42,7 +45,7 @@ public class ContactListActivity extends ComponentActivity {
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         // Set content view using view binding
-        val binding = ActivityContactListBinding.inflate(getLayoutInflater());
+        binding = ActivityContactListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Install inset listeners
@@ -82,6 +85,42 @@ public class ContactListActivity extends ComponentActivity {
         binding.contactListSearchView.getEditText().addTextChangedListener(
                 new ContactListSearchTextWatcher(viewModel));
 
+    }
+
+    public static final String RV_STATE_KEY = "ContactListRecyclerViewAdapterState";
+    public static final String SRV_STATE_KEY = "ContactListSearchRecyclerViewAdapterState";
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        // Save standard RecyclerView state
+        assert binding.contactListRecyclerview.getLayoutManager() != null;
+        val rvState = binding.contactListRecyclerview.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(RV_STATE_KEY, rvState);
+        // Save search RecyclerView state
+        assert binding.contactListSearchRecyclerview.getLayoutManager() != null;
+        val srvState = binding.contactListSearchRecyclerview.getLayoutManager()
+                .onSaveInstanceState();
+        outState.putParcelable(SRV_STATE_KEY, srvState);
+        // Always call last
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        // Always call first
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore standard RecyclerView state
+        val rvState = savedInstanceState.getParcelable(RV_STATE_KEY);
+        if (rvState != null) {
+            assert binding.contactListRecyclerview.getLayoutManager() != null;
+            binding.contactListRecyclerview.getLayoutManager().onRestoreInstanceState(rvState);
+        }
+        // Restore search RecyclerView state
+        val srvState = savedInstanceState.getParcelable(RV_STATE_KEY);
+        if (srvState != null) {
+            assert binding.contactListSearchRecyclerview.getLayoutManager() != null;
+            binding.contactListSearchRecyclerview.getLayoutManager().onRestoreInstanceState(srvState);
+        }
     }
 
 }

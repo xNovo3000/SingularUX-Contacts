@@ -22,10 +22,11 @@ import java.util.concurrent.ExecutorService;
 import javax.inject.Inject;
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped;
+import dagger.hilt.android.scopes.ActivityScoped;
 import io.reactivex.rxjava3.core.Scheduler;
 import lombok.val;
 
-@ActivityRetainedScoped
+@ActivityScoped
 public class ContactListRecyclerViewAdapter
         extends ListAdapter<ItemData, RecyclerView.ViewHolder> {
 
@@ -46,13 +47,12 @@ public class ContactListRecyclerViewAdapter
         this.ioScheduler = ioScheduler;
         this.contactThumbnailCache = contactThumbnailCache;
         setHasStableIds(true);
+        setStateRestorationPolicy(StateRestorationPolicy.PREVENT_WHEN_EMPTY);
     }
 
     @Override
-    public @NonNull RecyclerView.ViewHolder onCreateViewHolder(
-            @NonNull ViewGroup parent,
-            int viewType
-    ) {
+    public @NonNull RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                               int viewType) {
         switch (viewType) {
             case ItemHeaderViewHolder.VIEW_TYPE_ID:
                 return ItemHeaderViewHolder.create(parent);

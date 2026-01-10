@@ -17,10 +17,10 @@ import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 
-import dagger.hilt.android.scopes.ActivityRetainedScoped;
+import dagger.hilt.android.scopes.ActivityScoped;
 import io.reactivex.rxjava3.core.Scheduler;
 
-@ActivityRetainedScoped
+@ActivityScoped
 public class ContactListSearchRecyclerViewAdapter
         extends ListAdapter<ItemContactData, ItemContactViewHolder> {
 
