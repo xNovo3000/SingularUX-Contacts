@@ -14,7 +14,7 @@ public class ContactListRecyclerViewInsetListener implements OnApplyWindowInsets
     private static final String TAG = "ContactListRecyclerViewInsetListener";
 
     public static final int MARGIN_TOP_DP = 72;
-    public static final int MARGIN_BOTTOM_DP = 112;
+    public static final int MARGIN_BOTTOM_DP = 88;
 
     @Override
     public @NonNull WindowInsetsCompat onApplyWindowInsets(

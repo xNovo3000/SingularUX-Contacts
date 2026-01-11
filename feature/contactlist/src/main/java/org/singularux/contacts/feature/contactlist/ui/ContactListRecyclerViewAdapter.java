@@ -3,6 +3,7 @@ package org.singularux.contacts.feature.contactlist.ui;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.ListAdapter;
@@ -25,32 +26,33 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.scopes.ActivityScoped;
 import io.reactivex.rxjava3.core.Scheduler;
+import lombok.Setter;
 import lombok.val;
 
+@ActivityScoped
 public class ContactListRecyclerViewAdapter
         extends ListAdapter<ItemData, ItemViewHolder> {
 
     private final Scheduler ioScheduler;
     private final ContactThumbnailCache contactThumbnailCache;
-    private final SelectionTracker<Long> selectionTracker;
+    private @Nullable @Setter SelectionTracker<Long> selectionTracker;
 
-    public ContactListRecyclerViewAdapter(ExecutorService backgroundExecutorService,
-                                          Scheduler ioScheduler,
-                                          ContactThumbnailCache contactThumbnailCache,
-                                          SelectionTracker<Long> selectionTracker) {
+    @Inject
+    public ContactListRecyclerViewAdapter(@BackgroundExecutorService ExecutorService backgroundExecutorService,
+                                          @IOScheduler Scheduler ioScheduler,
+                                          ContactThumbnailCache contactThumbnailCache) {
         super(new AsyncDifferConfig.Builder<>(new ItemDataDiffCallback())
                 .setBackgroundThreadExecutor(backgroundExecutorService)
                 .build());
         this.ioScheduler = ioScheduler;
         this.contactThumbnailCache = contactThumbnailCache;
-        this.selectionTracker = selectionTracker;
         setHasStableIds(true);
         setStateRestorationPolicy(StateRestorationPolicy.PREVENT_WHEN_EMPTY);
     }
 
     @Override
     public @NonNull ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                               int viewType) {
+                                                      int viewType) {
         switch (viewType) {
             case ItemHeaderViewHolder.VIEW_TYPE_ID:
                 return ItemHeaderViewHolder.create(parent);

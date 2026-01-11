@@ -15,21 +15,19 @@ import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.StableIdKeyProvider;
 import androidx.recyclerview.selection.StorageStrategy;
 
-import org.singularux.contacts.core.threading.BackgroundExecutorService;
-import org.singularux.contacts.core.threading.IOScheduler;
 import org.singularux.contacts.feature.contactlist.databinding.ActivityContactListBinding;
 import org.singularux.contacts.feature.contactlist.presentation.ContactListViewModel;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ContactListFabHideOnScrollListener;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ContactListObserveWhenGivenPermissionCallback;
 import org.singularux.contacts.feature.contactlist.ui.behavior.OnCloseMenuItemClickListener;
 import org.singularux.contacts.feature.contactlist.ui.behavior.OnSelectionMenuItemClickListener;
+import org.singularux.contacts.feature.contactlist.ui.behavior.TopBarUpdateSelectionObserver;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListFabInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListRecyclerViewInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSearchBarInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSearchRecyclerViewInsetListener;
 import org.singularux.contacts.feature.contactlist.ui.behavior.ContactListSearchTextWatcher;
 import org.singularux.contacts.feature.contactlist.ui.inset.ContactListSelectionToolbarInsetListener;
-import org.singularux.contacts.feature.contactlist.ui.util.ContactThumbnailCache;
 import org.singularux.contacts.feature.contactlist.ui.util.OnlyContactSelectionPredicate;
 import org.singularux.contacts.feature.contactlist.ui.util.StandardRecyclerViewItemDetailsLookup;
 
@@ -44,13 +42,11 @@ import lombok.val;
 @AndroidEntryPoint
 public class ContactListActivity extends ComponentActivity {
 
+    public @Inject ContactListRecyclerViewAdapter contactListRecyclerViewAdapter;
     public @Inject ContactListSearchRecyclerViewAdapter contactListSearchRecyclerViewAdapter;
 
-    public @Inject @BackgroundExecutorService ExecutorService backgroundExecutorService;
-    public @Inject @IOScheduler Scheduler ioScheduler;
-    public @Inject ContactThumbnailCache contactThumbnailCache;
-
     public ActivityContactListBinding binding;
+    public SelectionTracker<Long> selectionTracker;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,18 +78,6 @@ public class ContactListActivity extends ComponentActivity {
         binding.contactListSelectionToolbar.setOnMenuItemClickListener(
                 new OnSelectionMenuItemClickListener());
 
-        // Create standard RecyclerView adapter
-        SelectionTracker<Long> selectionTracker =
-                new SelectionTracker.Builder<>("selection",
-                        binding.contactListRecyclerview,
-                        new StableIdKeyProvider(binding.contactListRecyclerview),
-                        new StandardRecyclerViewItemDetailsLookup(binding.contactListRecyclerview),
-                        StorageStrategy.createLongStorage())
-                        .withSelectionPredicate(new OnlyContactSelectionPredicate())
-                        .build();
-        val contactListRecyclerViewAdapter = new ContactListRecyclerViewAdapter(
-                backgroundExecutorService, ioScheduler, contactThumbnailCache, selectionTracker);
-
         // Set adapters
         binding.contactListRecyclerview.setAdapter(contactListRecyclerViewAdapter);
         binding.contactListSearchRecyclerview.setAdapter(contactListSearchRecyclerViewAdapter);
@@ -106,6 +90,19 @@ public class ContactListActivity extends ComponentActivity {
                 new ContactListObserveWhenGivenPermissionCallback(this, viewModel,
                         contactListRecyclerViewAdapter, contactListSearchRecyclerViewAdapter));
         requestReadContactsPermissionLauncher.launch(viewModel.getReadContactsPermissions());
+
+        // Create and install selection tracker
+        selectionTracker = new SelectionTracker.Builder<>("selection",
+                        binding.contactListRecyclerview,
+                        new StableIdKeyProvider(binding.contactListRecyclerview),
+                        new StandardRecyclerViewItemDetailsLookup(binding.contactListRecyclerview),
+                        StorageStrategy.createLongStorage())
+                .withSelectionPredicate(new OnlyContactSelectionPredicate())
+                .build();
+        selectionTracker.addObserver(new TopBarUpdateSelectionObserver(this,
+                selectionTracker, binding.contactListStatusBarScrim,
+                binding.contactListSearchBar, binding.contactListSelectionToolbar));
+        contactListRecyclerViewAdapter.setSelectionTracker(selectionTracker);
 
         // Install text listeners
         binding.contactListSearchView.getEditText().addTextChangedListener(
@@ -127,6 +124,8 @@ public class ContactListActivity extends ComponentActivity {
         val srvState = binding.contactListSearchRecyclerview.getLayoutManager()
                 .onSaveInstanceState();
         outState.putParcelable(SRV_STATE_KEY, srvState);
+        // Save selection state
+        selectionTracker.onSaveInstanceState(outState);
         // Always call last
         super.onSaveInstanceState(outState);
     }
@@ -147,6 +146,8 @@ public class ContactListActivity extends ComponentActivity {
             assert binding.contactListSearchRecyclerview.getLayoutManager() != null;
             binding.contactListSearchRecyclerview.getLayoutManager().onRestoreInstanceState(srvState);
         }
+        // Restore selection state
+        selectionTracker.onRestoreInstanceState(savedInstanceState);
     }
 
 }

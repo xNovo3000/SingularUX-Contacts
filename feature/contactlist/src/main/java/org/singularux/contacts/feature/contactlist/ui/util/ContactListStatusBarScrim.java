@@ -6,9 +6,12 @@ import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import org.singularux.contacts.feature.contactlist.R;
 
 import lombok.val;
 
@@ -52,9 +55,13 @@ public class ContactListStatusBarScrim extends View {
         val typedValue = new TypedValue();
         getContext().getTheme().resolveAttribute(
                 com.google.android.material.R.attr.colorSurfaceContainer,
-                typedValue, false);
+                typedValue, true);
         // Set color and alpha
-        setBackgroundColor(typedValue.data);
+        if (typedValue.isColorType()) {
+            setBackgroundColor(typedValue.data);
+        } else {
+            setBackgroundColor(ContextCompat.getColor(getContext(), typedValue.resourceId));
+        }
         setAlpha(1.0F);
     }
 
@@ -63,9 +70,13 @@ public class ContactListStatusBarScrim extends View {
         val typedValue = new TypedValue();
         getContext().getTheme().resolveAttribute(
                 com.google.android.material.R.attr.colorSurface,
-                typedValue, false);
+                typedValue, true);
         // Set color and alpha
-        setBackgroundColor(typedValue.data);
+        if (typedValue.isColorType()) {
+            setBackgroundColor(typedValue.data);
+        } else {
+            setBackgroundColor(ContextCompat.getColor(getContext(), typedValue.resourceId));
+        }
         setAlpha(0.75F);
     }
 

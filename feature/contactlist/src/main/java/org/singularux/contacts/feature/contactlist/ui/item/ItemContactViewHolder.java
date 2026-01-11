@@ -59,7 +59,9 @@ public class ItemContactViewHolder extends ItemViewHolder {
         if (selectionTracker != null) {
             itemView.setOnLongClickListener(
                     new ItemContactSelectOnLongClick(getItemId(), selectionTracker));
+            itemView.setActivated(selectionTracker.isSelected(getItemId()));
         } else {
+            itemView.setActivated(false);
             itemView.setOnLongClickListener(null);
         }
         // Load avatar async
